@@ -1,0 +1,166 @@
+@import "tailwindcss";
+@source "./**/*.{svelte,ts}";
+
+:host {
+	--radius: 0.875rem;
+	--background: oklch(1 0 0);
+	--foreground: oklch(0.147 0.004 49.25);
+	--card: oklch(1 0 0);
+	--card-foreground: oklch(0.147 0.004 49.25);
+	--popover: oklch(1 0 0);
+	--popover-foreground: oklch(0.147 0.004 49.25);
+	--primary: oklch(0.216 0.006 56.043);
+	--primary-foreground: oklch(0.985 0.001 106.423);
+	--secondary: oklch(0.97 0.001 106.424);
+	--secondary-foreground: oklch(0.216 0.006 56.043);
+	--muted: oklch(0.97 0.001 106.424);
+	--muted-foreground: oklch(0.553 0.013 58.071);
+	--accent: oklch(0.97 0.001 106.424);
+	--accent-foreground: oklch(0.216 0.006 56.043);
+	--destructive: oklch(0.577 0.245 27.325);
+	--border: oklch(0.923 0.003 48.717);
+	--input: oklch(0.923 0.003 48.717);
+	--ring: oklch(0.709 0.01 56.259);
+	--recording: oklch(0.577 0.245 27.325);
+	--recording-foreground: oklch(0.985 0.001 106.423);
+	--recording-muted: oklch(0.96 0.025 25);
+}
+
+@theme inline {
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+	--color-recording: var(--recording);
+	--color-recording-foreground: var(--recording-foreground);
+	--color-recording-muted: var(--recording-muted);
+	--font-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+	--radius-sm: calc(var(--radius) * 0.6);
+	--radius-md: calc(var(--radius) * 0.8);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) * 1.4);
+}
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+
+	button:not(:disabled),
+	[role="button"]:not(:disabled) {
+		cursor: pointer;
+	}
+}
+
+.typeset-chat {
+	font-size: 14px;
+	line-height: 1.65;
+}
+
+.typeset-chat :where(* + *) {
+	margin-block-start: 0.75em;
+}
+
+.typeset-chat :where(.not-typeset, .not-typeset *) {
+	margin-block-start: 0;
+}
+
+.typeset-chat :where(:first-child) {
+	margin-block-start: 0;
+}
+
+.typeset-chat :where(h1, h2, h3, h4) {
+	font-weight: 600;
+	line-height: 1.3;
+}
+
+.typeset-chat :where(h1) {
+	font-size: 1.15em;
+}
+
+.typeset-chat :where(h2) {
+	font-size: 1.08em;
+}
+
+.typeset-chat :where(h3, h4) {
+	font-size: 1em;
+}
+
+.typeset-chat :where(ul, ol) {
+	padding-inline-start: 1.25em;
+}
+
+.typeset-chat :where(ul) {
+	list-style: disc;
+}
+
+.typeset-chat :where(ol) {
+	list-style: decimal;
+}
+
+.typeset-chat :where(li + li),
+.typeset-chat :where(li > ul, li > ol) {
+	margin-block-start: 0.25em;
+}
+
+.typeset-chat :where(pre) {
+	overflow-x: auto;
+	border-radius: var(--radius-xl);
+	background: var(--background);
+	padding: 0.75rem 1rem;
+	font-size: 0.8125rem;
+	line-height: 1.5;
+}
+
+.typeset-chat :where(:not(pre) > code) {
+	border-radius: 0.25rem;
+	background: var(--background);
+	padding: 0.1em 0.35em;
+	font-size: 0.875em;
+}
+
+.typeset-chat :where(blockquote) {
+	border-inline-start: 2px solid var(--border);
+	padding-inline-start: 0.75em;
+	color: var(--muted-foreground);
+}
+
+.typeset-chat :where(a) {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.typeset-chat :where(table) {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.875em;
+}
+
+.typeset-chat :where(th, td) {
+	border: 1px solid var(--border);
+	padding: 0.35em 0.5em;
+	text-align: start;
+}
+
+.typeset-chat :where(th) {
+	font-weight: 600;
+}
+
+.typeset-chat :where(hr) {
+	border: 0;
+	border-block-start: 1px solid var(--border);
+}

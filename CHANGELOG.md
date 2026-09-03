@@ -1,0 +1,20 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.1.0] - 2026-09-03
+
+### Added
+- Public API: `initialize`, `identify`, `open`, `close`, `isOpened`, `destroy`, `onError`
+- `showLauncher` config plus `showLauncher()` / `hideLauncher()`
+- Paraglide i18n (`en` base, `cs`)
+- Unit tests for pure modules + coverage script
+- Biome lint/format, GitHub Actions CI
+- Protocol and testing docs
+
+### Changed
+- Config field `company` renamed to `group` (slug); wire paths still use `/shop` and `company`
+- Internal orchestrator renamed `ShopChat` → `GroupChat`

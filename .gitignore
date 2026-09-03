@@ -1,0 +1,11 @@
+node_modules
+dist
+project.inlang/cache
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*

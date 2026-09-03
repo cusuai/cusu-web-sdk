@@ -1,0 +1,65 @@
+{
+	"name": "@cusuai/web-sdk",
+	"version": "0.1.0",
+	"description": "Framework-agnostic Cusu customer chat widget (Shadow DOM, ES + IIFE).",
+	"license": "MIT",
+	"type": "module",
+	"author": "Cusu",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/cusuai/cusu-web-sdk.git"
+	},
+	"bugs": {
+		"url": "https://github.com/cusuai/cusu-web-sdk/issues"
+	},
+	"homepage": "https://github.com/cusuai/cusu-web-sdk#readme",
+	"keywords": [
+		"cusu",
+		"chat",
+		"widget",
+		"customer-support",
+		"shadow-dom"
+	],
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"default": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"dev": "vite build --watch",
+		"build": "vite build",
+		"prepare": "vite build",
+		"prepublishOnly": "bun run check && bun run test && bun run build",
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"lint": "biome check .",
+		"format": "biome check --write .",
+		"test": "bun test src",
+		"test:coverage": "bun test --coverage src",
+		"ci": "bun run lint && bun run check && bun run test:coverage && bun run build"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.12",
+		"@inlang/paraglide-js": "^2.25.0",
+		"@sveltejs/vite-plugin-svelte": "^7.1.2",
+		"@tailwindcss/vite": "^4.3.0",
+		"svelte": "^5.56.1",
+		"svelte-check": "^4.6.0",
+		"tailwindcss": "^4.3.0",
+		"typescript": "^6.0.3",
+		"vite": "^8.0.16"
+	},
+	"dependencies": {
+		"@hugeicons/core-free-icons": "^4.3.0",
+		"@hugeicons/svelte": "^1.1.5",
+		"dompurify": "^3.4.14",
+		"marked": "^18.0.11"
+	}
+}

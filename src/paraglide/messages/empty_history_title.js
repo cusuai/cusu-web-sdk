@@ -1,0 +1,29 @@
+/* eslint-disable */
+import { getLocale, experimentalStaticLocale } from '../runtime.js';
+
+/** @typedef {import('../runtime.js').LocalizedString} LocalizedString */
+
+/** @typedef {{}} Empty_History_TitleInputs */
+
+const en_empty_history_title = /** @type {(inputs: Empty_History_TitleInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Nothing here yet`)
+};
+
+const cs_empty_history_title = /** @type {(inputs: Empty_History_TitleInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Tady zatím nic není`)
+};
+
+/**
+* | output |
+* | --- |
+* | "Nothing here yet" |
+*
+* @param {Empty_History_TitleInputs} inputs
+* @param {{ locale?: "en" | "cs" }} options
+* @returns {LocalizedString}
+*/
+export const empty_history_title = /** @type {((inputs?: Empty_History_TitleInputs, options?: { locale?: "en" | "cs" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Empty_History_TitleInputs, { locale?: "en" | "cs" }, {}>} */ ((inputs = {}, options = {}) => {
+	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "cs") return cs_empty_history_title(inputs)
+	return en_empty_history_title(inputs)
+});
