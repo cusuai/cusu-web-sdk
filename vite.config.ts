@@ -11,10 +11,13 @@ const dts = `export type CusuConfig = {
 	showLauncher?: boolean;
 };
 
+export type CustomerGender = 'male' | 'female' | 'other';
+
 export type IdentifyTraits = {
 	name?: string;
 	email?: string;
 	phone?: string;
+	gender?: CustomerGender;
 	[key: string]: string | undefined;
 };
 

@@ -9,10 +9,13 @@ import widgetCss from './widget.css?inline';
 
 export type { CusuConfig } from './config';
 
+export type CustomerGender = 'male' | 'female' | 'other';
+
 export type IdentifyTraits = {
 	name?: string;
 	email?: string;
 	phone?: string;
+	gender?: CustomerGender;
 	[key: string]: string | undefined;
 };
 
@@ -207,13 +210,15 @@ async function postIdentify(config: CusuConfig, call: IdentifyCall): Promise<voi
 	if (!visitorId) {
 		return;
 	}
-	const { name, email, phone, ...rest } = call.traits ?? {};
+	const { name, email, phone, gender, ...rest } = call.traits ?? {};
 	const traits: Record<string, string> = {};
 	for (const [key, value] of Object.entries(rest)) {
 		if (typeof value === 'string' && value.trim()) {
 			traits[key] = value.trim();
 		}
 	}
+	const genderValue =
+		gender === 'male' || gender === 'female' || gender === 'other' ? gender : undefined;
 	try {
 		const response = await fetch(identifyUrl(config.apiUrl, config.group), {
 			method: 'POST',
@@ -228,6 +233,7 @@ async function postIdentify(config: CusuConfig, call: IdentifyCall): Promise<voi
 				...(name?.trim() ? { name: name.trim() } : {}),
 				...(email?.trim() ? { email: email.trim() } : {}),
 				...(phone?.trim() ? { phone: phone.trim() } : {}),
+				...(genderValue ? { gender: genderValue } : {}),
 				...(Object.keys(traits).length > 0 ? { traits } : {})
 			})
 		});

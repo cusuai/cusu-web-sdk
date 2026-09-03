@@ -29,7 +29,8 @@ Cusu.initialize({
 
 Cusu.identify('user_123', {
   name: 'Jane Doe',
-  email: 'jane@shop.test'
+  email: 'jane@shop.test',
+  gender: 'female'
 });
 
 Cusu.open();

@@ -8,7 +8,7 @@ The SDK talks to a Cusu service. Public config uses **`group`** (slug). On the w
 |-----|----------------|
 | `config.group` | Path `:company` / body `company` / query `company` |
 | Gate | `GET /shop/:company` + `Authorization: Bearer {apiKey}` |
-| Identify | `POST /shop/:company/identify` |
+| Identify | `POST /shop/:company/identify` body: `visitorId`, `externalId?`, `name?`, `email?`, `phone?`, `gender?` (`male` \| `female` \| `other`), `traits?` |
 | Chat | `WS /ws/chat?company={slug}&key={apiKey}&thread?&visitor?` |
 | STT | `POST /transcribe` FormData: `file`, `company`, … |
 | TTS | `POST /tts` JSON: `text`, `company`, … |
