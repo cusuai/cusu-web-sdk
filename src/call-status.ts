@@ -8,6 +8,7 @@ export type CallUiState = {
 	recording: boolean;
 	transcribing: boolean;
 	draft: string;
+	pendingCount: number;
 	callState: 'idle' | 'listening' | 'speaking' | 'thinking' | 'playing';
 };
 
@@ -17,7 +18,7 @@ export function canSend(state: CallUiState): boolean {
 		!state.closed &&
 		!state.transcribing &&
 		!state.voiceMode &&
-		(Boolean(state.draft.trim()) || state.recording)
+		(Boolean(state.draft.trim()) || state.recording || state.pendingCount > 0)
 	);
 }
 

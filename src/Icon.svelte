@@ -5,7 +5,7 @@ import type { ClassValue } from 'svelte/elements';
 let {
 	icon,
 	class: className = 'size-3.5',
-	strokeWidth
+	strokeWidth = 2
 }: {
 	icon: IconSvgElement;
 	class?: ClassValue;

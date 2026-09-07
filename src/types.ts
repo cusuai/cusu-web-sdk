@@ -1,11 +1,49 @@
-export type ThreadStatus = 'ai' | 'waiting' | 'human' | 'resolved' | 'needs_operator';
+export type ThreadStatus =
+	| 'waiting_customer'
+	| 'waiting_us'
+	| 'ai_replying'
+	| 'resolved'
+	| 'no_response'
+	| 'inappropriate'
+	| 'ai'
+	| 'waiting'
+	| 'human'
+	| 'needs_operator';
+
+export type ThreadAssigneeType = 'none' | 'ai' | 'user';
+export type ThreadAssignee = { type: ThreadAssigneeType; userId?: string };
 export type ThreadMessageRole = 'customer' | 'agent' | 'operator';
 
-export function isClosedStatus(status: ThreadStatus | string): boolean {
-	return status === 'resolved';
+const OPEN_STATUSES = new Set<string>([
+	'waiting_customer',
+	'waiting_us',
+	'ai_replying',
+	'ai',
+	'waiting',
+	'human',
+	'needs_operator'
+]);
+
+const CLOSED_STATUSES = new Set<string>(['resolved', 'no_response', 'inappropriate']);
+
+export function isOpenStatus(status: ThreadStatus | string): boolean {
+	return OPEN_STATUSES.has(status);
 }
 
-export function isTransferredStatus(status: ThreadStatus | string): boolean {
+export function isClosedStatus(status: ThreadStatus | string): boolean {
+	return CLOSED_STATUSES.has(status);
+}
+
+export function isTransferredStatus(
+	status: ThreadStatus | string,
+	assignee?: { type?: string } | null
+): boolean {
+	if (isClosedStatus(status) || !isOpenStatus(status)) {
+		return false;
+	}
+	if (assignee?.type) {
+		return assignee.type !== 'ai';
+	}
 	return status === 'waiting' || status === 'human' || status === 'needs_operator';
 }
 
@@ -15,16 +53,28 @@ export type ThreadMessage = {
 	role: ThreadMessageRole;
 	text: string;
 	tools: string[];
+	attachments?: Array<{
+		id: string;
+		filename: string;
+		contentType: string;
+		byteSize: number;
+		kind: 'image' | 'pdf';
+		source: 'upload' | 'integration';
+	}>;
 };
 
 export type SupportThread = {
 	id: string;
 	status: ThreadStatus;
+	assignee?: ThreadAssignee;
 	createdAt: string;
 	updatedAt: string;
 	preview: string;
 	messages: ThreadMessage[];
+	rated?: boolean;
 };
+
+export type RatingScale = 'stars_5' | 'thumbs' | 'faces_3';
 
 export type ChatEvent =
 	| { type: 'chat.ready'; thread: SupportThread | null }
@@ -33,5 +83,29 @@ export type ChatEvent =
 	| { type: 'chat.done'; text: string; transferred: boolean; thread: SupportThread }
 	| { type: 'chat.queued' }
 	| { type: 'chat.error'; message: string }
+	| { type: 'chat.rated' }
+	| {
+			type: 'chat.voice.committed';
+			role: 'customer' | 'agent';
+			thread: SupportThread;
+			message?: ThreadMessage;
+	  }
+	| {
+			type: 'chat.voice.tool_result';
+			callId: string;
+			output: string;
+			transferred?: boolean;
+			closed?: boolean;
+			thread?: SupportThread | null;
+			attachments?: ThreadMessage['attachments'];
+	  }
 	| { type: 'thread.message'; threadId: string; message: ThreadMessage }
-	| { type: 'thread.updated'; thread: { id: string; status: ThreadStatus } };
+	| {
+			type: 'thread.updated';
+			thread: {
+				id: string;
+				status: ThreadStatus;
+				assignee?: ThreadAssignee;
+				updatedAt?: string;
+			};
+	  };

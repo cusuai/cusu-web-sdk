@@ -7,6 +7,7 @@ export type ConversationSummary = {
 	preview: string;
 	updatedAt: string;
 	status: ThreadStatus;
+	assignee?: { type: 'none' | 'ai' | 'user' };
 };
 
 export type RecencyId = 'today' | 'yesterday' | 'week' | 'older';
@@ -19,6 +20,21 @@ export function historyKey(group: string): string {
 	return `cusu:${group}:thread-history`;
 }
 
+function isHistoryStatus(value: unknown): value is ThreadStatus {
+	return (
+		value === 'waiting_customer' ||
+		value === 'waiting_us' ||
+		value === 'ai_replying' ||
+		value === 'resolved' ||
+		value === 'no_response' ||
+		value === 'inappropriate' ||
+		value === 'ai' ||
+		value === 'waiting' ||
+		value === 'human' ||
+		value === 'needs_operator'
+	);
+}
+
 export function isConversationSummary(value: unknown): value is ConversationSummary {
 	if (!value || typeof value !== 'object') {
 		return false;
@@ -28,11 +44,7 @@ export function isConversationSummary(value: unknown): value is ConversationSumm
 		typeof item.id === 'string' &&
 		typeof item.preview === 'string' &&
 		typeof item.updatedAt === 'string' &&
-		(item.status === 'ai' ||
-			item.status === 'waiting' ||
-			item.status === 'human' ||
-			item.status === 'resolved' ||
-			item.status === 'needs_operator')
+		isHistoryStatus(item.status)
 	);
 }
 

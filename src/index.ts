@@ -2,6 +2,7 @@ import { mount, unmount } from 'svelte';
 import ChatWidget from './ChatWidget.svelte';
 import { GroupChat } from './chat.svelte';
 import type { CusuConfig } from './config';
+import { resolveWidgetLocale } from './locale';
 import { setLocale } from './paraglide/runtime.js';
 import { identifyUrl, shopUrl } from './urls';
 import { ensureVisitorId } from './visitor';
@@ -148,6 +149,33 @@ async function boot(config: CusuConfig, id: number): Promise<void> {
 			});
 			return;
 		}
+		const init = (await response.json().catch(() => ({}))) as {
+			ok?: boolean;
+			voice_call?: boolean;
+			dictation?: boolean;
+			voice_realtime?: boolean;
+			rating_scale?: string;
+			language?: string;
+		};
+		if (id !== bootId) {
+			return;
+		}
+		const ready = { ...config, group, apiKey };
+		activeConfig = ready;
+		const locale = resolveWidgetLocale(init.language, ready.locale);
+		if (locale) {
+			setLocale(locale, { reload: false });
+		}
+		mountWidget(ready, {
+			voiceCall: init.voice_call !== false,
+			dictation: init.dictation !== false,
+			voiceRealtime: init.voice_realtime === true,
+			ratingScale: init.rating_scale === 'thumbs' || init.rating_scale === 'faces_3'
+				? init.rating_scale
+				: 'stars_5'
+		});
+		flushIdentify(ready);
+		return;
 	} catch (error) {
 		if (id !== bootId) {
 			return;
@@ -155,19 +183,22 @@ async function boot(config: CusuConfig, id: number): Promise<void> {
 		console.error('Cusu: failed to initialize', error);
 		return;
 	}
-	if (id !== bootId) {
-		return;
-	}
-	const ready = { ...config, group, apiKey };
-	activeConfig = ready;
-	if (ready.locale === 'en' || ready.locale === 'cs') {
-		setLocale(ready.locale, { reload: false });
-	}
-	mountWidget(ready);
-	flushIdentify(ready);
 }
 
-function mountWidget(config: CusuConfig): void {
+function mountWidget(
+	config: CusuConfig,
+	flags: {
+		voiceCall: boolean;
+		dictation: boolean;
+		voiceRealtime: boolean;
+		ratingScale: 'stars_5' | 'thumbs' | 'faces_3';
+	} = {
+		voiceCall: true,
+		dictation: true,
+		voiceRealtime: false,
+		ratingScale: 'stars_5'
+	}
+): void {
 	teardown();
 	const host = document.createElement('div');
 	host.id = HOST_ID;
@@ -180,6 +211,10 @@ function mountWidget(config: CusuConfig): void {
 	shadow.append(target);
 	document.body.append(host);
 	const chat = new GroupChat(config, ensureVisitorId());
+	chat.voiceCallEnabled = flags.voiceCall;
+	chat.dictationEnabled = flags.dictation;
+	chat.voiceRealtimeEnabled = flags.voiceRealtime;
+	chat.ratingScale = flags.ratingScale;
 	const app = mount(ChatWidget, {
 		target,
 		props: { chat }

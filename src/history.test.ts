@@ -14,24 +14,27 @@ const summary = (overrides: Partial<ConversationSummary> = {}): ConversationSumm
 	id: 't1',
 	preview: 'hello',
 	updatedAt: '2026-09-03T12:00:00.000Z',
-	status: 'ai',
+	status: 'waiting_customer',
 	...overrides
 });
 
 describe('isConversationSummary', () => {
 	it('accepts valid summaries', () => {
 		expect(isConversationSummary(summary())).toBe(true);
+		expect(isConversationSummary(summary({ status: 'waiting_us' }))).toBe(true);
+		expect(isConversationSummary(summary({ status: 'ai_replying' }))).toBe(true);
 		expect(isConversationSummary(summary({ status: 'waiting' }))).toBe(true);
 		expect(isConversationSummary(summary({ status: 'human' }))).toBe(true);
 		expect(isConversationSummary(summary({ status: 'resolved' }))).toBe(true);
 		expect(isConversationSummary(summary({ status: 'needs_operator' }))).toBe(true);
+		expect(isConversationSummary(summary({ status: 'no_response' }))).toBe(true);
 	});
 
 	it('rejects invalid shapes', () => {
 		expect(isConversationSummary(null)).toBe(false);
 		expect(isConversationSummary('x')).toBe(false);
 		expect(isConversationSummary({ ...summary(), status: 'unknown' })).toBe(false);
-		expect(isConversationSummary({ id: 1, preview: 'a', updatedAt: 'b', status: 'ai' })).toBe(
+		expect(isConversationSummary({ id: 1, preview: 'a', updatedAt: 'b', status: 'waiting_customer' })).toBe(
 			false
 		);
 	});

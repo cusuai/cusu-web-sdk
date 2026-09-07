@@ -10,7 +10,7 @@ export function toWsUrl(
 	visitorId: string
 ): string {
 	const ws = apiBase(apiUrl).replace(/^http/i, 'ws');
-	const params = new URLSearchParams({ company: group, key: apiKey });
+	const params = new URLSearchParams({ group, key: apiKey });
 	if (threadId) {
 		params.set('thread', threadId);
 	}
@@ -34,4 +34,26 @@ export function transcribeUrl(apiUrl: string): string {
 
 export function ttsUrl(apiUrl: string): string {
 	return `${apiBase(apiUrl)}/tts`;
+}
+
+export function realtimeSessionUrl(apiUrl: string, group: string): string {
+	return `${shopUrl(apiUrl, group)}/realtime-session`;
+}
+
+export function chatAttachmentUploadUrl(apiUrl: string): string {
+	return `${apiBase(apiUrl)}/v1/chat/attachments`;
+}
+
+export function chatAttachmentUrl(
+	apiUrl: string,
+	attachmentId: string,
+	group: string,
+	apiKey: string,
+	visitorId: string
+): string {
+	const params = new URLSearchParams({ group, key: apiKey });
+	if (visitorId) {
+		params.set('visitor', visitorId);
+	}
+	return `${apiBase(apiUrl)}/v1/chat/attachments/${encodeURIComponent(attachmentId)}?${params}`;
 }

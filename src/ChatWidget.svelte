@@ -1,5 +1,6 @@
 <script lang="ts">
 import ArrowLeft01Icon from '@hugeicons/core-free-icons/ArrowLeft01Icon';
+import Attachment01Icon from '@hugeicons/core-free-icons/Attachment01Icon';
 import Cancel01Icon from '@hugeicons/core-free-icons/Cancel01Icon';
 import Mic01Icon from '@hugeicons/core-free-icons/Mic01Icon';
 import PlusSignIcon from '@hugeicons/core-free-icons/PlusSignIcon';
@@ -8,8 +9,12 @@ import { onMount } from 'svelte';
 import { cubicOut } from 'svelte/easing';
 import { prefersReducedMotion } from 'svelte/motion';
 import { fly, type TransitionConfig } from 'svelte/transition';
+import AttachmentGallery from './AttachmentGallery.svelte';
 import CusuMark from './CusuMark.svelte';
+import FileAttachment from './FileAttachment.svelte';
 import type { ConversationSummary, GroupChat } from './chat.svelte';
+import { isClosedStatus, isTransferredStatus } from './types';
+import type { ThreadAttachment } from './messages';
 import { formatRowWhen, formatWhen, groupHistory, type RecencyId } from './history';
 import Icon from './Icon.svelte';
 import Markdown from './Markdown.svelte';
@@ -21,6 +26,10 @@ import Waveform from './Waveform.svelte';
 
 let { chat }: { chat: GroupChat } = $props();
 let scroller: HTMLDivElement | undefined = $state();
+let fileInput: HTMLInputElement | undefined = $state();
+let galleryOpen = $state(false);
+let galleryIndex = $state(0);
+let galleryItems = $state<{ src: string; filename: string }[]>([]);
 
 const chromeBtn =
 	'absolute z-10 inline-flex size-9 items-center justify-center rounded-full border border-transparent bg-muted/60 text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30';
@@ -30,6 +39,9 @@ const askBtn =
 
 const roundBtn =
 	'inline-flex size-8 shrink-0 items-center justify-center rounded-full border border-transparent text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/30 disabled:pointer-events-none disabled:opacity-50';
+
+const ratingBtn =
+	'inline-flex size-9 items-center justify-center rounded-full text-lg outline-none hover:bg-muted hover:scale-110 focus-visible:ring-2 focus-visible:ring-ring/30 disabled:pointer-events-none disabled:opacity-50';
 
 function fromLauncher(_node: Element): TransitionConfig {
 	if (prefersReducedMotion.current) {
@@ -76,6 +88,9 @@ $effect(() => {
 });
 
 function onWindowKeydown(event: KeyboardEvent): void {
+	if (event.defaultPrevented) {
+		return;
+	}
 	if (event.key !== 'Escape' || !chat.open) {
 		return;
 	}
@@ -87,6 +102,38 @@ function onWindowKeydown(event: KeyboardEvent): void {
 	chat.closePanel();
 }
 
+const voiceAttachments = $derived.by(() => {
+	if (!chat.voiceMode) {
+		return [] as ThreadAttachment[];
+	}
+	for (let i = chat.messages.length - 1; i >= 0; i -= 1) {
+		const message = chat.messages[i];
+		if (message?.role === 'agent' && message.attachments?.length) {
+			return message.attachments;
+		}
+	}
+	return [] as ThreadAttachment[];
+});
+
+function openGallery(startId: string): void {
+	const items: { src: string; filename: string; id: string }[] = [];
+	for (const message of chat.messages) {
+		for (const attachment of message.attachments ?? []) {
+			if (attachment.kind === 'image') {
+				items.push({
+					id: attachment.id,
+					src: chat.attachmentSrc(attachment),
+					filename: attachment.filename
+				});
+			}
+		}
+	}
+	const index = items.findIndex((item) => item.id === startId);
+	galleryItems = items.map(({ src, filename }) => ({ src, filename }));
+	galleryIndex = index < 0 ? 0 : index;
+	galleryOpen = true;
+}
+
 function submit(event: SubmitEvent): void {
 	event.preventDefault();
 	chat.send();
@@ -96,6 +143,38 @@ function onComposerKeydown(event: KeyboardEvent): void {
 	if (event.key === 'Enter' && !event.shiftKey) {
 		event.preventDefault();
 		chat.send();
+	}
+}
+
+function onComposerPaste(event: ClipboardEvent): void {
+	if (chat.voiceMode) {
+		return;
+	}
+	const files = [...(event.clipboardData?.files ?? [])];
+	if (files.length === 0) {
+		return;
+	}
+	event.preventDefault();
+	void chat.addFiles(files);
+}
+
+function onComposerDrop(event: DragEvent): void {
+	if (chat.voiceMode) {
+		return;
+	}
+	const files = [...(event.dataTransfer?.files ?? [])];
+	if (files.length === 0) {
+		return;
+	}
+	event.preventDefault();
+	void chat.addFiles(files);
+}
+
+function onFilePicked(event: Event): void {
+	const input = event.currentTarget as HTMLInputElement;
+	if (input.files && input.files.length > 0) {
+		void chat.addFiles(input.files);
+		input.value = '';
 	}
 }
 
@@ -131,11 +210,11 @@ function recencyLabels(): Record<RecencyId, string> {
 	};
 }
 
-function statusLabel(status: ConversationSummary['status']): string {
-	if (status === 'resolved') {
+function statusLabel(item: ConversationSummary): string {
+	if (isClosedStatus(item.status)) {
 		return m.status_closed();
 	}
-	if (status === 'needs_operator' || status === 'waiting' || status === 'human') {
+	if (isTransferredStatus(item.status, item.assignee)) {
 		return m.status_operator();
 	}
 	return m.status_assistant();
@@ -147,7 +226,9 @@ const historySections = $derived(
 		label: recencyLabels()[section.id]
 	}))
 );
-const showCall = $derived(!chat.transferred && chat.draft.trim().length === 0);
+const showCall = $derived(
+	chat.voiceCallEnabled && !chat.transferred && chat.draft.trim().length === 0
+);
 </script>
 
 <svelte:window onkeydown={onWindowKeydown} />
@@ -224,7 +305,7 @@ const showCall = $derived(!chat.transferred && chat.draft.trim().length === 0);
 														{item.preview || m.conversation_fallback()}
 													</p>
 													<p class="mt-0.5 truncate text-xs text-muted-foreground">
-														{statusLabel(item.status)}
+														{statusLabel(item)}
 														{#if item.id === chat.currentId}
 															· {m.status_current()}
 														{/if}
@@ -242,40 +323,88 @@ const showCall = $derived(!chat.transferred && chat.draft.trim().length === 0);
 					</div>
 				{/if}
 			{:else if chat.voiceMode}
-				<div
-					class="flex min-h-0 flex-1 flex-col items-center justify-center gap-4 overflow-visible px-6"
-				>
-					<Orbit size="lg" tone={chat.orbitTone} energy={chat.activityLevel} />
-					<div class="relative flex h-10 w-full items-center justify-center overflow-hidden">
-						{#key chat.callStatusLabel}
-							<p
-								class="absolute inset-x-0 text-center text-sm font-medium text-foreground"
-								in:fly={{
-									y: 12,
-									duration: prefersReducedMotion.current ? 0 : 320,
-									easing: cubicOut
-								}}
-								out:fly={{
-									y: -12,
-									duration: prefersReducedMotion.current ? 0 : 240,
-									easing: cubicOut
-								}}
-								aria-live="polite"
-							>
-								{chat.callStatusLabel}
-							</p>
-						{/key}
-					</div>
-					<button
-						type="button"
-						class="h-8 rounded-full border border-transparent bg-destructive/10 px-3.5 text-xs font-medium text-destructive hover:bg-destructive/20"
-						aria-label={m.aria_hangup()}
-						onclick={() => chat.hangup()}
+				<div class="relative flex min-h-0 flex-1 flex-col overflow-hidden">
+					<div
+						class={[
+							'flex min-h-0 flex-1 flex-col items-center justify-center gap-4 px-6',
+							voiceAttachments.length > 0 && 'pb-28'
+						]}
 					>
-						{m.hangup()}
-					</button>
-					{#if chat.error}
-						<p class="text-center text-xs text-destructive">{chat.error}</p>
+						<Orbit size="lg" tone={chat.orbitTone} energy={chat.activityLevel} />
+						<div class="relative flex h-10 w-full items-center justify-center overflow-hidden">
+							{#key chat.callStatusLabel}
+								<p
+									class="absolute inset-x-0 text-center text-sm font-medium text-foreground"
+									in:fly={{
+										y: 12,
+										duration: prefersReducedMotion.current ? 0 : 320,
+										easing: cubicOut
+									}}
+									out:fly={{
+										y: -12,
+										duration: prefersReducedMotion.current ? 0 : 240,
+										easing: cubicOut
+									}}
+									aria-live="polite"
+								>
+									{chat.callStatusLabel}
+								</p>
+							{/key}
+						</div>
+						<button
+							type="button"
+							class="h-8 rounded-full border border-transparent bg-destructive/10 px-3.5 text-xs font-medium text-destructive hover:bg-destructive/20"
+							aria-label={m.aria_hangup()}
+							onclick={() => chat.hangup()}
+						>
+							{m.hangup()}
+						</button>
+						{#if chat.error && !chat.closed}
+							<p class="text-center text-xs text-destructive">{chat.error}</p>
+						{/if}
+					</div>
+					{#if voiceAttachments.length > 0}
+						<div
+							class="absolute inset-x-3 bottom-3 z-20 flex max-h-[42%] flex-col gap-2 overflow-y-auto"
+						>
+							{#each voiceAttachments as attachment (attachment.id)}
+								<div
+									in:fly={{
+										y: 18,
+										duration: prefersReducedMotion.current ? 0 : 320,
+										easing: cubicOut
+									}}
+								>
+									{#if attachment.kind === 'image'}
+										<button
+											type="button"
+											class="flex w-full items-center gap-3 rounded-2xl border border-border bg-background px-3 py-2.5 text-left text-foreground shadow-lg outline-none focus-visible:ring-2 focus-visible:ring-ring/30"
+											aria-label={m.aria_open_image()}
+											onclick={() => openGallery(attachment.id)}
+										>
+											<img
+												src={chat.attachmentSrc(attachment)}
+												alt=""
+												class="size-10 shrink-0 rounded-xl object-cover"
+											/>
+											<span class="min-w-0 flex-1">
+												<span class="block truncate text-sm font-medium">{attachment.filename}</span>
+												<span class="block text-[11px] text-muted-foreground">{m.file_kind_image()}</span>
+											</span>
+										</button>
+									{:else}
+										<FileAttachment
+											class="shadow-lg"
+											href={chat.attachmentSrc(attachment)}
+											filename={attachment.filename}
+											byteSize={attachment.byteSize}
+											downloadLabel={m.aria_download_file()}
+											kindLabel={m.file_kind_pdf()}
+										/>
+									{/if}
+								</div>
+							{/each}
+						</div>
 					{/if}
 				</div>
 			{:else}
@@ -298,6 +427,16 @@ const showCall = $derived(!chat.transferred && chat.draft.trim().length === 0);
 					{/if}
 					{#each chat.messages as message (message.id)}
 						{@const mine = message.role === 'customer'}
+						{@const images = message.attachments?.filter((item) => item.kind === 'image') ?? []}
+						{@const files = message.attachments?.filter((item) => item.kind !== 'image') ?? []}
+						{@const showTyping =
+							Boolean(message.streaming) && !message.text && images.length === 0 && files.length === 0}
+						{@const showTranscribing =
+							Boolean(message.transcribing) &&
+							!message.text &&
+							images.length === 0 &&
+							files.length === 0}
+						{@const showBubble = Boolean(message.text) || showTyping || showTranscribing}
 						<article
 							class={[
 								'flex w-fit max-w-[min(100%,18rem)] flex-col text-sm leading-relaxed break-words',
@@ -313,24 +452,63 @@ const showCall = $derived(!chat.transferred && chat.draft.trim().length === 0);
 								{roleLabel(message.role)}
 								· {formatWhen(message.at, LOCALE)}
 							</p>
-							<div
-								class={[
-									'rounded-[1.75rem] px-4 py-2.5',
-									mine ? 'bg-black text-white' : 'bg-muted'
-								]}
-							>
-								{#if message.transcribing && !message.text}
-									<p class="opacity-70">{m.placeholder_transcribing()}</p>
-								{:else if message.text}
-									{#if message.role === 'agent'}
-										<Markdown source={message.text} />
-									{:else}
-										<p class="whitespace-pre-wrap">{message.text}</p>
+							{#if images.length > 0}
+								<div class={['flex flex-col gap-2', mine ? 'items-end' : 'items-start']}>
+									{#each images as attachment (attachment.id)}
+										<button
+											type="button"
+											class="block cursor-zoom-in overflow-hidden rounded-2xl border-0 bg-transparent p-0"
+											aria-label={m.aria_open_image()}
+											onclick={() => openGallery(attachment.id)}
+										>
+											<img
+												src={chat.attachmentSrc(attachment)}
+												alt={attachment.filename}
+												class="max-h-48 w-auto max-w-full rounded-2xl object-cover"
+											/>
+										</button>
+									{/each}
+								</div>
+							{/if}
+							{#if showBubble}
+								<div
+									class={[
+										'rounded-[1.75rem] px-4 py-2.5',
+										images.length > 0 && 'mt-2',
+										mine ? 'bg-black text-white' : 'bg-muted'
+									]}
+								>
+									{#if showTranscribing}
+										<p class="opacity-70">{m.placeholder_transcribing()}</p>
+									{:else if message.text}
+										{#if message.role === 'customer'}
+											<p class="whitespace-pre-wrap">{message.text}</p>
+										{:else}
+											<Markdown source={message.text} />
+										{/if}
+									{:else if showTyping}
+										<p class={mine ? 'opacity-70' : 'text-muted-foreground'}>{m.typing()}</p>
 									{/if}
-								{:else if message.streaming}
-									<p class={mine ? 'opacity-70' : 'text-muted-foreground'}>{m.typing()}</p>
-								{/if}
-							</div>
+								</div>
+							{/if}
+							{#if files.length > 0}
+								<div
+									class={[
+										'flex w-full flex-col gap-2',
+										(images.length > 0 || showBubble) && 'mt-2'
+									]}
+								>
+									{#each files as attachment (attachment.id)}
+										<FileAttachment
+											href={chat.attachmentSrc(attachment)}
+											filename={attachment.filename}
+											byteSize={attachment.byteSize}
+											downloadLabel={m.aria_download_file()}
+											kindLabel={m.file_kind_pdf()}
+										/>
+									{/each}
+								</div>
+							{/if}
 							{#if message.transcribing && message.text}
 								<p class={['mt-1 text-[11px] text-muted-foreground', mine && 'text-right']}>
 									{m.placeholder_transcribing()}
@@ -342,23 +520,94 @@ const showCall = $derived(!chat.transferred && chat.draft.trim().length === 0);
 							{/if}
 						</article>
 					{/each}
-					{#if chat.closed}
-						<p class="text-center text-xs text-muted-foreground">{m.conversation_closed()}</p>
-					{:else if chat.transferred}
+					{#if chat.transferred && !chat.closed}
 						<p class="text-center text-xs text-muted-foreground">
 							{m.conversation_transferred()}
 						</p>
 					{/if}
-					{#if chat.error}
-						<p class="text-xs text-destructive">{chat.error}</p>
+					{#if chat.error && !chat.closed}
+						<p class="text-center text-xs text-destructive">{chat.error}</p>
 					{/if}
 				</div>
 				{#if chat.closed}
-					<p
+					<div
 						class="mx-3 mb-3 rounded-3xl border border-border bg-muted/50 px-4 py-3 text-center text-sm text-muted-foreground"
 					>
-						{m.conversation_closed()}
-					</p>
+						{#if chat.status === 'resolved'}
+							{#if chat.rated}
+								<p>{m.rating_thanks()}</p>
+							{:else}
+								<p>{m.rating_prompt()}</p>
+								<div class="mt-2 flex items-center justify-center gap-1">
+									{#if chat.ratingScale === 'thumbs'}
+										<button
+											type="button"
+											class={ratingBtn}
+											disabled={chat.ratingBusy}
+											aria-label={m.aria_rating_down()}
+											onclick={() => chat.rate(0)}
+										>
+											👎
+										</button>
+										<button
+											type="button"
+											class={ratingBtn}
+											disabled={chat.ratingBusy}
+											aria-label={m.aria_rating_up()}
+											onclick={() => chat.rate(1)}
+										>
+											👍
+										</button>
+									{:else if chat.ratingScale === 'faces_3'}
+										<button
+											type="button"
+											class={ratingBtn}
+											disabled={chat.ratingBusy}
+											aria-label={m.aria_rating_sad()}
+											onclick={() => chat.rate(1)}
+										>
+											😞
+										</button>
+										<button
+											type="button"
+											class={ratingBtn}
+											disabled={chat.ratingBusy}
+											aria-label={m.aria_rating_ok()}
+											onclick={() => chat.rate(2)}
+										>
+											😐
+										</button>
+										<button
+											type="button"
+											class={ratingBtn}
+											disabled={chat.ratingBusy}
+											aria-label={m.aria_rating_happy()}
+											onclick={() => chat.rate(3)}
+										>
+											😊
+										</button>
+									{:else}
+										{#each [1, 2, 3, 4, 5] as star (star)}
+											<button
+												type="button"
+												class={ratingBtn}
+												disabled={chat.ratingBusy}
+												aria-label={m.aria_rating_star({ star })}
+												onclick={() => chat.rate(star)}
+											>
+												★
+											</button>
+										{/each}
+									{/if}
+								</div>
+								{#if chat.error}
+									<p class="mt-2 text-xs text-destructive">{chat.error}</p>
+								{/if}
+							{/if}
+						{:else}
+							<p>{m.conversation_closed()}</p>
+						{/if}
+					</div>
 				{:else}
 					<form
 						class={[
@@ -368,6 +617,8 @@ const showCall = $derived(!chat.transferred && chat.draft.trim().length === 0);
 								: 'cursor-text border-border bg-background'
 						]}
 						onsubmit={submit}
+						ondragover={(event) => event.preventDefault()}
+						ondrop={onComposerDrop}
 					>
 						{#if chat.recording}
 							<div class="flex items-center gap-1 py-1.5 pr-1.5 pl-3.5" transition:recordReveal>
@@ -397,27 +648,78 @@ const showCall = $derived(!chat.transferred && chat.draft.trim().length === 0);
 							</div>
 						{:else}
 							<div class="relative" transition:recordReveal>
+								{#if chat.pending.length > 0}
+									<div class="flex flex-wrap gap-2 px-4 pt-3">
+										{#each chat.pending as item (item.localId)}
+											<div
+												class="relative max-w-[7.5rem] overflow-hidden rounded-2xl bg-muted text-xs"
+											>
+												{#if item.previewUrl}
+													<img src={item.previewUrl} alt={item.name} class="h-16 w-24 object-cover" />
+												{:else}
+													<p class="truncate px-2 py-3">{item.name}</p>
+												{/if}
+												<button
+													type="button"
+													class="absolute top-1 right-1 inline-flex size-5 items-center justify-center rounded-full bg-black/70 text-white"
+													aria-label={m.aria_remove_attachment()}
+													onclick={() => chat.removePending(item.localId)}
+												>
+													<Icon icon={Cancel01Icon} class="size-3" strokeWidth={2} />
+												</button>
+												{#if item.uploading}
+													<span class="absolute inset-x-0 bottom-0 bg-black/50 px-1 py-0.5 text-[10px] text-white">
+														…
+													</span>
+												{/if}
+												{#if item.error}
+													<p class="px-1 py-0.5 text-[10px] text-destructive">{item.error}</p>
+												{/if}
+											</div>
+										{/each}
+									</div>
+								{/if}
 								<textarea
 									bind:value={chat.draft}
 									rows="1"
-									class="block min-h-10 w-full resize-none overflow-y-auto bg-transparent px-4 pt-3 pr-20 pb-12 text-sm leading-5 outline-none placeholder:text-muted-foreground/40 disabled:opacity-50"
+									class="block min-h-10 w-full resize-none overflow-y-auto bg-transparent px-4 pt-3 pr-28 pb-12 text-sm leading-5 outline-none placeholder:text-muted-foreground/40 disabled:opacity-50"
 									placeholder={chat.transcribing ? m.placeholder_transcribing() : m.placeholder_message()}
 									aria-label={m.aria_message()}
 									disabled={chat.transcribing}
 									onkeydown={onComposerKeydown}
+									onpaste={onComposerPaste}
 									{@attach fitRows}
 								></textarea>
+								<input
+									bind:this={fileInput}
+									type="file"
+									accept="image/jpeg,image/png,image/gif,image/webp,application/pdf"
+									multiple
+									class="hidden"
+									onchange={onFilePicked}
+								/>
 								<div class="absolute right-2 bottom-2 z-10 flex items-center gap-1">
 									<button
 										type="button"
 										class={roundBtn}
-										aria-label={m.aria_dictate()}
-										aria-pressed={false}
-										disabled={chat.transcribing}
-										onclick={() => chat.toggleMic()}
+										aria-label={m.aria_attach()}
+										disabled={chat.transcribing || chat.pending.length >= 5}
+										onclick={() => fileInput?.click()}
 									>
-										<Icon icon={Mic01Icon} class="size-4" />
+										<Icon icon={Attachment01Icon} class="size-4" strokeWidth={2} />
 									</button>
+									{#if chat.dictationEnabled}
+										<button
+											type="button"
+											class={roundBtn}
+											aria-label={m.aria_dictate()}
+											aria-pressed={false}
+											disabled={chat.transcribing}
+											onclick={() => chat.toggleMic()}
+										>
+											<Icon icon={Mic01Icon} class="size-4" strokeWidth={2} />
+										</button>
+									{/if}
 									{#if showCall}
 										<Orbit
 											tone="idle"
@@ -433,7 +735,7 @@ const showCall = $derived(!chat.transferred && chat.draft.trim().length === 0);
 											aria-label={m.aria_send()}
 											disabled={!chat.canSend}
 										>
-											<Icon icon={SendIcon} class="size-4" />
+											<Icon icon={SendIcon} class="size-4" strokeWidth={2} />
 										</button>
 									{/if}
 								</div>
@@ -459,3 +761,12 @@ const showCall = $derived(!chat.transferred && chat.draft.trim().length === 0);
 		</button>
 	{/if}
 </div>
+
+<AttachmentGallery
+	bind:open={galleryOpen}
+	bind:index={galleryIndex}
+	items={galleryItems}
+	closeLabel={m.aria_close()}
+	prevLabel={m.aria_gallery_prev()}
+	nextLabel={m.aria_gallery_next()}
+/>

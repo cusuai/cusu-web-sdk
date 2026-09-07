@@ -50,7 +50,7 @@ const level = $derived(Math.min(1, Math.max(0.06, energy)));
 
 <style>
 .orbit {
-	--scale: calc(0.78 + var(--energy) * 0.62);
+	--scale: calc(0.96 + var(--energy) * 0.08);
 	position: relative;
 	display: inline-flex;
 	flex-shrink: 0;
@@ -66,8 +66,8 @@ const level = $derived(Math.min(1, Math.max(0.06, energy)));
 	box-shadow: none;
 	transform: scale(var(--scale));
 	transition:
-		transform 70ms ease-out,
-		filter 120ms ease-out;
+		transform 400ms ease-out,
+		filter 400ms ease-out;
 	will-change: transform;
 }
 
@@ -117,9 +117,12 @@ const level = $derived(Math.min(1, Math.max(0.06, energy)));
 		transparent 72%
 	);
 	filter: blur(10px);
-	opacity: calc(0.45 + var(--energy) * 0.55);
-	transform: scale(calc(0.72 + var(--energy) * 0.7));
+	opacity: calc(0.5 + var(--energy) * 0.28);
+	transform: scale(calc(0.9 + var(--energy) * 0.14));
 	pointer-events: none;
+	transition:
+		opacity 400ms ease-out,
+		transform 400ms ease-out;
 }
 
 .lg .bloom {
@@ -132,17 +135,18 @@ const level = $derived(Math.min(1, Math.max(0.06, energy)));
 	inset: -8%;
 	border-radius: 9999px;
 	box-shadow:
-		0 0 calc(14px + var(--energy) * 28px) color-mix(in oklch, var(--smoke) 70%, transparent),
-		0 0 calc(32px + var(--energy) * 56px) color-mix(in oklch, var(--smoke) 48%, transparent),
-		0 0 calc(56px + var(--energy) * 96px) color-mix(in oklch, var(--smoke-2) 32%, transparent),
-		0 0 calc(88px + var(--energy) * 140px) color-mix(in oklch, var(--smoke) 18%, transparent);
+		0 0 calc(12px + var(--energy) * 10px) color-mix(in oklch, var(--smoke) 70%, transparent),
+		0 0 calc(28px + var(--energy) * 18px) color-mix(in oklch, var(--smoke) 48%, transparent),
+		0 0 calc(48px + var(--energy) * 28px) color-mix(in oklch, var(--smoke-2) 32%, transparent),
+		0 0 calc(72px + var(--energy) * 36px) color-mix(in oklch, var(--smoke) 18%, transparent);
 	pointer-events: none;
+	transition: box-shadow 400ms ease-out;
 }
 
 .sm .corona {
 	box-shadow:
-		0 0 calc(6px + var(--energy) * 10px) color-mix(in oklch, var(--smoke) 65%, transparent),
-		0 0 calc(14px + var(--energy) * 22px) color-mix(in oklch, var(--smoke) 40%, transparent);
+		0 0 calc(6px + var(--energy) * 4px) color-mix(in oklch, var(--smoke) 65%, transparent),
+		0 0 calc(12px + var(--energy) * 8px) color-mix(in oklch, var(--smoke) 40%, transparent);
 }
 
 .body {
@@ -170,7 +174,7 @@ const level = $derived(Math.min(1, Math.max(0.06, energy)));
 .flow {
 	position: absolute;
 	inset: -28%;
-	animation: swirl calc(8.4s - var(--energy) * 4.2s) linear infinite;
+	animation: swirl 7.2s linear infinite;
 }
 
 .wash {
@@ -191,7 +195,7 @@ const level = $derived(Math.min(1, Math.max(0.06, energy)));
 	width: 78%;
 	height: 62%;
 	background: radial-gradient(circle, var(--smoke-2) 0%, transparent 70%);
-	animation: drift calc(3.6s - var(--energy) * 1.6s) ease-in-out infinite alternate;
+	animation: drift 4s ease-in-out infinite alternate;
 }
 
 .two {
@@ -201,7 +205,7 @@ const level = $derived(Math.min(1, Math.max(0.06, energy)));
 	height: 68%;
 	background: radial-gradient(circle, var(--smoke) 0%, transparent 72%);
 	border-radius: 40% 60% 45% 55%;
-	animation: drift calc(4.4s - var(--energy) * 1.8s) ease-in-out infinite alternate-reverse;
+	animation: drift 5s ease-in-out infinite alternate-reverse;
 }
 
 .three {
@@ -211,7 +215,7 @@ const level = $derived(Math.min(1, Math.max(0.06, energy)));
 	height: 44%;
 	background: radial-gradient(circle, var(--smoke-3) 0%, transparent 68%);
 	opacity: calc(0.28 + var(--energy) * 0.55);
-	animation: pulse calc(2.2s - var(--energy) * 1.1s) ease-in-out infinite alternate;
+	animation: pulse 2.8s ease-in-out infinite alternate;
 }
 
 .spec {

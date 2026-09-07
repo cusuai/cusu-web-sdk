@@ -14,13 +14,28 @@ import {
 	persistHistory,
 	upsertHistory
 } from './history';
-import type { WidgetMessage } from './messages';
-import { isVisibleWidgetRole, threadToMessages } from './messages';
+import type { ThreadAttachment, WidgetMessage } from './messages';
+import {
+	isVisibleWidgetRole,
+	keepAttachmentPreviews,
+	mergeAgentAttachments,
+	previewUrlsByAttachment,
+	threadToMessages
+} from './messages';
 import * as m from './paraglide/messages.js';
+import { advancePlaybackHold, playbackOrbitEnergy, smoothPlaybackLevel } from './playback-meter';
+import { connectRealtimeCall, type RealtimeActivity, type RealtimeCall } from './realtime-call';
 import { splitSpeakable } from './speech';
-import type { ChatEvent, SupportThread, ThreadMessage, ThreadStatus } from './types';
+import type { ChatEvent, RatingScale, SupportThread, ThreadMessage, ThreadStatus } from './types';
 import { isClosedStatus, isTransferredStatus } from './types';
-import { toWsUrl, transcribeUrl, ttsUrl } from './urls';
+import {
+	chatAttachmentUploadUrl,
+	chatAttachmentUrl,
+	realtimeSessionUrl,
+	toWsUrl,
+	transcribeUrl,
+	ttsUrl
+} from './urls';
 import { createVadState, tickVad, VAD_THRESHOLD } from './vad';
 import type { TapeState } from './waveform';
 import {
@@ -78,6 +93,21 @@ function audioContextCtor(): typeof AudioContext | undefined {
 	);
 }
 
+const MAX_PENDING_ATTACHMENTS = 5;
+const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
+const MAX_PDF_BYTES = 16 * 1024 * 1024;
+const IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
+
+export type PendingUpload = {
+	localId: string;
+	name: string;
+	kind: 'image' | 'pdf';
+	previewUrl: string | null;
+	id: string | null;
+	uploading: boolean;
+	error: string;
+};
+
 function nowIso(): string {
 	return new Date().toISOString();
 }
@@ -92,10 +122,16 @@ export class GroupChat {
 
 	open = $state(false);
 	showLauncher = $state(true);
+	voiceCallEnabled = $state(true);
+	dictationEnabled = $state(true);
+	voiceRealtimeEnabled = $state(false);
+	ratingScale = $state<RatingScale>('stars_5');
+	rated = $state(false);
+	ratingBusy = $state(false);
 	connected = $state(false);
 	busy = $state(false);
 	transferred = $state(false);
-	status = $state<ThreadStatus>('ai');
+	status = $state<ThreadStatus>('waiting_customer');
 	recording = $state(false);
 	transcribing = $state(false);
 	voiceMode = $state(false);
@@ -105,6 +141,7 @@ export class GroupChat {
 	waveShift = $state(0);
 	error = $state('');
 	draft = $state('');
+	pending = $state<PendingUpload[]>([]);
 	view = $state<'chat' | 'history'>('history');
 	currentId = $state<string | null>(null);
 	history = $state<ConversationSummary[]>([]);
@@ -139,6 +176,21 @@ export class GroupChat {
 	#playbackAnalyser: AnalyserNode | null = null;
 	#playbackRaf: number | null = null;
 	#hangupAfterSpeech = false;
+	#uploadThreadGate: Promise<void> | null = null;
+	#realtime: RealtimeCall | null = null;
+	#realtimeSeq = 0;
+	#realtimePending = false;
+	#realtimeAgentTalking = false;
+	#realtimeListenTimer: ReturnType<typeof setTimeout> | null = null;
+	#hangupQuietTimer: ReturnType<typeof setTimeout> | null = null;
+	#toolWaiters = new Map<
+		string,
+		{
+			resolve: (output: string) => void;
+			reject: (error: Error) => void;
+		}
+	>();
+	#agentTranscript = '';
 
 	get closed(): boolean {
 		return isClosedStatus(this.status);
@@ -153,16 +205,17 @@ export class GroupChat {
 			recording: this.recording,
 			transcribing: this.transcribing,
 			draft: this.draft,
+			pendingCount: this.pending.filter((item) => item.id && !item.error).length,
 			callState: this.callState
 		};
 	}
 
 	get canSend(): boolean {
-		return callCanSend(this.#callUi);
+		return callCanSend(this.#callUi) && !this.pending.some((item) => item.uploading);
 	}
 
 	get canStartCall(): boolean {
-		return callCanStartCall(this.#callUi);
+		return this.voiceCallEnabled && callCanStartCall(this.#callUi);
 	}
 
 	get activityLevel(): number {
@@ -212,6 +265,7 @@ export class GroupChat {
 
 	showHistory(): void {
 		this.hangup();
+		this.#syncHistoryPreview();
 		this.view = 'history';
 	}
 
@@ -222,6 +276,7 @@ export class GroupChat {
 	startNew(): void {
 		this.view = 'chat';
 		this.hangup();
+		this.#clearPending();
 		if (!this.currentId && this.messages.length === 0) {
 			return;
 		}
@@ -230,7 +285,9 @@ export class GroupChat {
 		persistCurrentId(this.config.group, null);
 		this.messages = [];
 		this.transferred = false;
-		this.status = 'ai';
+		this.status = 'waiting_customer';
+		this.rated = false;
+		this.ratingBusy = false;
 		this.error = '';
 		this.busy = false;
 		this.#streamingId = null;
@@ -249,8 +306,10 @@ export class GroupChat {
 		persistCurrentId(this.config.group, id);
 		this.messages = [];
 		const existing = this.history.find((item) => item.id === id);
-		this.status = existing?.status ?? 'ai';
-		this.transferred = isTransferredStatus(this.status);
+		this.status = existing?.status ?? 'waiting_customer';
+		this.transferred = isTransferredStatus(this.status, existing?.assignee);
+		this.rated = false;
+		this.ratingBusy = false;
 		this.error = '';
 		this.busy = false;
 		this.#streamingId = null;
@@ -273,7 +332,13 @@ export class GroupChat {
 	}
 
 	async toggleMic(): Promise<void> {
-		if (this.closed || this.voiceMode || this.transcribing || this.recording) {
+		if (
+			!this.dictationEnabled ||
+			this.closed ||
+			this.voiceMode ||
+			this.transcribing ||
+			this.recording
+		) {
 			return;
 		}
 		await this.#startRecording();
@@ -287,7 +352,7 @@ export class GroupChat {
 	}
 
 	async startCall(): Promise<void> {
-		if (!this.canStartCall || this.voiceMode) {
+		if (!this.voiceCallEnabled || !this.canStartCall || this.voiceMode) {
 			return;
 		}
 		this.#unlockPlayback();
@@ -304,6 +369,12 @@ export class GroupChat {
 		this.#ttsBuffer = '';
 		this.#ttsQueue = [];
 		this.error = '';
+		if (this.voiceRealtimeEnabled) {
+			const started = await this.#startRealtimeCall();
+			if (started) {
+				return;
+			}
+		}
 		await this.#startCallMic();
 		await this.#playbackContext?.resume();
 	}
@@ -311,6 +382,7 @@ export class GroupChat {
 	hangup(): void {
 		this.#ttsSeq += 1;
 		this.#dictationSeq += 1;
+		this.#realtimeSeq += 1;
 		this.transcribing = false;
 		this.#ttsQueue = [];
 		this.#ttsAbort?.abort();
@@ -324,6 +396,14 @@ export class GroupChat {
 		this.#flushing = false;
 		this.#vadState = createVadState();
 		this.#ttsBuffer = '';
+		this.#agentTranscript = '';
+		this.#failToolWaiters();
+		this.#realtime?.disconnect();
+		this.#realtime = null;
+		this.#realtimePending = false;
+		this.#realtimeAgentTalking = false;
+		this.#clearRealtimeListenTimer();
+		this.#clearHangupQuietTimer();
 		this.voiceMode = false;
 		this.callState = 'idle';
 		void this.#stopRecording(true);
@@ -340,10 +420,113 @@ export class GroupChat {
 		this.#sendText(this.draft.trim());
 	}
 
-	#sendText(text: string, options: { alreadyShown?: boolean } = {}): void {
-		if (this.closed || !text || !this.#ws || this.#ws.readyState !== WebSocket.OPEN) {
+	rate(value: number): void {
+		if (
+			this.status !== 'resolved' ||
+			this.rated ||
+			this.ratingBusy ||
+			!this.#ws ||
+			this.#ws.readyState !== WebSocket.OPEN
+		) {
 			return;
 		}
+		this.ratingBusy = true;
+		this.error = '';
+		this.#ws.send(JSON.stringify({ type: 'chat.rate', value }));
+	}
+
+	async addFiles(files: FileList | File[]): Promise<void> {
+		if (this.voiceMode || this.closed) {
+			return;
+		}
+		for (const file of [...files]) {
+			if (this.pending.length >= MAX_PENDING_ATTACHMENTS) {
+				this.error = m.error_too_many_files();
+				break;
+			}
+			const kind = kindForFile(file);
+			if (!kind) {
+				this.error = m.error_file_type();
+				continue;
+			}
+			const max = kind === 'pdf' ? MAX_PDF_BYTES : MAX_IMAGE_BYTES;
+			if (file.size > max) {
+				this.error = kind === 'pdf' ? m.error_file_too_large_pdf() : m.error_file_too_large_image();
+				continue;
+			}
+			const localId = crypto.randomUUID();
+			const previewUrl = kind === 'image' ? URL.createObjectURL(file) : null;
+			this.pending.push({
+				localId,
+				name: file.name || (kind === 'pdf' ? 'dokument.pdf' : 'obrazek.jpg'),
+				kind,
+				previewUrl,
+				id: null,
+				uploading: true,
+				error: ''
+			});
+			void this.#uploadPending(localId, file);
+		}
+	}
+
+	removePending(localId: string): void {
+		const item = this.pending.find((entry) => entry.localId === localId);
+		if (item?.previewUrl) {
+			URL.revokeObjectURL(item.previewUrl);
+		}
+		this.pending = this.pending.filter((entry) => entry.localId !== localId);
+	}
+
+	attachmentSrc(attachment: Pick<ThreadAttachment, 'id' | 'previewUrl'>): string {
+		if (attachment.previewUrl) {
+			return attachment.previewUrl;
+		}
+		return chatAttachmentUrl(
+			this.config.apiUrl,
+			attachment.id,
+			this.config.group,
+			this.config.apiKey,
+			this.visitorId
+		);
+	}
+
+	#clearPending(options: { revoke?: boolean } = {}): void {
+		if (options.revoke !== false) {
+			for (const item of this.pending) {
+				if (item.previewUrl) {
+					URL.revokeObjectURL(item.previewUrl);
+				}
+			}
+		}
+		this.pending = [];
+	}
+
+	#sendText(text: string, options: { alreadyShown?: boolean } = {}): void {
+		const attachmentIds = this.pending
+			.map((item) => item.id)
+			.filter((id): id is string => Boolean(id));
+		if (
+			this.closed ||
+			(!text && attachmentIds.length === 0) ||
+			!this.#ws ||
+			this.#ws.readyState !== WebSocket.OPEN
+		) {
+			return;
+		}
+		if (this.pending.some((item) => item.uploading)) {
+			return;
+		}
+		const attachments: ThreadAttachment[] = this.pending
+			.filter((item) => item.id)
+			.map((item) => ({
+				id: item.id as string,
+				filename: item.name,
+				contentType: item.kind === 'pdf' ? 'application/pdf' : 'image/jpeg',
+				byteSize: 0,
+				kind: item.kind,
+				source: 'upload',
+				...(item.previewUrl ? { previewUrl: item.previewUrl } : {})
+			}));
 		if (!options.alreadyShown) {
 			this.draft = '';
 			this.messages.push({
@@ -351,20 +534,95 @@ export class GroupChat {
 				at: nowIso(),
 				role: 'customer',
 				text,
-				streaming: false
+				streaming: false,
+				...(attachments.length > 0 ? { attachments } : {})
 			});
 		}
+		this.#clearPending({ revoke: false });
 		this.error = '';
 		this.#beginAgentWait();
 		if (this.currentId) {
 			this.#upsertHistory({
 				id: this.currentId,
-				preview: text,
+				preview: text || attachments[0]?.filename || '',
 				updatedAt: new Date().toISOString(),
-				status: this.transferred ? 'waiting' : 'ai'
+				status: this.transferred ? 'waiting_us' : 'ai_replying'
 			});
 		}
-		this.#ws.send(JSON.stringify({ type: 'chat.send', text, voice: this.voiceMode }));
+		this.#ws.send(
+			JSON.stringify({
+				type: 'chat.send',
+				text,
+				voice: this.voiceMode,
+				attachmentIds
+			})
+		);
+	}
+
+	async #uploadPending(localId: string, file: File): Promise<void> {
+		let releaseGate: (() => void) | undefined;
+		if (!this.currentId) {
+			if (this.#uploadThreadGate) {
+				await this.#uploadThreadGate;
+			} else {
+				this.#uploadThreadGate = new Promise((resolve) => {
+					releaseGate = resolve;
+				});
+			}
+		}
+		try {
+			const form = new FormData();
+			form.append('file', file);
+			form.append('group', this.config.group);
+			form.append('key', this.config.apiKey);
+			form.append('visitor', this.visitorId);
+			if (this.currentId) {
+				form.append('thread', this.currentId);
+			}
+			const response = await fetch(chatAttachmentUploadUrl(this.config.apiUrl), {
+				method: 'POST',
+				body: form
+			});
+			const payload = (await response.json().catch(() => ({}))) as {
+				attachment?: { id?: unknown };
+				thread_id?: unknown;
+				message?: unknown;
+			};
+			if (!response.ok) {
+				throw new Error(
+					typeof payload.message === 'string' ? payload.message : m.error_upload_failed()
+				);
+			}
+			const id =
+				payload.attachment && typeof payload.attachment.id === 'string'
+					? payload.attachment.id
+					: '';
+			if (!id) {
+				throw new Error(m.error_upload_failed());
+			}
+			if (typeof payload.thread_id === 'string' && payload.thread_id) {
+				this.currentId = payload.thread_id;
+				persistCurrentId(this.config.group, payload.thread_id);
+			}
+			this.pending = this.pending.map((item) =>
+				item.localId === localId ? { ...item, id, uploading: false } : item
+			);
+		} catch (error) {
+			this.pending = this.pending.map((item) =>
+				item.localId === localId
+					? {
+							...item,
+							uploading: false,
+							error: error instanceof Error ? error.message : m.error_upload_failed()
+						}
+					: item
+			);
+		} finally {
+			releaseGate?.();
+			if (releaseGate) {
+				this.#uploadThreadGate = null;
+			}
+		}
 	}
 
 	async #sendRecording(): Promise<void> {
@@ -456,14 +714,293 @@ export class GroupChat {
 		}
 	}
 
-	async #openMic(constraints: {
-		echoCancellation: boolean;
-		noiseSuppression: boolean;
-	}): Promise<void> {
+	async #startRealtimeCall(): Promise<boolean> {
+		this.callState = 'listening';
+		this.#pauseVad = true;
+		this.#realtimePending = true;
+		this.#realtimeAgentTalking = false;
+		this.connect();
+		const seq = ++this.#realtimeSeq;
+		try {
+			const minted = await this.#mintRealtimeSession();
+			if (seq !== this.#realtimeSeq || !this.voiceMode) {
+				this.#realtimePending = false;
+				return true;
+			}
+			await this.#openMic({ echoCancellation: true, noiseSuppression: true }, { recorder: false });
+			if (seq !== this.#realtimeSeq || !this.voiceMode) {
+				this.#realtimePending = false;
+				return true;
+			}
+			if (!this.#mediaStream) {
+				throw new Error(m.error_mic_failed());
+			}
+			this.#realtime = await connectRealtimeCall(minted.clientSecret, this.#mediaStream, {
+				onFunctionCall: (call) => this.#runRealtimeTool(call.callId, call.name, call.arguments),
+				onTranscript: (transcript) => this.#onRealtimeTranscript(transcript),
+				onRemoteStream: (stream) => this.#listenRemoteAudio(stream),
+				onActivity: (activity) => this.#onRealtimeActivity(activity),
+				onError: (message) => {
+					this.error = message;
+				}
+			});
+			if (seq !== this.#realtimeSeq || !this.voiceMode) {
+				this.#realtime.disconnect();
+				this.#realtime = null;
+				this.#realtimePending = false;
+				return true;
+			}
+			this.#realtimePending = false;
+			this.callState = 'listening';
+			await this.#playbackContext?.resume();
+			return true;
+		} catch {
+			if (seq !== this.#realtimeSeq) {
+				this.#realtimePending = false;
+				return true;
+			}
+			this.#realtime?.disconnect();
+			this.#realtime = null;
+			this.#realtimePending = false;
+			this.#pauseVad = false;
+			await this.#stopRecording(true);
+			return false;
+		}
+	}
+
+	async #mintRealtimeSession(): Promise<{ clientSecret: string }> {
+		const response = await fetch(realtimeSessionUrl(this.config.apiUrl, this.config.group), {
+			method: 'POST',
+			headers: {
+				accept: 'application/json',
+				'content-type': 'application/json',
+				authorization: `Bearer ${this.config.apiKey}`
+			},
+			body: JSON.stringify({
+				visitorId: this.visitorId,
+				...(this.currentId ? { threadId: this.currentId } : {})
+			})
+		});
+		const payload = (await response.json().catch(() => ({}))) as {
+			client_secret?: unknown;
+			message?: unknown;
+		};
+		if (!response.ok || typeof payload.client_secret !== 'string' || !payload.client_secret) {
+			throw new Error(
+				typeof payload.message === 'string' ? payload.message : 'Realtime session failed'
+			);
+		}
+		return { clientSecret: payload.client_secret };
+	}
+
+	#runRealtimeTool(callId: string, name: string, args: string): Promise<string> {
+		if (!this.#ws || this.#ws.readyState !== WebSocket.OPEN) {
+			return Promise.resolve(JSON.stringify({ error: 'Chat is disconnected' }));
+		}
+		return new Promise((resolve, reject) => {
+			this.#toolWaiters.set(callId, { resolve, reject });
+			this.#ws?.send(
+				JSON.stringify({
+					type: 'chat.voice.tool',
+					callId,
+					name,
+					arguments: args
+				})
+			);
+		});
+	}
+
+	#failToolWaiters(): void {
+		for (const waiter of this.#toolWaiters.values()) {
+			waiter.reject(new Error('Call ended'));
+		}
+		this.#toolWaiters.clear();
+	}
+
+	#onRealtimeTranscript(transcript: {
+		role: 'customer' | 'agent';
+		text: string;
+		done: boolean;
+	}): void {
+		if (!this.voiceMode) {
+			return;
+		}
+		if (transcript.role === 'customer') {
+			if (!transcript.done) {
+				return;
+			}
+			const text = transcript.text.trim();
+			if (!text) {
+				return;
+			}
+			this.messages.push({
+				id: crypto.randomUUID(),
+				at: nowIso(),
+				role: 'customer',
+				text,
+				streaming: false
+			});
+			this.#commitVoiceTranscript('customer', text);
+			return;
+		}
+		if (!transcript.done) {
+			this.#agentTranscript += transcript.text;
+			this.#appendRealtimeAgent(this.#agentTranscript, false);
+			return;
+		}
+		const text = (transcript.text || this.#agentTranscript).trim();
+		this.#agentTranscript = '';
+		if (text) {
+			this.#appendRealtimeAgent(text, true);
+			this.#commitVoiceTranscript('agent', text);
+		}
+	}
+
+	#onRealtimeActivity(activity: RealtimeActivity): void {
+		if (!this.voiceMode) {
+			return;
+		}
+		if (activity === 'agent-start') {
+			this.#clearRealtimeListenTimer();
+			this.#clearHangupQuietTimer();
+			this.#realtimeAgentTalking = true;
+			this.callState = 'playing';
+			return;
+		}
+		if (activity === 'agent-end') {
+			this.#clearRealtimeListenTimer();
+			this.#realtimeListenTimer = setTimeout(() => {
+				this.#realtimeListenTimer = null;
+				this.#realtimeAgentTalking = false;
+				if (!this.voiceMode) {
+					return;
+				}
+				if (this.#toolWaiters.size > 0) {
+					this.callState = 'thinking';
+					return;
+				}
+				if (this.#hangupAfterSpeech || this.transferred || this.closed) {
+					this.hangup();
+					return;
+				}
+				this.callState = 'listening';
+			}, 1400);
+			return;
+		}
+		if (this.#hangupAfterSpeech || this.#realtimeAgentTalking) {
+			return;
+		}
+		this.callState = activity === 'user-start' ? 'speaking' : 'listening';
+	}
+
+	#clearRealtimeListenTimer(): void {
+		if (this.#realtimeListenTimer === null) {
+			return;
+		}
+		clearTimeout(this.#realtimeListenTimer);
+		this.#realtimeListenTimer = null;
+	}
+
+	#clearHangupQuietTimer(): void {
+		if (this.#hangupQuietTimer === null) {
+			return;
+		}
+		clearTimeout(this.#hangupQuietTimer);
+		this.#hangupQuietTimer = null;
+	}
+
+	#appendRealtimeAgent(text: string, done: boolean): void {
+		if (!this.#streamingId) {
+			const streaming: WidgetMessage = {
+				id: crypto.randomUUID(),
+				at: nowIso(),
+				role: 'agent',
+				text: '',
+				streaming: true
+			};
+			this.#streamingId = streaming.id;
+			this.messages.push(streaming);
+		}
+		const current = this.messages.find((message) => message.id === this.#streamingId);
+		if (current) {
+			current.text = text;
+			current.streaming = !done;
+		}
+		if (done) {
+			this.#streamingId = null;
+		}
+	}
+
+	#commitVoiceTranscript(role: 'customer' | 'agent', text: string): void {
+		if (!this.#ws || this.#ws.readyState !== WebSocket.OPEN) {
+			return;
+		}
+		this.#ws.send(
+			JSON.stringify({
+				type: 'chat.voice.commit',
+				role,
+				text
+			})
+		);
+	}
+
+	#listenRemoteAudio(stream: MediaStream): void {
+		this.#stopPlaybackMeter();
+		const Context = audioContextCtor();
+		if (!Context) {
+			return;
+		}
+		if (!this.#playbackContext || this.#playbackContext.state === 'closed') {
+			this.#playbackContext = new Context();
+		}
+		const context = this.#playbackContext;
+		void context.resume();
+		const source = context.createMediaStreamSource(stream);
+		const analyser = context.createAnalyser();
+		analyser.fftSize = 512;
+		analyser.smoothingTimeConstant = 0.85;
+		source.connect(analyser);
+		this.#playbackAnalyser = analyser;
+		const time = new Float32Array(analyser.fftSize);
+		let hold = { speaking: false, silentMs: 0 };
+		let smoothed = IDLE_LEVEL;
+		let lastNow = performance.now();
+		let published = IDLE_LEVEL;
+		const tick = (): void => {
+			if (!this.#playbackAnalyser || !this.#realtime) {
+				return;
+			}
+			const now = performance.now();
+			const dt = Math.min(80, now - lastNow);
+			lastNow = now;
+			this.#playbackAnalyser.getFloatTimeDomainData(time as Float32Array<ArrayBuffer>);
+			const { peak } = sampleEnergy(time);
+			hold = advancePlaybackHold(hold, peak, dt);
+			const target =
+				hold.speaking || this.#realtimeAgentTalking
+					? playbackOrbitEnergy(Math.min(1, Math.max(0.4, peak * 4)))
+					: IDLE_LEVEL;
+			smoothed = smoothPlaybackLevel(smoothed, target);
+			if (Math.abs(smoothed - published) >= 0.04) {
+				published = smoothed;
+				this.levels = Array.from({ length: WAVEFORM_BARS }, () => smoothed);
+			}
+			this.#playbackRaf = requestAnimationFrame(tick);
+		};
+		this.#playbackRaf = requestAnimationFrame(tick);
+	}
+
+	async #openMic(
+		constraints: {
+			echoCancellation: boolean;
+			noiseSuppression: boolean;
+		},
+		options: { recorder?: boolean } = {}
+	): Promise<void> {
 		if (
 			typeof navigator === 'undefined' ||
 			!navigator.mediaDevices?.getUserMedia ||
-			typeof MediaRecorder === 'undefined'
+			(options.recorder !== false && typeof MediaRecorder === 'undefined')
 		) {
 			this.error = m.error_dictation_unavailable();
 			return;
@@ -481,6 +1018,10 @@ export class GroupChat {
 			});
 			this.#mediaStream = stream;
 			this.#startWaveform(stream);
+			if (options.recorder === false) {
+				this.recording = true;
+				return;
+			}
 			this.#attachRecorder(stream);
 		} catch (error) {
 			this.#stopWaveform();
@@ -605,7 +1146,13 @@ export class GroupChat {
 				return;
 			}
 			const now = performance.now();
-			if (!(this.voiceMode && this.callState === 'playing')) {
+			if (
+				this.#realtime ||
+				this.#realtimePending ||
+				(this.voiceMode && this.callState === 'playing')
+			) {
+				this.#tapeLast = now;
+			} else {
 				this.#analyser.getFloatTimeDomainData(time as Float32Array<ArrayBuffer>);
 				const advanced = advanceTape(this.#tapeState, time, now, this.#tapeLast);
 				this.#tapeState = advanced.state;
@@ -614,8 +1161,6 @@ export class GroupChat {
 				this.waveTick += 1;
 				this.#tapeLast = advanced.tapeLast;
 				this.#tickVadEnergy(advanced.energy);
-			} else {
-				this.#tapeLast = now;
 			}
 			this.#analyserRaf = requestAnimationFrame(tick);
 		};
@@ -661,7 +1206,7 @@ export class GroupChat {
 	}
 
 	#tickVadEnergy(energy: number): void {
-		if (!this.voiceMode || this.closed || this.transferred) {
+		if (this.#realtime || !this.voiceMode || this.closed || this.transferred) {
 			return;
 		}
 		const result = tickVad({
@@ -778,6 +1323,10 @@ export class GroupChat {
 	}
 
 	#open(): void {
+		if (this.#reconnect) {
+			clearTimeout(this.#reconnect);
+			this.#reconnect = null;
+		}
 		this.#ws?.close();
 		const ws = new WebSocket(
 			toWsUrl(
@@ -835,11 +1384,21 @@ export class GroupChat {
 			this.#finishStream(event.text);
 			if (event.thread) {
 				this.#rememberThread(event.thread);
+				const fromThread = [...event.thread.messages]
+					.reverse()
+					.find((message) => message.role === 'agent');
+				if (fromThread?.attachments?.length) {
+					const local = [...this.messages].reverse().find((message) => message.role === 'agent');
+					if (local) {
+						local.attachments = fromThread.attachments;
+						local.id = fromThread.id;
+					}
+				}
 			}
 			this.busy = false;
 			if (
 				event.transferred ||
-				isTransferredStatus(event.thread.status) ||
+				isTransferredStatus(event.thread.status, event.thread.assignee) ||
 				isClosedStatus(event.thread.status)
 			) {
 				this.#requestHangupAfterSpeech();
@@ -857,10 +1416,57 @@ export class GroupChat {
 		}
 		if (event.type === 'chat.error') {
 			this.#clearTurnTimer();
-			this.error = event.message;
 			this.#dropEmptyStream();
 			this.busy = false;
+			if (this.ratingBusy) {
+				this.ratingBusy = false;
+				this.error = event.message;
+			} else if (!this.closed) {
+				this.error = event.message;
+			}
 			this.#maybeResumeCall();
+			return;
+		}
+		if (event.type === 'chat.rated') {
+			this.rated = true;
+			this.ratingBusy = false;
+			return;
+		}
+		if (event.type === 'chat.voice.committed') {
+			if (event.thread) {
+				this.#rememberThread(event.thread);
+			}
+			if (event.role === 'agent') {
+				this.#applyVoiceAttachments(
+					event.message?.attachments ?? lastAgentAttachments(event.thread)
+				);
+			}
+			return;
+		}
+		if (event.type === 'chat.voice.tool_result') {
+			const waiter = this.#toolWaiters.get(event.callId);
+			if (waiter) {
+				this.#toolWaiters.delete(event.callId);
+				waiter.resolve(event.output);
+			}
+			if (event.thread) {
+				this.currentId = event.thread.id;
+				persistCurrentId(this.config.group, event.thread.id);
+				this.status = event.thread.status;
+				this.transferred = isTransferredStatus(event.thread.status, event.thread.assignee);
+				this.#upsertHistory({
+					id: event.thread.id,
+					preview:
+						event.thread.preview || lastMessagePreview(this.messages) || m.conversation_new(),
+					updatedAt: event.thread.updatedAt,
+					status: event.thread.status,
+					assignee: event.thread.assignee
+				});
+			}
+			this.#applyVoiceAttachments(event.attachments ?? lastAgentAttachments(event.thread));
+			if (event.transferred || event.closed) {
+				this.#requestHangupAfterSpeech();
+			}
 			return;
 		}
 		if (event.type === 'thread.message' && event.message.role === 'operator') {
@@ -868,19 +1474,17 @@ export class GroupChat {
 			return;
 		}
 		if (event.type === 'thread.updated') {
-			this.#applyStatus(event.thread.status);
+			this.#applyStatus(event.thread.status, event.thread.assignee);
 			const existing = this.history.find((item) => item.id === event.thread.id);
 			if (existing) {
-				this.#upsertHistory({ ...existing, status: event.thread.status });
+				this.#upsertHistory({
+					...existing,
+					status: event.thread.status,
+					assignee: event.thread.assignee ?? existing.assignee
+				});
 			}
-			if (this.closed) {
-				this.hangup();
-				this.#resetComposer();
-				return;
-			}
-			if (this.transferred) {
+			if (this.closed || this.transferred) {
 				this.#requestHangupAfterSpeech();
-				this.#maybeResumeCall();
 			}
 			return;
 		}
@@ -896,20 +1500,29 @@ export class GroupChat {
 				this.messages = [];
 			}
 			this.transferred = false;
-			this.status = 'ai';
+			this.status = 'waiting_customer';
+			this.rated = false;
+			this.ratingBusy = false;
 			this.busy = false;
 			this.#streamingId = null;
 			this.#clearTurnTimer();
 			return;
 		}
+		this.rated = thread.rated === true;
+		this.ratingBusy = false;
+		if (thread.messages.length > 0) {
+			const previews = previewUrlsByAttachment(this.messages);
+			this.messages = threadToMessages(thread.messages).map((message) =>
+				keepAttachmentPreviews(message, previews)
+			);
+		}
 		this.#rememberThread(thread);
 		if ((this.transferred || this.closed) && this.voiceMode) {
-			this.hangup();
+			this.#requestHangupAfterSpeech();
 		}
 		if (thread.messages.length === 0) {
 			return;
 		}
-		this.messages = threadToMessages(thread.messages);
 		this.#streamingId = null;
 		this.busy = false;
 		this.#clearTurnTimer();
@@ -932,28 +1545,52 @@ export class GroupChat {
 				id: this.currentId,
 				preview: m.conversation_fallback(),
 				updatedAt: new Date().toISOString(),
-				status: 'ai'
+				status: 'waiting_customer'
 			});
 		}
 	}
 
-	#rememberThread(thread: Pick<SupportThread, 'id' | 'preview' | 'updatedAt' | 'status'>): void {
+	#rememberThread(
+		thread: Pick<
+			SupportThread,
+			'id' | 'preview' | 'updatedAt' | 'status' | 'assignee' | 'messages'
+		>
+	): void {
 		this.currentId = thread.id;
 		persistCurrentId(this.config.group, thread.id);
-		this.#applyStatus(thread.status);
+		this.#applyStatus(thread.status, thread.assignee);
 		this.#upsertHistory({
 			id: thread.id,
-			preview: thread.preview || lastMessagePreview(this.messages) || m.conversation_new(),
+			preview:
+				lastMessagePreview(thread.messages ?? this.messages) ||
+				thread.preview ||
+				m.conversation_new(),
 			updatedAt: thread.updatedAt,
-			status: thread.status
+			status: thread.status,
+			assignee: thread.assignee
 		});
 	}
 
-	#applyStatus(status: ThreadStatus): void {
+	#syncHistoryPreview(): void {
+		if (!this.currentId) {
+			return;
+		}
+		const existing = this.history.find((item) => item.id === this.currentId);
+		const preview = lastMessagePreview(this.messages);
+		if (!existing || !preview) {
+			return;
+		}
+		this.#upsertHistory({ ...existing, preview });
+	}
+
+	#applyStatus(status: ThreadStatus, assignee?: SupportThread['assignee']): void {
 		this.status = status;
-		this.transferred = isTransferredStatus(status);
-		if ((this.closed || this.transferred) && this.voiceMode) {
-			this.hangup();
+		this.transferred = isTransferredStatus(status, assignee);
+		if (!this.voiceMode) {
+			return;
+		}
+		if (this.closed || this.transferred) {
+			this.#requestHangupAfterSpeech();
 		}
 	}
 
@@ -971,6 +1608,7 @@ export class GroupChat {
 		this.#dictationSeq += 1;
 		this.transcribing = false;
 		this.draft = '';
+		this.#clearPending();
 		if (!this.voiceMode) {
 			void this.#stopRecording(true);
 		}
@@ -1218,10 +1856,12 @@ export class GroupChat {
 		this.#stopPlaybackMeter();
 		const analyser = context.createAnalyser();
 		analyser.fftSize = 256;
-		analyser.smoothingTimeConstant = 0.45;
+		analyser.smoothingTimeConstant = 0.8;
 		source.connect(analyser);
 		analyser.connect(context.destination);
 		this.#playbackAnalyser = analyser;
+		let smoothed = IDLE_LEVEL;
+		let published = IDLE_LEVEL;
 		const tick = (): void => {
 			if (!this.#playbackAnalyser) {
 				return;
@@ -1229,8 +1869,14 @@ export class GroupChat {
 			const data = new Float32Array(this.#playbackAnalyser.fftSize);
 			this.#playbackAnalyser.getFloatTimeDomainData(data as Float32Array<ArrayBuffer>);
 			const { peak } = sampleEnergy(data);
-			const level = Math.min(1, Math.max(IDLE_LEVEL, (peak * 6) ** 0.7));
-			this.levels = Array.from({ length: WAVEFORM_BARS }, () => level);
+			smoothed = smoothPlaybackLevel(
+				smoothed,
+				playbackOrbitEnergy(Math.min(1, Math.max(0.4, peak * 4)))
+			);
+			if (Math.abs(smoothed - published) >= 0.04) {
+				published = smoothed;
+				this.levels = Array.from({ length: WAVEFORM_BARS }, () => smoothed);
+			}
 			this.#playbackRaf = requestAnimationFrame(tick);
 		};
 		this.#playbackRaf = requestAnimationFrame(tick);
@@ -1273,10 +1919,26 @@ export class GroupChat {
 		}
 		this.#hangupAfterSpeech = true;
 		this.#pauseVad = true;
+		if (
+			this.#realtime &&
+			!this.#realtimeAgentTalking &&
+			this.#toolWaiters.size === 0 &&
+			this.#hangupQuietTimer === null
+		) {
+			this.#hangupQuietTimer = setTimeout(() => {
+				this.#hangupQuietTimer = null;
+				if (this.voiceMode && (this.#hangupAfterSpeech || this.transferred || this.closed)) {
+					this.hangup();
+				}
+			}, 8000);
+		}
 	}
 
 	#maybeResumeCall(): void {
 		if (!this.voiceMode) {
+			return;
+		}
+		if (this.#realtime) {
 			return;
 		}
 		if (this.#ttsPlaying || this.#ttsQueue.length > 0) {
@@ -1314,6 +1976,15 @@ export class GroupChat {
 		}
 	}
 
+	#applyVoiceAttachments(attachments: ThreadAttachment[] | undefined): void {
+		if (!attachments?.length) {
+			return;
+		}
+		this.messages = mergeAgentAttachments(this.messages, attachments, nowIso(), {
+			preferId: this.#streamingId
+		});
+	}
+
 	#upsertMessage(message: ThreadMessage): void {
 		if (this.messages.some((existing) => existing.id === message.id)) {
 			return;
@@ -1326,13 +1997,43 @@ export class GroupChat {
 			at: message.at,
 			role: message.role,
 			text: message.text,
-			streaming: false
+			streaming: false,
+			...(message.attachments && message.attachments.length > 0
+				? { attachments: message.attachments }
+				: {})
 		});
+		this.#syncHistoryPreview();
 	}
+}
+
+function kindForFile(file: File): 'image' | 'pdf' | null {
+	const type = file.type.split(';')[0]?.trim().toLowerCase() ?? '';
+	if (type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+		return 'pdf';
+	}
+	if (IMAGE_TYPES.has(type)) {
+		return 'image';
+	}
+	return null;
 }
 
 function isAbortError(error: unknown): boolean {
 	return error instanceof DOMException
 		? error.name === 'AbortError'
 		: error instanceof Error && error.name === 'AbortError';
+}
+
+function lastAgentAttachments(
+	thread: Pick<SupportThread, 'messages'> | null | undefined
+): ThreadAttachment[] {
+	if (!thread) {
+		return [];
+	}
+	for (let index = thread.messages.length - 1; index >= 0; index -= 1) {
+		const message = thread.messages[index];
+		if (message?.role === 'agent' && message.attachments?.length) {
+			return message.attachments;
+		}
+	}
+	return [];
 }

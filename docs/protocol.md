@@ -13,7 +13,9 @@ The SDK talks to a Cusu service. Public config uses **`group`** (slug). On the w
 | STT | `POST /transcribe` FormData: `file`, `company`, … |
 | TTS | `POST /tts` JSON: `text`, `company`, … |
 
-Language for STT/TTS is resolved server-side from the group record when `company` is sent; UI `locale` only affects widget chrome.
+Language for STT/TTS and widget chrome follows the group language. `GET /shop/:company` returns `language` and `rating_scale` (`stars_5` \| `thumbs` \| `faces_3`); optional `locale` on `initialize` is a fallback when boot has no supported locale.
+
+After a ticket is `resolved`, the widget sends `chat.rate` `{ value }` (1–5 stars, `0`/`1` thumbs, or 1–3 faces). The server replies `chat.rated`, or `chat.error` if the thread is not resolved, already rated, or the value is invalid. Other close reasons keep the closed banner only.
 
 ## Platform note
 

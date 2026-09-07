@@ -23,7 +23,7 @@ Cusu.initialize({
   group: 'acme-support',
   apiUrl: 'https://api.example.com',
   apiKey: 'pk_…',
-  locale: 'en', // optional: 'en' | 'cs'; otherwise browser preference
+  locale: 'en', // optional fallback; chrome follows the group language from boot
   showLauncher: true // optional; default true
 });
 

@@ -9,6 +9,7 @@ const base = (): CallUiState => ({
 	recording: false,
 	transcribing: false,
 	draft: '',
+	pendingCount: 0,
 	callState: 'idle'
 });
 
@@ -17,6 +18,7 @@ describe('canSend', () => {
 		['draft text when connected', { draft: 'hi' }, true],
 		['recording without draft', { recording: true }, true],
 		['empty draft and not recording', {}, false],
+		['pending attachments', { pendingCount: 1 }, true],
 		['whitespace-only draft', { draft: '   ' }, false],
 		['disconnected', { connected: false, draft: 'hi' }, false],
 		['closed', { closed: true, draft: 'hi' }, false],
