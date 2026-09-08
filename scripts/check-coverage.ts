@@ -6,9 +6,11 @@
  * clear table for the Actions log / local contributors.
  *
  * Reads `coverage/lcov.info` produced by `bun run test:coverage`.
+ *
+ * Optional: `--write-badge` writes `docs/badges/coverage.json` (shields.io endpoint).
  */
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
 
 const PURE_LINE_FLOOR = 0.9;
 const PURE_FN_FLOOR = 0.9;
@@ -141,10 +143,63 @@ for (const path of PURE_MODULES) {
 }
 
 console.log('');
-console.log(
-	`Pure-module line total: ${totalHit}/${totalFound} (${pct(ratio(totalHit, totalFound))})`
-);
+const totalRatio = ratio(totalHit, totalFound);
+const totalPct = pct(totalRatio);
+console.log(`Pure-module line total: ${totalHit}/${totalFound} (${totalPct})`);
 console.log('');
+
+const summaryPath = process.env.GITHUB_STEP_SUMMARY;
+if (summaryPath) {
+	const rows = PURE_MODULES.map((path) => {
+		const entry = findEntry(files, path);
+		if (!entry) {
+			return `| \`${path}\` | — | — | missing |`;
+		}
+		const lines = ratio(entry.linesHit, entry.linesFound);
+		const fns = ratio(entry.fnsHit, entry.fnsFound);
+		const ok = lines + 1e-9 >= PURE_LINE_FLOOR && fns + 1e-9 >= PURE_FN_FLOOR;
+		return `| \`${path}\` | ${pct(lines)} | ${pct(fns)} | ${ok ? 'pass' : 'fail'} |`;
+	});
+	writeFileSync(
+		summaryPath,
+		[
+			'## Pure-module coverage',
+			'',
+			`Total lines: **${totalPct}** (\`${totalHit}/${totalFound}\`) — floor ≥ ${pct(PURE_LINE_FLOOR)}`,
+			'',
+			'| Module | Lines | Functions | |',
+			'|--------|------:|----------:|:-:|',
+			...rows,
+			''
+		].join('\n'),
+		{ flag: 'a' }
+	);
+}
+
+if (process.argv.includes('--write-badge')) {
+	const badgePath = resolve(import.meta.dir, '..', 'docs', 'badges', 'coverage.json');
+	mkdirSync(dirname(badgePath), { recursive: true });
+	const color =
+		failures.length > 0 || totalRatio + 1e-9 < PURE_LINE_FLOOR
+			? 'red'
+			: totalRatio >= 0.95
+				? 'brightgreen'
+				: 'green';
+	writeFileSync(
+		badgePath,
+		`${JSON.stringify(
+			{
+				schemaVersion: 1,
+				label: 'coverage',
+				message: `${totalPct} pure`,
+				color
+			},
+			null,
+			'\t'
+		)}\n`
+	);
+	console.log(`Wrote ${badgePath}`);
+}
 
 if (failures.length > 0) {
 	console.error('Coverage policy failed:');

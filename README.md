@@ -1,6 +1,7 @@
 # @cusuai/web-sdk
 
-[![CI](https://github.com/cusuai/cusu-web-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/cusuai/cusu-web-sdk/actions/workflows/ci.yml)
+[![CI](https://github.com/cusuai/cusu-web-sdk/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/cusuai/cusu-web-sdk/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/cusuai/cusu-web-sdk/main/docs/badges/coverage.json)](./docs/testing.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 
 Framework-agnostic **customer chat + voice widget** for [Cusu](https://cusu.ai). Call `initialize` once; the messenger mounts into a Shadow DOM host on your page (no iframe CDN). Works with Svelte, React, Vue, or a plain `<script>` tag.

@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Realtime voice grant forwarding (`chat.voice.ready`)
 - Bearer `pk_` on dictation `/transcribe`
 - CI dependency audit (`bun audit`), Gitleaks CLI secret scan (no Action license), LCOV coverage artifact + pure-module floors
+- README coverage badge (`docs/badges/coverage.json` + shields.io endpoint) and Actions job summary
 - Docs: [docs/security-ci.md](./docs/security-ci.md)
 
 ### Changed

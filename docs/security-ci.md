@@ -91,9 +91,17 @@ Policy detail and “what we do not unit-test”: [testing.md](./testing.md).
 
 ## Badges
 
-The README CI badge points at this workflow. Coverage is not hosted on a third-party
-SaaS by default (keeps the OSS surface simple); the text summary + lcov artifact
-are the source of truth in Actions.
+| Badge | Source |
+|-------|--------|
+| CI | GitHub Actions workflow badge (`?branch=main`) |
+| Coverage | shields.io endpoint → [`docs/badges/coverage.json`](./badges/coverage.json) |
+
+CI regenerates `docs/badges/coverage.json` on every `main` push (pure-module line %).
+Each run also writes a coverage table to the **Actions job summary**.
+LCOV remains available as the `coverage-lcov` artifact (14 days).
+
+We do not use Codecov/Coveralls by default — the badge + summary + artifact are enough
+for OSS reviewers without a third-party account.
 
 ## Related scripts
 

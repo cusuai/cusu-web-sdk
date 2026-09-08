@@ -12,6 +12,8 @@ jobs:
   build:
     name: lint · test · audit · build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,7 +38,7 @@ jobs:
         run: bun run test:coverage
 
       - name: Enforce pure-module coverage floors
-        run: bun run test:coverage:check
+        run: bun run scripts/check-coverage.ts --write-badge
 
       - name: Upload coverage (lcov)
         uses: actions/upload-artifact@v4
@@ -45,6 +47,20 @@ jobs:
           name: coverage-lcov
           path: coverage/
           retention-days: 14
+
+      - name: Update coverage badge on main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- docs/badges/coverage.json; then
+            echo "Coverage badge unchanged"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/badges/coverage.json
+          git commit -m "chore: update coverage badge"
+          git push
 
       - name: Production build
         run: bun run build
