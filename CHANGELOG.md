@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Docs: [docs/security-ci.md](./docs/security-ci.md)
 
 ### Changed
+- README rewritten for open-source launch (quick start, API, signed identify, frameworks, contrib)
 - Widget scrollbars are hidden (scroll still works)
 - Customer voice calls are Realtime-only (no legacy VAD/TTS call fallback)
 
