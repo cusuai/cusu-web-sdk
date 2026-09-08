@@ -3,9 +3,9 @@ import {
 	apiBase,
 	chatAttachmentUploadUrl,
 	chatAttachmentUrl,
+	groupUrl,
 	identifyUrl,
 	realtimeSessionUrl,
-	groupUrl,
 	toWsUrl,
 	transcribeUrl,
 	ttsUrl
@@ -57,9 +57,7 @@ describe('endpoint helpers', () => {
 	});
 
 	it('builds transcribeUrl', () => {
-		expect(transcribeUrl('https://api.example.com/')).toBe(
-			'https://api.example.com/v1/transcribe'
-		);
+		expect(transcribeUrl('https://api.example.com/')).toBe('https://api.example.com/v1/transcribe');
 	});
 
 	it('builds ttsUrl', () => {
