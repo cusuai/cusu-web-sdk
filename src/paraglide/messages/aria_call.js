@@ -17,18 +17,28 @@ const sk_aria_call = /** @type {(inputs: Aria_CallInputs) => LocalizedString} */
 	return /** @type {LocalizedString} */ (`Hovor`)
 };
 
+const es_aria_call = /** @type {(inputs: Aria_CallInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Llamar`)
+};
+
+const de_aria_call = /** @type {(inputs: Aria_CallInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Anrufen`)
+};
+
 /**
 * | output |
 * | --- |
 * | "Call" |
 *
 * @param {Aria_CallInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" }} options
+* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" }} options
 * @returns {LocalizedString}
 */
-export const aria_call = /** @type {((inputs?: Aria_CallInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_CallInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_call = /** @type {((inputs?: Aria_CallInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_CallInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_aria_call(inputs)
 	if (locale === "sk") return sk_aria_call(inputs)
+	if (locale === "es") return es_aria_call(inputs)
+	if (locale === "de") return de_aria_call(inputs)
 	return en_aria_call(inputs)
 });

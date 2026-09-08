@@ -17,18 +17,28 @@ const sk_conversation_new = /** @type {(inputs: Conversation_NewInputs) => Local
 	return /** @type {LocalizedString} */ (`Nová konverzácia`)
 };
 
+const es_conversation_new = /** @type {(inputs: Conversation_NewInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Nueva conversación`)
+};
+
+const de_conversation_new = /** @type {(inputs: Conversation_NewInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Neue Unterhaltung`)
+};
+
 /**
 * | output |
 * | --- |
 * | "New conversation" |
 *
 * @param {Conversation_NewInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" }} options
+* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" }} options
 * @returns {LocalizedString}
 */
-export const conversation_new = /** @type {((inputs?: Conversation_NewInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_NewInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
+export const conversation_new = /** @type {((inputs?: Conversation_NewInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_NewInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_conversation_new(inputs)
 	if (locale === "sk") return sk_conversation_new(inputs)
+	if (locale === "es") return es_conversation_new(inputs)
+	if (locale === "de") return de_conversation_new(inputs)
 	return en_conversation_new(inputs)
 });

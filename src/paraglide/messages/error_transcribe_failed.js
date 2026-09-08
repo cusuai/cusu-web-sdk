@@ -17,18 +17,28 @@ const sk_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedIn
 	return /** @type {LocalizedString} */ (`Prepis sa nepodaril.`)
 };
 
+const es_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`No se pudo transcribir.`)
+};
+
+const de_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Die Transkription ist fehlgeschlagen.`)
+};
+
 /**
 * | output |
 * | --- |
 * | "Transcription failed." |
 *
 * @param {Error_Transcribe_FailedInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" }} options
+* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" }} options
 * @returns {LocalizedString}
 */
-export const error_transcribe_failed = /** @type {((inputs?: Error_Transcribe_FailedInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Transcribe_FailedInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_transcribe_failed = /** @type {((inputs?: Error_Transcribe_FailedInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Transcribe_FailedInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_error_transcribe_failed(inputs)
 	if (locale === "sk") return sk_error_transcribe_failed(inputs)
+	if (locale === "es") return es_error_transcribe_failed(inputs)
+	if (locale === "de") return de_error_transcribe_failed(inputs)
 	return en_error_transcribe_failed(inputs)
 });

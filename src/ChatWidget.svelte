@@ -196,7 +196,7 @@ function roleLabel(role: string): string {
 }
 
 function toDateLocale(locale: string): string {
-	return locale === 'sk' ? 'sk-SK' : locale === 'cs' ? 'cs-CZ' : 'en-US';
+	return locale === 'de' ? 'de-DE' : locale === 'es' ? 'es-ES' : locale === 'sk' ? 'sk-SK' : locale === 'cs' ? 'cs-CZ' : 'en-US';
 }
 
 const LOCALE = $derived(toDateLocale(getLocale()));

@@ -7,7 +7,7 @@ const dts = `export type CusuConfig = {
 	group: string;
 	apiUrl: string;
 	apiKey: string;
-	locale?: 'en' | 'cs' | 'sk';
+	locale?: 'en' | 'cs' | 'sk' | 'es' | 'de';
 	showLauncher?: boolean;
 };
 

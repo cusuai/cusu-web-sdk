@@ -17,18 +17,28 @@ const sk_placeholder_transcribing = /** @type {(inputs: Placeholder_Transcribing
 	return /** @type {LocalizedString} */ (`Prepisujem…`)
 };
 
+const es_placeholder_transcribing = /** @type {(inputs: Placeholder_TranscribingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transcribiendo…`)
+};
+
+const de_placeholder_transcribing = /** @type {(inputs: Placeholder_TranscribingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Wird transkribiert…`)
+};
+
 /**
 * | output |
 * | --- |
 * | "Transcribing…" |
 *
 * @param {Placeholder_TranscribingInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" }} options
+* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" }} options
 * @returns {LocalizedString}
 */
-export const placeholder_transcribing = /** @type {((inputs?: Placeholder_TranscribingInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Placeholder_TranscribingInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
+export const placeholder_transcribing = /** @type {((inputs?: Placeholder_TranscribingInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Placeholder_TranscribingInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_placeholder_transcribing(inputs)
 	if (locale === "sk") return sk_placeholder_transcribing(inputs)
+	if (locale === "es") return es_placeholder_transcribing(inputs)
+	if (locale === "de") return de_placeholder_transcribing(inputs)
 	return en_placeholder_transcribing(inputs)
 });

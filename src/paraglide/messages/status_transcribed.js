@@ -17,18 +17,28 @@ const sk_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => L
 	return /** @type {LocalizedString} */ (`Prepísané`)
 };
 
+const es_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transcrito`)
+};
+
+const de_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transkribiert`)
+};
+
 /**
 * | output |
 * | --- |
 * | "Transcribed" |
 *
 * @param {Status_TranscribedInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" }} options
+* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" }} options
 * @returns {LocalizedString}
 */
-export const status_transcribed = /** @type {((inputs?: Status_TranscribedInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_TranscribedInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
+export const status_transcribed = /** @type {((inputs?: Status_TranscribedInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_TranscribedInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_status_transcribed(inputs)
 	if (locale === "sk") return sk_status_transcribed(inputs)
+	if (locale === "es") return es_status_transcribed(inputs)
+	if (locale === "de") return de_status_transcribed(inputs)
 	return en_status_transcribed(inputs)
 });

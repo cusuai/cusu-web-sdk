@@ -17,18 +17,28 @@ const sk_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => L
 	return /** @type {LocalizedString} */ (`Stiahnuť súbor`)
 };
 
+const es_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Descargar archivo`)
+};
+
+const de_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Datei herunterladen`)
+};
+
 /**
 * | output |
 * | --- |
 * | "Download file" |
 *
 * @param {Aria_Download_FileInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" }} options
+* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" }} options
 * @returns {LocalizedString}
 */
-export const aria_download_file = /** @type {((inputs?: Aria_Download_FileInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Download_FileInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_download_file = /** @type {((inputs?: Aria_Download_FileInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Download_FileInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_aria_download_file(inputs)
 	if (locale === "sk") return sk_aria_download_file(inputs)
+	if (locale === "es") return es_aria_download_file(inputs)
+	if (locale === "de") return de_aria_download_file(inputs)
 	return en_aria_download_file(inputs)
 });

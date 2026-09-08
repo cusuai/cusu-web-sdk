@@ -17,18 +17,28 @@ const sk_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => Loc
 	return /** @type {LocalizedString} */ (`Spokojný`)
 };
 
+const es_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Contento`)
+};
+
+const de_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Zufrieden`)
+};
+
 /**
 * | output |
 * | --- |
 * | "Happy" |
 *
 * @param {Aria_Rating_HappyInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" }} options
+* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" }} options
 * @returns {LocalizedString}
 */
-export const aria_rating_happy = /** @type {((inputs?: Aria_Rating_HappyInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_HappyInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_rating_happy = /** @type {((inputs?: Aria_Rating_HappyInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_HappyInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_aria_rating_happy(inputs)
 	if (locale === "sk") return sk_aria_rating_happy(inputs)
+	if (locale === "es") return es_aria_rating_happy(inputs)
+	if (locale === "de") return de_aria_rating_happy(inputs)
 	return en_aria_rating_happy(inputs)
 });

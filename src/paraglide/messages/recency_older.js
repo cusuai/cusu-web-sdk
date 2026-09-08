@@ -17,18 +17,28 @@ const sk_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`Staršie`)
 };
 
+const es_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Anteriores`)
+};
+
+const de_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Älter`)
+};
+
 /**
 * | output |
 * | --- |
 * | "Older" |
 *
 * @param {Recency_OlderInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" }} options
+* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" }} options
 * @returns {LocalizedString}
 */
-export const recency_older = /** @type {((inputs?: Recency_OlderInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Recency_OlderInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
+export const recency_older = /** @type {((inputs?: Recency_OlderInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Recency_OlderInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_recency_older(inputs)
 	if (locale === "sk") return sk_recency_older(inputs)
+	if (locale === "es") return es_recency_older(inputs)
+	if (locale === "de") return de_recency_older(inputs)
 	return en_recency_older(inputs)
 });

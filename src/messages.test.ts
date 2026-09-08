@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import cs from '../messages/cs.json';
+import de from '../messages/de.json';
 import en from '../messages/en.json';
+import es from '../messages/es.json';
 import sk from '../messages/sk.json';
 import {
 	isVisibleWidgetRole,
@@ -194,18 +196,22 @@ const RATING_KEYS = [
 ] as const;
 
 describe('widget rating copy', () => {
-	it('has English, Czech, and Slovak keys', () => {
+	it('has English, Czech, Slovak, Spanish, and German keys', () => {
 		for (const key of RATING_KEYS) {
 			expect(en[key]).toBeTruthy();
 			expect(cs[key]).toBeTruthy();
 			expect(sk[key]).toBeTruthy();
+			expect(es[key]).toBeTruthy();
+			expect(de[key]).toBeTruthy();
 		}
 	});
 });
 
 describe('widget locale catalogs', () => {
-	it('keeps Czech and Slovak complete against English', () => {
+	it('keeps Czech, Slovak, Spanish, and German complete against English', () => {
 		expect(Object.keys(cs).sort()).toEqual(Object.keys(en).sort());
 		expect(Object.keys(sk).sort()).toEqual(Object.keys(en).sort());
+		expect(Object.keys(es).sort()).toEqual(Object.keys(en).sort());
+		expect(Object.keys(de).sort()).toEqual(Object.keys(en).sort());
 	});
 });

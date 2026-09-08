@@ -17,18 +17,28 @@ const sk_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`Ako sme to zvládli?`)
 };
 
+const es_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`¿Qué tal lo hemos hecho?`)
+};
+
+const de_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Wie zufrieden waren Sie?`)
+};
+
 /**
 * | output |
 * | --- |
 * | "How did we do?" |
 *
 * @param {Rating_PromptInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" }} options
+* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" }} options
 * @returns {LocalizedString}
 */
-export const rating_prompt = /** @type {((inputs?: Rating_PromptInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Rating_PromptInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
+export const rating_prompt = /** @type {((inputs?: Rating_PromptInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Rating_PromptInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_rating_prompt(inputs)
 	if (locale === "sk") return sk_rating_prompt(inputs)
+	if (locale === "es") return es_rating_prompt(inputs)
+	if (locale === "de") return de_rating_prompt(inputs)
 	return en_rating_prompt(inputs)
 });

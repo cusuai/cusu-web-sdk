@@ -17,18 +17,28 @@ const sk_role_you = /** @type {(inputs: Role_YouInputs) => LocalizedString} */ (
 	return /** @type {LocalizedString} */ (`Vy`)
 };
 
+const es_role_you = /** @type {(inputs: Role_YouInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Tú`)
+};
+
+const de_role_you = /** @type {(inputs: Role_YouInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Sie`)
+};
+
 /**
 * | output |
 * | --- |
 * | "You" |
 *
 * @param {Role_YouInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" }} options
+* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" }} options
 * @returns {LocalizedString}
 */
-export const role_you = /** @type {((inputs?: Role_YouInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Role_YouInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
+export const role_you = /** @type {((inputs?: Role_YouInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Role_YouInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_role_you(inputs)
 	if (locale === "sk") return sk_role_you(inputs)
+	if (locale === "es") return es_role_you(inputs)
+	if (locale === "de") return de_role_you(inputs)
 	return en_role_you(inputs)
 });

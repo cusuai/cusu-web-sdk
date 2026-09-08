@@ -17,18 +17,28 @@ const sk_conversation_closed = /** @type {(inputs: Conversation_ClosedInputs) =>
 	return /** @type {LocalizedString} */ (`Konverzácia je uzatvorená.`)
 };
 
+const es_conversation_closed = /** @type {(inputs: Conversation_ClosedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Esta conversación está cerrada.`)
+};
+
+const de_conversation_closed = /** @type {(inputs: Conversation_ClosedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Diese Unterhaltung ist geschlossen.`)
+};
+
 /**
 * | output |
 * | --- |
 * | "This conversation is closed." |
 *
 * @param {Conversation_ClosedInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" }} options
+* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" }} options
 * @returns {LocalizedString}
 */
-export const conversation_closed = /** @type {((inputs?: Conversation_ClosedInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_ClosedInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
+export const conversation_closed = /** @type {((inputs?: Conversation_ClosedInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_ClosedInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_conversation_closed(inputs)
 	if (locale === "sk") return sk_conversation_closed(inputs)
+	if (locale === "es") return es_conversation_closed(inputs)
+	if (locale === "de") return de_conversation_closed(inputs)
 	return en_conversation_closed(inputs)
 });

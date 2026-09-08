@@ -17,18 +17,28 @@ const sk_aria_gallery_prev = /** @type {(inputs: Aria_Gallery_PrevInputs) => Loc
 	return /** @type {LocalizedString} */ (`Predchádzajúci obrázok`)
 };
 
+const es_aria_gallery_prev = /** @type {(inputs: Aria_Gallery_PrevInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Imagen anterior`)
+};
+
+const de_aria_gallery_prev = /** @type {(inputs: Aria_Gallery_PrevInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Vorheriges Bild`)
+};
+
 /**
 * | output |
 * | --- |
 * | "Previous image" |
 *
 * @param {Aria_Gallery_PrevInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" }} options
+* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" }} options
 * @returns {LocalizedString}
 */
-export const aria_gallery_prev = /** @type {((inputs?: Aria_Gallery_PrevInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Gallery_PrevInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_gallery_prev = /** @type {((inputs?: Aria_Gallery_PrevInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Gallery_PrevInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_aria_gallery_prev(inputs)
 	if (locale === "sk") return sk_aria_gallery_prev(inputs)
+	if (locale === "es") return es_aria_gallery_prev(inputs)
+	if (locale === "de") return de_aria_gallery_prev(inputs)
 	return en_aria_gallery_prev(inputs)
 });

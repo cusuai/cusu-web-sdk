@@ -17,18 +17,28 @@ const sk_call_hearing = /** @type {(inputs: Call_HearingInputs) => LocalizedStri
 	return /** @type {LocalizedString} */ (`Počujem vás`)
 };
 
+const es_call_hearing = /** @type {(inputs: Call_HearingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Te oigo`)
+};
+
+const de_call_hearing = /** @type {(inputs: Call_HearingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Ich kann Sie hören`)
+};
+
 /**
 * | output |
 * | --- |
 * | "I can hear you" |
 *
 * @param {Call_HearingInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" }} options
+* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" }} options
 * @returns {LocalizedString}
 */
-export const call_hearing = /** @type {((inputs?: Call_HearingInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Call_HearingInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
+export const call_hearing = /** @type {((inputs?: Call_HearingInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Call_HearingInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_call_hearing(inputs)
 	if (locale === "sk") return sk_call_hearing(inputs)
+	if (locale === "es") return es_call_hearing(inputs)
+	if (locale === "de") return de_call_hearing(inputs)
 	return en_call_hearing(inputs)
 });
