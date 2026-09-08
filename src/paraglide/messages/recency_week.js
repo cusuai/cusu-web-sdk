@@ -13,17 +13,22 @@ const cs_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedStri
 	return /** @type {LocalizedString} */ (`Tento týden`)
 };
 
+const sk_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Tento týždeň`)
+};
+
 /**
 * | output |
 * | --- |
 * | "This week" |
 *
 * @param {Recency_WeekInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
-export const recency_week = /** @type {((inputs?: Recency_WeekInputs, options?: { locale?: "en" | "cs" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Recency_WeekInputs, { locale?: "en" | "cs" }, {}>} */ ((inputs = {}, options = {}) => {
+export const recency_week = /** @type {((inputs?: Recency_WeekInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Recency_WeekInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_recency_week(inputs)
+	if (locale === "sk") return sk_recency_week(inputs)
 	return en_recency_week(inputs)
 });

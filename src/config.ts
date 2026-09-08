@@ -3,7 +3,7 @@ export type CusuConfig = {
 	apiUrl: string;
 	apiKey: string;
 	/** Fallback when boot does not return a group language the widget can render. */
-	locale?: 'en' | 'cs';
+	locale?: 'en' | 'cs' | 'sk';
 	/** Floating launcher button; default true. Panel still opens via Cusu.open(). */
 	showLauncher?: boolean;
 };

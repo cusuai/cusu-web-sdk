@@ -13,17 +13,22 @@ const cs_aria_open_image = /** @type {(inputs: Aria_Open_ImageInputs) => Localiz
 	return /** @type {LocalizedString} */ (`Zobrazit obrázek`)
 };
 
+const sk_aria_open_image = /** @type {(inputs: Aria_Open_ImageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Zobraziť obrázok`)
+};
+
 /**
 * | output |
 * | --- |
 * | "View image" |
 *
 * @param {Aria_Open_ImageInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
-export const aria_open_image = /** @type {((inputs?: Aria_Open_ImageInputs, options?: { locale?: "en" | "cs" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Open_ImageInputs, { locale?: "en" | "cs" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_open_image = /** @type {((inputs?: Aria_Open_ImageInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Open_ImageInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_aria_open_image(inputs)
+	if (locale === "sk") return sk_aria_open_image(inputs)
 	return en_aria_open_image(inputs)
 });

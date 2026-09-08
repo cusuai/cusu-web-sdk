@@ -13,17 +13,22 @@ const cs_error_upload_failed = /** @type {(inputs: Error_Upload_FailedInputs) =>
 	return /** @type {LocalizedString} */ (`Soubor se nepodařilo nahrát.`)
 };
 
+const sk_error_upload_failed = /** @type {(inputs: Error_Upload_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Súbor sa nepodarilo nahrať.`)
+};
+
 /**
 * | output |
 * | --- |
 * | "Could not upload the file." |
 *
 * @param {Error_Upload_FailedInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
-export const error_upload_failed = /** @type {((inputs?: Error_Upload_FailedInputs, options?: { locale?: "en" | "cs" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Upload_FailedInputs, { locale?: "en" | "cs" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_upload_failed = /** @type {((inputs?: Error_Upload_FailedInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Upload_FailedInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_error_upload_failed(inputs)
+	if (locale === "sk") return sk_error_upload_failed(inputs)
 	return en_error_upload_failed(inputs)
 });

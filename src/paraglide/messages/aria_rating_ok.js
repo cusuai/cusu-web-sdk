@@ -13,17 +13,22 @@ const cs_aria_rating_ok = /** @type {(inputs: Aria_Rating_OkInputs) => Localized
 	return /** @type {LocalizedString} */ (`Neutrální`)
 };
 
+const sk_aria_rating_ok = /** @type {(inputs: Aria_Rating_OkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Neutrálny`)
+};
+
 /**
 * | output |
 * | --- |
 * | "Okay" |
 *
 * @param {Aria_Rating_OkInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
-export const aria_rating_ok = /** @type {((inputs?: Aria_Rating_OkInputs, options?: { locale?: "en" | "cs" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_OkInputs, { locale?: "en" | "cs" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_rating_ok = /** @type {((inputs?: Aria_Rating_OkInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_OkInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_aria_rating_ok(inputs)
+	if (locale === "sk") return sk_aria_rating_ok(inputs)
 	return en_aria_rating_ok(inputs)
 });

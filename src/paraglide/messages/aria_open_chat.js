@@ -13,17 +13,22 @@ const cs_aria_open_chat = /** @type {(inputs: Aria_Open_ChatInputs) => Localized
 	return /** @type {LocalizedString} */ (`Otevřít chat`)
 };
 
+const sk_aria_open_chat = /** @type {(inputs: Aria_Open_ChatInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Otvoriť chat`)
+};
+
 /**
 * | output |
 * | --- |
 * | "Open chat" |
 *
 * @param {Aria_Open_ChatInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
-export const aria_open_chat = /** @type {((inputs?: Aria_Open_ChatInputs, options?: { locale?: "en" | "cs" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Open_ChatInputs, { locale?: "en" | "cs" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_open_chat = /** @type {((inputs?: Aria_Open_ChatInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Open_ChatInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_aria_open_chat(inputs)
+	if (locale === "sk") return sk_aria_open_chat(inputs)
 	return en_aria_open_chat(inputs)
 });

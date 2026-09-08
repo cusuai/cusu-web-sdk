@@ -4,13 +4,13 @@
 * | "How did we do?" |
 *
 * @param {Rating_PromptInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
 export const rating_prompt: ((inputs?: Rating_PromptInputs, options?: {
-    locale?: "en" | "cs";
+    locale?: "en" | "cs" | "sk";
 }) => LocalizedString) & import("../runtime.js").MessageMetadata<Rating_PromptInputs, {
-    locale?: "en" | "cs";
+    locale?: "en" | "cs" | "sk";
 }, {}>;
 export type LocalizedString = import("../runtime.js").LocalizedString;
 export type Rating_PromptInputs = {};

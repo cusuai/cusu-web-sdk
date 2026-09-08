@@ -13,17 +13,22 @@ const cs_empty_chat_title = /** @type {(inputs: Empty_Chat_TitleInputs) => Local
 	return /** @type {LocalizedString} */ (`S čím ti můžu pomoct?`)
 };
 
+const sk_empty_chat_title = /** @type {(inputs: Empty_Chat_TitleInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`S čím vám môžem pomôcť?`)
+};
+
 /**
 * | output |
 * | --- |
 * | "How can I help?" |
 *
 * @param {Empty_Chat_TitleInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
-export const empty_chat_title = /** @type {((inputs?: Empty_Chat_TitleInputs, options?: { locale?: "en" | "cs" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Empty_Chat_TitleInputs, { locale?: "en" | "cs" }, {}>} */ ((inputs = {}, options = {}) => {
+export const empty_chat_title = /** @type {((inputs?: Empty_Chat_TitleInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Empty_Chat_TitleInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_empty_chat_title(inputs)
+	if (locale === "sk") return sk_empty_chat_title(inputs)
 	return en_empty_chat_title(inputs)
 });

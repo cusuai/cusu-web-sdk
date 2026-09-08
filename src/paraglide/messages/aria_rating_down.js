@@ -13,17 +13,22 @@ const cs_aria_rating_down = /** @type {(inputs: Aria_Rating_DownInputs) => Local
 	return /** @type {LocalizedString} */ (`Palec dolů`)
 };
 
+const sk_aria_rating_down = /** @type {(inputs: Aria_Rating_DownInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Palec dole`)
+};
+
 /**
 * | output |
 * | --- |
 * | "Thumbs down" |
 *
 * @param {Aria_Rating_DownInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
-export const aria_rating_down = /** @type {((inputs?: Aria_Rating_DownInputs, options?: { locale?: "en" | "cs" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_DownInputs, { locale?: "en" | "cs" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_rating_down = /** @type {((inputs?: Aria_Rating_DownInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_DownInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_aria_rating_down(inputs)
+	if (locale === "sk") return sk_aria_rating_down(inputs)
 	return en_aria_rating_down(inputs)
 });

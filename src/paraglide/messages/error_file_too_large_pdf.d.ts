@@ -4,13 +4,13 @@
 * | "PDFs can be at most 16 MB." |
 *
 * @param {Error_File_Too_Large_PdfInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
 export const error_file_too_large_pdf: ((inputs?: Error_File_Too_Large_PdfInputs, options?: {
-    locale?: "en" | "cs";
+    locale?: "en" | "cs" | "sk";
 }) => LocalizedString) & import("../runtime.js").MessageMetadata<Error_File_Too_Large_PdfInputs, {
-    locale?: "en" | "cs";
+    locale?: "en" | "cs" | "sk";
 }, {}>;
 export type LocalizedString = import("../runtime.js").LocalizedString;
 export type Error_File_Too_Large_PdfInputs = {};

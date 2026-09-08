@@ -13,17 +13,22 @@ const cs_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`PDF`)
 };
 
+const sk_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`PDF`)
+};
+
 /**
 * | output |
 * | --- |
 * | "PDF" |
 *
 * @param {File_Kind_PdfInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
-export const file_kind_pdf = /** @type {((inputs?: File_Kind_PdfInputs, options?: { locale?: "en" | "cs" }) => LocalizedString) & import('../runtime.js').MessageMetadata<File_Kind_PdfInputs, { locale?: "en" | "cs" }, {}>} */ ((inputs = {}, options = {}) => {
+export const file_kind_pdf = /** @type {((inputs?: File_Kind_PdfInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<File_Kind_PdfInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_file_kind_pdf(inputs)
+	if (locale === "sk") return sk_file_kind_pdf(inputs)
 	return en_file_kind_pdf(inputs)
 });

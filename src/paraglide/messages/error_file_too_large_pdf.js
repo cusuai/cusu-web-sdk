@@ -13,17 +13,22 @@ const cs_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_Pdf
 	return /** @type {LocalizedString} */ (`PDF může mít nejvýš 16 MB.`)
 };
 
+const sk_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_PdfInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`PDF môže mať najviac 16 MB.`)
+};
+
 /**
 * | output |
 * | --- |
 * | "PDFs can be at most 16 MB." |
 *
 * @param {Error_File_Too_Large_PdfInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
-export const error_file_too_large_pdf = /** @type {((inputs?: Error_File_Too_Large_PdfInputs, options?: { locale?: "en" | "cs" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_File_Too_Large_PdfInputs, { locale?: "en" | "cs" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_file_too_large_pdf = /** @type {((inputs?: Error_File_Too_Large_PdfInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_File_Too_Large_PdfInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_error_file_too_large_pdf(inputs)
+	if (locale === "sk") return sk_error_file_too_large_pdf(inputs)
 	return en_error_file_too_large_pdf(inputs)
 });

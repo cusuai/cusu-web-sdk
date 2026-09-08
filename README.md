@@ -113,7 +113,7 @@ The IIFE build exposes a global `Cusu` with the same API as the default export.
 | `group` | `string` | yes | Group slug from your Cusu install |
 | `apiUrl` | `string` | yes | Cusu service base URL (HTTPS in production) |
 | `apiKey` | `string` | yes | Public API key (`pk_…`) |
-| `locale` | `'en' \| 'cs'` | no | Fallback UI locale when boot language is missing/unsupported |
+| `locale` | `'en' \| 'cs' \| 'sk'` | no | Fallback UI locale when boot language is missing/unsupported |
 | `showLauncher` | `boolean` | no | Floating FAB; default `true` |
 
 Calling `initialize` again tears down the previous instance and boots a new one.

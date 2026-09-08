@@ -13,17 +13,22 @@ const cs_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => Localized
 	return /** @type {LocalizedString} */ (`Nahrávám`)
 };
 
+const sk_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Nahrávam`)
+};
+
 /**
 * | output |
 * | --- |
 * | "Recording" |
 *
 * @param {Aria_RecordingInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
-export const aria_recording = /** @type {((inputs?: Aria_RecordingInputs, options?: { locale?: "en" | "cs" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_RecordingInputs, { locale?: "en" | "cs" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_recording = /** @type {((inputs?: Aria_RecordingInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_RecordingInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_aria_recording(inputs)
+	if (locale === "sk") return sk_aria_recording(inputs)
 	return en_aria_recording(inputs)
 });

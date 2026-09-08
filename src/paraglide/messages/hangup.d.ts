@@ -4,13 +4,13 @@
 * | "Hang up" |
 *
 * @param {HangupInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
 export const hangup: ((inputs?: HangupInputs, options?: {
-    locale?: "en" | "cs";
+    locale?: "en" | "cs" | "sk";
 }) => LocalizedString) & import("../runtime.js").MessageMetadata<HangupInputs, {
-    locale?: "en" | "cs";
+    locale?: "en" | "cs" | "sk";
 }, {}>;
 export type LocalizedString = import("../runtime.js").LocalizedString;
 export type HangupInputs = {};

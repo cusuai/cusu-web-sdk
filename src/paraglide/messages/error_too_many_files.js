@@ -13,17 +13,22 @@ const cs_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) 
 	return /** @type {LocalizedString} */ (`Ke zprávě lze přiložit nejvýš 5 souborů.`)
 };
 
+const sk_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`K správe môžete priložiť najviac 5 súborov.`)
+};
+
 /**
 * | output |
 * | --- |
 * | "You can attach up to 5 files per message." |
 *
 * @param {Error_Too_Many_FilesInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
-export const error_too_many_files = /** @type {((inputs?: Error_Too_Many_FilesInputs, options?: { locale?: "en" | "cs" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Too_Many_FilesInputs, { locale?: "en" | "cs" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_too_many_files = /** @type {((inputs?: Error_Too_Many_FilesInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Too_Many_FilesInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_error_too_many_files(inputs)
+	if (locale === "sk") return sk_error_too_many_files(inputs)
 	return en_error_too_many_files(inputs)
 });

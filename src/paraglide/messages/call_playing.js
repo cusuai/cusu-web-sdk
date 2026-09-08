@@ -13,17 +13,22 @@ const cs_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedStri
 	return /** @type {LocalizedString} */ (`Asistent odpovídá`)
 };
 
+const sk_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Asistent odpovedá`)
+};
+
 /**
 * | output |
 * | --- |
 * | "Assistant is answering" |
 *
 * @param {Call_PlayingInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
-export const call_playing = /** @type {((inputs?: Call_PlayingInputs, options?: { locale?: "en" | "cs" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Call_PlayingInputs, { locale?: "en" | "cs" }, {}>} */ ((inputs = {}, options = {}) => {
+export const call_playing = /** @type {((inputs?: Call_PlayingInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Call_PlayingInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_call_playing(inputs)
+	if (locale === "sk") return sk_call_playing(inputs)
 	return en_call_playing(inputs)
 });

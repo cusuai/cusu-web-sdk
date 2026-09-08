@@ -13,17 +13,22 @@ const cs_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) =>
 	return /** @type {LocalizedString} */ (`Zpráva…`)
 };
 
+const sk_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Správa…`)
+};
+
 /**
 * | output |
 * | --- |
 * | "Message…" |
 *
 * @param {Placeholder_MessageInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
-export const placeholder_message = /** @type {((inputs?: Placeholder_MessageInputs, options?: { locale?: "en" | "cs" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Placeholder_MessageInputs, { locale?: "en" | "cs" }, {}>} */ ((inputs = {}, options = {}) => {
+export const placeholder_message = /** @type {((inputs?: Placeholder_MessageInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Placeholder_MessageInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_placeholder_message(inputs)
+	if (locale === "sk") return sk_placeholder_message(inputs)
 	return en_placeholder_message(inputs)
 });

@@ -13,17 +13,22 @@ const cs_empty_history_title = /** @type {(inputs: Empty_History_TitleInputs) =>
 	return /** @type {LocalizedString} */ (`Tady zatím nic není`)
 };
 
+const sk_empty_history_title = /** @type {(inputs: Empty_History_TitleInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Zatiaľ tu nič nie je`)
+};
+
 /**
 * | output |
 * | --- |
 * | "Nothing here yet" |
 *
 * @param {Empty_History_TitleInputs} inputs
-* @param {{ locale?: "en" | "cs" }} options
+* @param {{ locale?: "en" | "cs" | "sk" }} options
 * @returns {LocalizedString}
 */
-export const empty_history_title = /** @type {((inputs?: Empty_History_TitleInputs, options?: { locale?: "en" | "cs" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Empty_History_TitleInputs, { locale?: "en" | "cs" }, {}>} */ ((inputs = {}, options = {}) => {
+export const empty_history_title = /** @type {((inputs?: Empty_History_TitleInputs, options?: { locale?: "en" | "cs" | "sk" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Empty_History_TitleInputs, { locale?: "en" | "cs" | "sk" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "cs") return cs_empty_history_title(inputs)
+	if (locale === "sk") return sk_empty_history_title(inputs)
 	return en_empty_history_title(inputs)
 });

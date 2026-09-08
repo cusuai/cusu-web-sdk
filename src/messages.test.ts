@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import cs from '../messages/cs.json';
 import en from '../messages/en.json';
+import sk from '../messages/sk.json';
 import {
 	isVisibleWidgetRole,
 	keepAttachmentPreviews,
@@ -193,10 +194,18 @@ const RATING_KEYS = [
 ] as const;
 
 describe('widget rating copy', () => {
-	it('has English and Czech keys', () => {
+	it('has English, Czech, and Slovak keys', () => {
 		for (const key of RATING_KEYS) {
 			expect(en[key]).toBeTruthy();
 			expect(cs[key]).toBeTruthy();
+			expect(sk[key]).toBeTruthy();
 		}
+	});
+});
+
+describe('widget locale catalogs', () => {
+	it('keeps Czech and Slovak complete against English', () => {
+		expect(Object.keys(cs).sort()).toEqual(Object.keys(en).sort());
+		expect(Object.keys(sk).sort()).toEqual(Object.keys(en).sort());
 	});
 });
