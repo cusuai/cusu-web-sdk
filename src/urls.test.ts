@@ -5,7 +5,7 @@ import {
 	chatAttachmentUrl,
 	identifyUrl,
 	realtimeSessionUrl,
-	shopUrl,
+	groupUrl,
 	toWsUrl,
 	transcribeUrl,
 	ttsUrl
@@ -24,7 +24,7 @@ describe('apiBase', () => {
 describe('toWsUrl', () => {
 	it('converts http to ws and includes group/key query params', () => {
 		const url = toWsUrl('http://localhost:3000/', 'acme', 'secret', null, 'visitor-1');
-		expect(url.startsWith('ws://localhost:3000/ws/chat?')).toBe(true);
+		expect(url.startsWith('ws://localhost:3000/v1/ws/chat?')).toBe(true);
 		const params = new URL(url).searchParams;
 		expect(params.get('group')).toBe('acme');
 		expect(params.get('key')).toBe('secret');
@@ -34,7 +34,7 @@ describe('toWsUrl', () => {
 
 	it('converts https to wss and includes thread when present', () => {
 		const url = toWsUrl('https://api.example.com', 'group-a', 'key-1', 'thread-9', '');
-		expect(url.startsWith('wss://api.example.com/ws/chat?')).toBe(true);
+		expect(url.startsWith('wss://api.example.com/v1/ws/chat?')).toBe(true);
 		const params = new URL(url).searchParams;
 		expect(params.get('group')).toBe('group-a');
 		expect(params.get('key')).toBe('key-1');
@@ -44,29 +44,31 @@ describe('toWsUrl', () => {
 });
 
 describe('endpoint helpers', () => {
-	it('builds shopUrl with encoded group', () => {
-		expect(shopUrl('https://api.example.com/', 'acme/co')).toBe(
-			'https://api.example.com/shop/acme%2Fco'
+	it('builds groupUrl with encoded group', () => {
+		expect(groupUrl('https://api.example.com/', 'acme/co')).toBe(
+			'https://api.example.com/v1/group/acme%2Fco'
 		);
 	});
 
-	it('builds identifyUrl under shop', () => {
+	it('builds identifyUrl under group', () => {
 		expect(identifyUrl('https://api.example.com', 'acme')).toBe(
-			'https://api.example.com/shop/acme/identify'
+			'https://api.example.com/v1/group/acme/identify'
 		);
 	});
 
 	it('builds transcribeUrl', () => {
-		expect(transcribeUrl('https://api.example.com/')).toBe('https://api.example.com/transcribe');
+		expect(transcribeUrl('https://api.example.com/')).toBe(
+			'https://api.example.com/v1/transcribe'
+		);
 	});
 
 	it('builds ttsUrl', () => {
-		expect(ttsUrl('https://api.example.com')).toBe('https://api.example.com/tts');
+		expect(ttsUrl('https://api.example.com')).toBe('https://api.example.com/v1/tts');
 	});
 
-	it('builds realtimeSessionUrl under shop', () => {
+	it('builds realtimeSessionUrl under group', () => {
 		expect(realtimeSessionUrl('https://api.example.com', 'acme')).toBe(
-			'https://api.example.com/shop/acme/realtime-session'
+			'https://api.example.com/v1/group/acme/realtime-session'
 		);
 	});
 

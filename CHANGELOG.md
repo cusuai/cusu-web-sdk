@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `identify` first-class trait `gender?: 'male' | 'female' | 'other'`
 - Signed identify fields `signedAt` / `signature` (HMAC from your backend)
 - Realtime voice grant forwarding (`chat.voice.ready`)
-- Bearer `pk_` on dictation `/transcribe`
+- Bearer `pk_` on dictation `/v1/transcribe`
 - CI dependency audit (`bun audit`), Gitleaks CLI secret scan (no Action license), LCOV coverage artifact + pure-module floors
 - README coverage badge (`docs/badges/coverage.json` + shields.io endpoint) and Actions job summary
 - Docs: [docs/security-ci.md](./docs/security-ci.md)
@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - README rewritten for open-source launch (quick start, API, signed identify, frameworks, contrib)
 - Widget scrollbars are hidden (scroll still works)
 - Customer voice calls are Realtime-only (no legacy VAD/TTS call fallback)
+- Widget and voice endpoints are versioned (`/v1/group/…`, `/v1/ws/chat`, `/v1/transcribe`)
 
 ## [0.1.0] - 2026-09-03
 

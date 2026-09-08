@@ -17,7 +17,7 @@ npm install @cusuai/web-sdk
 
 - Floating launcher + chat panel (text, attachments, ratings)
 - Optional **Realtime voice** calls (WebRTC; server-minted session)
-- Dictation via `/transcribe` (Bearer public key)
+- Dictation via `/v1/transcribe` (Bearer public key)
 - `identify` for logged-in customers (optional HMAC signature from your backend)
 - Locales: English (`en`) and Czech (`cs`); chrome follows the group language from boot
 - Published builds: **ES module** (`dist/index.js`) + **IIFE** (`dist/cusu.iife.js`, global `Cusu`)
@@ -35,7 +35,7 @@ You need a running Cusu service and a **group** configured for the widget:
 | Public API key | Widget settings (`pk_…`) | Browser-safe; restrict with **allowed origins** |
 | Identify secret (optional) | Group settings (`isk_…`) | **Server only** — never ship to the browser |
 
-The SDK talks to the public shop surface (`GET/POST /shop/…`, `WS /ws/chat`). Wire details: [docs/protocol.md](./docs/protocol.md).
+The SDK talks to the public group surface (`GET/POST /v1/group/…`, `WS /v1/ws/chat`). Wire details: [docs/protocol.md](./docs/protocol.md).
 
 ---
 

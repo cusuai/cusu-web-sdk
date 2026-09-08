@@ -4,7 +4,7 @@ import { GroupChat } from './chat.svelte';
 import type { CusuConfig } from './config';
 import { resolveWidgetLocale } from './locale';
 import { setLocale } from './paraglide/runtime.js';
-import { identifyUrl, shopUrl } from './urls';
+import { groupUrl, identifyUrl } from './urls';
 import { ensureVisitorId } from './visitor';
 import widgetCss from './widget.css?inline';
 
@@ -122,7 +122,7 @@ async function boot(config: CusuConfig, id: number): Promise<void> {
 		return;
 	}
 	try {
-		const response = await fetch(shopUrl(config.apiUrl, group), {
+		const response = await fetch(groupUrl(config.apiUrl, group), {
 			headers: { authorization: `Bearer ${apiKey}` }
 		});
 		if (id !== bootId) {

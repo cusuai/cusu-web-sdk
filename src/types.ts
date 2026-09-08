@@ -77,6 +77,7 @@ export type SupportThread = {
 export type RatingScale = 'stars_5' | 'thumbs' | 'faces_3';
 
 export type ChatEvent =
+	| { type: 'ping' }
 	| { type: 'chat.ready'; thread: SupportThread | null }
 	| { type: 'chat.delta'; kind: 'thinking' | 'answer'; text: string }
 	| { type: 'chat.ask'; question: string; message?: ThreadMessage }

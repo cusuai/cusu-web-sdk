@@ -1304,6 +1304,9 @@ export class GroupChat {
 	}
 
 	#handle(event: ChatEvent): void {
+		if (event.type === 'ping') {
+			return;
+		}
 		if (event.type === 'chat.ready') {
 			this.#applyThread(event.thread);
 			this.#sendVoiceReady();

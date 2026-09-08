@@ -17,27 +17,27 @@ export function toWsUrl(
 	if (visitorId) {
 		params.set('visitor', visitorId);
 	}
-	return `${ws}/ws/chat?${params}`;
+	return `${ws}/v1/ws/chat?${params}`;
 }
 
-export function shopUrl(apiUrl: string, group: string): string {
-	return `${apiBase(apiUrl)}/shop/${encodeURIComponent(group)}`;
+export function groupUrl(apiUrl: string, group: string): string {
+	return `${apiBase(apiUrl)}/v1/group/${encodeURIComponent(group)}`;
 }
 
 export function identifyUrl(apiUrl: string, group: string): string {
-	return `${shopUrl(apiUrl, group)}/identify`;
+	return `${groupUrl(apiUrl, group)}/identify`;
 }
 
 export function transcribeUrl(apiUrl: string): string {
-	return `${apiBase(apiUrl)}/transcribe`;
+	return `${apiBase(apiUrl)}/v1/transcribe`;
 }
 
 export function ttsUrl(apiUrl: string): string {
-	return `${apiBase(apiUrl)}/tts`;
+	return `${apiBase(apiUrl)}/v1/tts`;
 }
 
 export function realtimeSessionUrl(apiUrl: string, group: string): string {
-	return `${shopUrl(apiUrl, group)}/realtime-session`;
+	return `${groupUrl(apiUrl, group)}/realtime-session`;
 }
 
 export function chatAttachmentUploadUrl(apiUrl: string): string {

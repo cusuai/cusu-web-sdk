@@ -1,19 +1,19 @@
 # Backend protocol
 
-The SDK talks to a Cusu service. Public config uses **`group`** (slug). On the wire, several fields/paths still say **`company`** — they take the same slug.
+The SDK talks to a Cusu service. Public config uses **`group`** (slug). Some request bodies still say **`company`** — they take the same slug.
 
 ## Map
 
-| SDK | Wire (current) |
-|-----|----------------|
-| `config.group` | Path `:company` / body `company` / query `company` / optional query `group` |
-| Gate | `GET /shop/:company` + `Authorization: Bearer {apiKey}` (+ optional `Origin`) |
-| Identify | `POST /shop/:company/identify` body: `visitorId`, `externalId`, `name?`, `email?`, `phone?`, `gender?`, `traits?`, `signedAt?`, `signature?` |
-| Realtime mint | `POST /shop/:company/realtime-session` → `{ client_secret, model, grant, … }` |
-| Chat | `WS /ws/chat?company={slug}&key={apiKey}&thread?&visitor?` |
+| SDK | Wire |
+|-----|------|
+| `config.group` | Path `:group` / body `company` / query `group` (legacy query `company` still accepted) |
+| Gate | `GET /v1/group/:group` + `Authorization: Bearer {apiKey}` (+ optional `Origin`) |
+| Identify | `POST /v1/group/:group/identify` body: `visitorId`, `externalId`, `name?`, `email?`, `phone?`, `gender?`, `traits?`, `signedAt?`, `signature?` |
+| Realtime mint | `POST /v1/group/:group/realtime-session` → `{ client_secret, model, grant, … }` |
+| Chat | `WS /v1/ws/chat?group={slug}&key={apiKey}&thread?&visitor?` |
 | Voice ready | WS `{ type: "chat.voice.ready", grant }` (one-time; enables voice commit/tool) |
-| STT (dictation) | `POST /transcribe` FormData: `file`, `company`, … + `Authorization: Bearer {apiKey}` or platform JWT |
-| TTS | `POST /tts` — **platform / session auth**; widget voice calls do not use this |
+| STT (dictation) | `POST /v1/transcribe` FormData: `file`, `company`, … + `Authorization: Bearer {apiKey}` or platform JWT |
+| TTS | `POST /v1/tts` — **platform / session auth**; widget voice calls do not use this |
 
 ## Identify signature
 
@@ -32,10 +32,10 @@ Empty optional fields are empty segments. Skew window is ±5 minutes. Sign on yo
 - Chat thread boot rejects visitor mismatch when the thread already has a `visitorId`.
 - Voice `chat.voice.commit` / `chat.voice.tool` require an activated Realtime grant.
 
-Language for STT/TTS and widget chrome follows the group language. `GET /shop/:company` returns `language`, `rating_scale`, and `voice_realtime`.
+Language for STT/TTS and widget chrome follows the group language. `GET /v1/group/:group` returns `language`, `rating_scale`, and `voice_realtime`.
 
 After a ticket is `resolved`, the widget sends `chat.rate` `{ value }`. The server replies `chat.rated`, or `chat.error` if invalid.
 
 ## Platform note
 
-Authenticated platform APIs use `/v1/groups/:id` (`grp_…`). The **widget** public surface remains `/shop/…` until the service renames it.
+Authenticated platform APIs use `/v1/groups/:id` (`grp_…`). The widget public surface is `/v1/group/:group` (slug or id).
