@@ -6,77 +6,77 @@ import { getLocale, experimentalStaticLocale } from '../runtime.js';
 /** @typedef {{}} Role_AssistantInputs */
 
 const en_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Assistant`)
+	return /** @type {LocalizedString} */ (`AI Assistant`)
 };
 
 const cs_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Asistent`)
+	return /** @type {LocalizedString} */ (`AI asistent`)
 };
 
 const sk_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Asistent`)
+	return /** @type {LocalizedString} */ (`AI asistent`)
 };
 
 const es_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Asistente`)
+	return /** @type {LocalizedString} */ (`Asistente de IA`)
 };
 
 const de_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Assistenz`)
+	return /** @type {LocalizedString} */ (`AI-Assistenz`)
 };
 
 const fr_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Assistant`)
+	return /** @type {LocalizedString} */ (`Assistant IA`)
 };
 
 const pl_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Asystent`)
+	return /** @type {LocalizedString} */ (`Asystent AI`)
 };
 
 const hu_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Asszisztens`)
+	return /** @type {LocalizedString} */ (`AI asszisztens`)
 };
 
 const it_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Assistente`)
+	return /** @type {LocalizedString} */ (`Assistente AI`)
 };
 
 const nl_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Assistent`)
+	return /** @type {LocalizedString} */ (`AI-assistent`)
 };
 
 const pt_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Assistente`)
+	return /** @type {LocalizedString} */ (`Assistente de IA`)
 };
 
 const da_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Assistent`)
+	return /** @type {LocalizedString} */ (`AI-assistent`)
 };
 
 const sl_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Asistent`)
+	return /** @type {LocalizedString} */ (`AI asistent`)
 };
 
 const hr_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Asistent`)
+	return /** @type {LocalizedString} */ (`AI asistent`)
 };
 
 const ro_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Asistent`)
+	return /** @type {LocalizedString} */ (`Asistent AI`)
 };
 
 const sv_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Assistent`)
+	return /** @type {LocalizedString} */ (`AI-assistent`)
 };
 
 const fi_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Avustaja`)
+	return /** @type {LocalizedString} */ (`AI-avustaja`)
 };
 
 /**
 * | output |
 * | --- |
-* | "Assistant" |
+* | "AI Assistant" |
 *
 * @param {Role_AssistantInputs} inputs
 * @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options

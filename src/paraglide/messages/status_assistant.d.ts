@@ -1,7 +1,7 @@
 /**
 * | output |
 * | --- |
-* | "Assistant" |
+* | "AI Assistant" |
 *
 * @param {Status_AssistantInputs} inputs
 * @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
