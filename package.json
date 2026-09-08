@@ -42,8 +42,10 @@
 		"lint": "biome check .",
 		"format": "biome check --write .",
 		"test": "bun test src",
-		"test:coverage": "bun test --coverage src",
-		"ci": "bun run lint && bun run check && bun run test:coverage && bun run build"
+		"test:coverage": "bun test --coverage --coverage-reporter=text --coverage-reporter=lcov src",
+		"test:coverage:check": "bun run scripts/check-coverage.ts",
+		"audit": "bun audit --audit-level=moderate",
+		"ci": "bun run lint && bun run check && bun run test:coverage && bun run test:coverage:check && bun run build && bun run audit"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.12",

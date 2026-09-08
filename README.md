@@ -89,16 +89,21 @@ Cusu.onError((error) => {
 
 ```bash
 bun install
-bun run dev      # watch build → dist/
+bun run dev                 # watch build → dist/
 bun run test
-bun run test:coverage
+bun run test:coverage       # text + coverage/lcov.info
+bun run test:coverage:check # pure-module ≥90% floors
+bun run audit               # bun audit (moderate+)
 bun run lint
 bun run check
 bun run build
-bun run ci
+bun run ci                  # full local gate (includes audit)
 ```
 
-See [docs/testing.md](./docs/testing.md) for coverage policy and [CONTRIBUTING.md](./CONTRIBUTING.md) for PR expectations.
+- Coverage policy: [docs/testing.md](./docs/testing.md)
+- CI scanners (audit, Gitleaks, coverage artifacts): [docs/security-ci.md](./docs/security-ci.md)
+- Contributing: [CONTRIBUTING.md](./CONTRIBUTING.md)
+- Security reporting & integrator notes: [SECURITY.md](./SECURITY.md)
 
 ## License
 

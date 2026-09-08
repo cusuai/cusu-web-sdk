@@ -1496,10 +1496,7 @@ export class GroupChat {
 	}
 
 	#rememberThread(
-		thread: Pick<
-			SupportThread,
-			'id' | 'preview' | 'updatedAt' | 'status' | 'assignee' | 'messages'
-		>
+		thread: Pick<SupportThread, 'id' | 'preview' | 'updatedAt' | 'status' | 'assignee' | 'messages'>
 	): void {
 		this.currentId = thread.id;
 		persistCurrentId(this.config.group, thread.id);

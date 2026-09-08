@@ -1,0 +1,23 @@
+# Gitleaks configuration for @cusuai/web-sdk
+# https://github.com/gitleaks/gitleaks
+
+title = "cusu-web-sdk"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Documentation and test placeholders — never real credentials"
+paths = [
+  '''(.*?)CHANGELOG\.md$''',
+  '''(.*?)LICENSE$''',
+]
+
+regexTarget = "match"
+regexes = [
+  # Public API key *shape* used in README / protocol docs (pk_… ellipsis or demo-looking tokens in prose).
+  '''pk_…''',
+  '''isk_…''',
+  '''pk_\.\.\.''',
+  '''isk_\.\.\.''',
+]

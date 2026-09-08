@@ -1,0 +1,21 @@
+[test]
+# Coverage is opted in via `bun test --coverage` / `bun run test:coverage`
+# so everyday `bun test` stays fast for local TDD.
+coverageSkipTestFiles = true
+coverageReporter = ["text", "lcov"]
+coverageDir = "coverage"
+# Out of unit-test scope (see docs/testing.md). Orchestration / UI is ignored so
+# Bun's per-file coverageThreshold does not punish intentionally untested shells.
+coveragePathIgnorePatterns = [
+	"src/paraglide/**",
+	"**/*.svelte",
+	"src/chat.svelte.ts",
+	"src/realtime-call.ts",
+	"src/index.ts",
+	"src/visitor.ts",
+	"src/locale.ts",
+	"src/markdown.ts",
+	"src/config.ts"
+]
+# Remaining instrumented files (mostly pure helpers) must stay above this floor.
+coverageThreshold = { lines = 0.9, functions = 0.9 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { type CallUiState, canSend, canStartCall, orbitTone } from './call-status';
+import { type CallUiState, callStatusLabel, canSend, canStartCall, orbitTone } from './call-status';
 
 const base = (): CallUiState => ({
 	connected: true,
@@ -53,5 +53,20 @@ describe('orbitTone', () => {
 		['cold when idle call state', { voiceMode: true, callState: 'idle' as const }, 'cold']
 	] as const)('%s', (_label, overrides, expected) => {
 		expect(orbitTone({ ...base(), ...overrides })).toBe(expected);
+	});
+});
+
+describe('callStatusLabel', () => {
+	it('returns a distinct non-empty label for every status branch', () => {
+		const labels = [
+			callStatusLabel({ ...base(), transcribing: true }),
+			callStatusLabel({ ...base(), callState: 'speaking' }),
+			callStatusLabel({ ...base(), callState: 'thinking' }),
+			callStatusLabel({ ...base(), callState: 'playing' }),
+			callStatusLabel({ ...base(), callState: 'listening' })
+		];
+
+		expect(labels.every((label) => label.length > 0)).toBe(true);
+		expect(new Set(labels).size).toBe(labels.length);
 	});
 });

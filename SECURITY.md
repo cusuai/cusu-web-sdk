@@ -4,6 +4,16 @@
 
 Please report security issues privately to the maintainers (GitHub Security Advisories on [cusuai/cusu-web-sdk](https://github.com/cusuai/cusu-web-sdk) preferred). Do not open public issues for undisclosed vulnerabilities.
 
+## Automated checks (this repository)
+
+Every push and pull request runs:
+
+- **Dependency audit** — `bun audit --audit-level=moderate`
+- **Secret scan** — Gitleaks on the checkout
+- **Unit tests + coverage floors** — including pure-module ≥ 90% gates
+
+Details for contributors and auditors: [docs/security-ci.md](./docs/security-ci.md).
+
 ## Notes for integrators
 
 - Public API keys (`pk_…`) are intended for browser use. Treat them as publishable but rotate if abused.

@@ -11,17 +11,17 @@ import { prefersReducedMotion } from 'svelte/motion';
 import { fly, type TransitionConfig } from 'svelte/transition';
 import AttachmentGallery from './AttachmentGallery.svelte';
 import CusuMark from './CusuMark.svelte';
-import FileAttachment from './FileAttachment.svelte';
 import type { ConversationSummary, GroupChat } from './chat.svelte';
-import { isClosedStatus, isTransferredStatus } from './types';
-import type { ThreadAttachment } from './messages';
+import FileAttachment from './FileAttachment.svelte';
 import { formatRowWhen, formatWhen, groupHistory, type RecencyId } from './history';
 import Icon from './Icon.svelte';
 import Markdown from './Markdown.svelte';
+import type { ThreadAttachment } from './messages';
 import Orbit from './Orbit.svelte';
 import * as m from './paraglide/messages.js';
 import { getLocale } from './paraglide/runtime.js';
 import { scrollToBottom } from './scroll';
+import { isClosedStatus, isTransferredStatus } from './types';
 import Waveform from './Waveform.svelte';
 
 let { chat }: { chat: GroupChat } = $props();
@@ -389,10 +389,14 @@ const showCall = $derived(
 												src={chat.attachmentSrc(attachment)}
 												alt=""
 												class="size-10 shrink-0 rounded-xl object-cover"
-											/>
+											>
 											<span class="min-w-0 flex-1">
-												<span class="block truncate text-sm font-medium">{attachment.filename}</span>
-												<span class="block text-[11px] text-muted-foreground">{m.file_kind_image()}</span>
+												<span class="block truncate text-sm font-medium"
+													>{attachment.filename}</span
+												>
+												<span class="block text-[11px] text-muted-foreground"
+													>{m.file_kind_image()}</span
+												>
 											</span>
 										</button>
 									{:else}
@@ -468,7 +472,7 @@ const showCall = $derived(
 												src={chat.attachmentSrc(attachment)}
 												alt={attachment.filename}
 												class="max-h-48 w-auto max-w-full rounded-2xl object-cover"
-											/>
+											>
 										</button>
 									{/each}
 								</div>
@@ -658,7 +662,7 @@ const showCall = $derived(
 												class="relative max-w-[7.5rem] overflow-hidden rounded-2xl bg-muted text-xs"
 											>
 												{#if item.previewUrl}
-													<img src={item.previewUrl} alt={item.name} class="h-16 w-24 object-cover" />
+													<img src={item.previewUrl} alt={item.name} class="h-16 w-24 object-cover">
 												{:else}
 													<p class="truncate px-2 py-3">{item.name}</p>
 												{/if}
@@ -671,7 +675,9 @@ const showCall = $derived(
 													<Icon icon={Cancel01Icon} class="size-3" strokeWidth={2} />
 												</button>
 												{#if item.uploading}
-													<span class="absolute inset-x-0 bottom-0 bg-black/50 px-1 py-0.5 text-[10px] text-white">
+													<span
+														class="absolute inset-x-0 bottom-0 bg-black/50 px-1 py-0.5 text-[10px] text-white"
+													>
 														…
 													</span>
 												{/if}
@@ -700,7 +706,7 @@ const showCall = $derived(
 									multiple
 									class="hidden"
 									onchange={onFilePicked}
-								/>
+								>
 								<div class="absolute right-2 bottom-2 z-10 flex items-center gap-1">
 									<button
 										type="button"

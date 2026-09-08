@@ -1,4 +1,4 @@
-import { toLocale, type Locale } from './paraglide/runtime.js';
+import { type Locale, toLocale } from './paraglide/runtime.js';
 
 export function resolveWidgetLocale(
 	groupLanguage: unknown,

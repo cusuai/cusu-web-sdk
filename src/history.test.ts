@@ -1,164 +1,220 @@
-import { describe, expect, it } from 'bun:test';
+import { afterEach, describe, expect, it } from 'bun:test';
 import {
 	type ConversationSummary,
+	formatRowWhen,
+	formatWhen,
 	groupHistory,
+	HISTORY_LIMIT,
+	historyKey,
 	isConversationSummary,
 	lastMessagePreview,
+	loadCurrentId,
 	loadHistory,
 	parseHistory,
+	persistCurrentId,
+	persistHistory,
 	recencyId,
+	startOfDay,
+	storageKey,
 	upsertHistory
 } from './history';
 
-const summary = (overrides: Partial<ConversationSummary> = {}): ConversationSummary => ({
-	id: 't1',
-	preview: 'hello',
-	updatedAt: '2026-09-03T12:00:00.000Z',
-	status: 'waiting_customer',
-	...overrides
+class MemoryStorage {
+	readonly values = new Map<string, string>();
+	throwOn?: 'get' | 'set' | 'remove';
+
+	getItem(key: string): string | null {
+		if (this.throwOn === 'get') throw new Error('get failed');
+		return this.values.get(key) ?? null;
+	}
+
+	setItem(key: string, value: string): void {
+		if (this.throwOn === 'set') throw new Error('set failed');
+		this.values.set(key, value);
+	}
+
+	removeItem(key: string): void {
+		if (this.throwOn === 'remove') throw new Error('remove failed');
+		this.values.delete(key);
+	}
+}
+
+const originalLocalStorage = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
+const originalSessionStorage = Object.getOwnPropertyDescriptor(globalThis, 'sessionStorage');
+
+function useStorage() {
+	const local = new MemoryStorage();
+	const session = new MemoryStorage();
+	Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: local });
+	Object.defineProperty(globalThis, 'sessionStorage', { configurable: true, value: session });
+	return { local, session };
+}
+
+function restoreStorage(name: 'localStorage' | 'sessionStorage', descriptor?: PropertyDescriptor) {
+	if (descriptor) {
+		Object.defineProperty(globalThis, name, descriptor);
+	} else {
+		Reflect.deleteProperty(globalThis, name);
+	}
+}
+
+afterEach(() => {
+	restoreStorage('localStorage', originalLocalStorage);
+	restoreStorage('sessionStorage', originalSessionStorage);
 });
 
-describe('isConversationSummary', () => {
-	it('accepts valid summaries', () => {
-		expect(isConversationSummary(summary())).toBe(true);
-		expect(isConversationSummary(summary({ status: 'waiting_us' }))).toBe(true);
-		expect(isConversationSummary(summary({ status: 'ai_replying' }))).toBe(true);
-		expect(isConversationSummary(summary({ status: 'waiting' }))).toBe(true);
-		expect(isConversationSummary(summary({ status: 'human' }))).toBe(true);
-		expect(isConversationSummary(summary({ status: 'resolved' }))).toBe(true);
-		expect(isConversationSummary(summary({ status: 'needs_operator' }))).toBe(true);
-		expect(isConversationSummary(summary({ status: 'no_response' }))).toBe(true);
+const summary = (
+	id: string,
+	updatedAt = '2026-09-08T08:00:00.000Z',
+	status: ConversationSummary['status'] = 'waiting_customer'
+): ConversationSummary => ({ id, preview: `Preview ${id}`, updatedAt, status });
+
+describe('history keys and parsing', () => {
+	it('builds group-specific storage keys', () => {
+		expect(storageKey('support')).toBe('cusu:support:thread');
+		expect(historyKey('support')).toBe('cusu:support:thread-history');
 	});
 
-	it('rejects invalid shapes', () => {
-		expect(isConversationSummary(null)).toBe(false);
-		expect(isConversationSummary('x')).toBe(false);
-		expect(isConversationSummary({ ...summary(), status: 'unknown' })).toBe(false);
-		expect(isConversationSummary({ id: 1, preview: 'a', updatedAt: 'b', status: 'waiting_customer' })).toBe(
-			false
-		);
+	it('recognizes valid summaries, including every legacy status', () => {
+		const statuses: ConversationSummary['status'][] = [
+			'waiting_customer',
+			'waiting_us',
+			'ai_replying',
+			'resolved',
+			'no_response',
+			'inappropriate',
+			'ai',
+			'waiting',
+			'human',
+			'needs_operator'
+		];
+		for (const status of statuses) {
+			expect(isConversationSummary(summary(status, undefined, status))).toBe(true);
+		}
+	});
+
+	it('rejects malformed summaries and filters them while parsing', () => {
+		const valid = summary('valid');
+		const invalid = [
+			null,
+			'text',
+			{},
+			{ ...valid, id: 1 },
+			{ ...valid, preview: 1 },
+			{ ...valid, updatedAt: 1 },
+			{ ...valid, status: 'unknown' }
+		];
+		for (const value of invalid) {
+			expect(isConversationSummary(value)).toBe(false);
+		}
+		expect(parseHistory([valid, ...invalid])).toEqual([valid]);
+		expect(parseHistory({ item: valid })).toEqual([]);
 	});
 });
 
-describe('parseHistory', () => {
-	it('returns empty for non-arrays', () => {
-		expect(parseHistory(null)).toEqual([]);
-		expect(parseHistory({})).toEqual([]);
-	});
-
-	it('filters invalid entries', () => {
+describe('history summaries', () => {
+	it('finds the last non-empty message and strips simple markdown', () => {
 		expect(
-			parseHistory([summary(), { id: 'bad' }, summary({ id: 't2', status: 'human' })])
-		).toEqual([summary(), summary({ id: 't2', status: 'human' })]);
+			lastMessagePreview([{ text: 'first' }, { text: '  **Bold** and `code` \n here  ' }])
+		).toBe('Bold and code here');
+		expect(lastMessagePreview([{ text: 'kept' }, { text: '   ' }])).toBe('kept');
+		expect(lastMessagePreview([])).toBe('');
+	});
+
+	it('truncates previews longer than 80 characters', () => {
+		const text = 'x'.repeat(81);
+		expect(lastMessagePreview([{ text }])).toBe(`${'x'.repeat(80)}…`);
+	});
+
+	it('replaces duplicate ids and sorts newest first', () => {
+		const old = summary('same', '2026-01-01T00:00:00.000Z');
+		const middle = summary('middle', '2026-02-01T00:00:00.000Z');
+		const replacement = { ...summary('same', '2026-03-01T00:00:00.000Z'), preview: 'new' };
+		expect(upsertHistory([old, middle], replacement)).toEqual([replacement, middle]);
 	});
 });
 
-describe('loadHistory', () => {
-	it('returns empty for bad JSON in localStorage', () => {
-		const original = globalThis.localStorage;
-		const store = new Map<string, string>();
-		Object.defineProperty(globalThis, 'localStorage', {
-			configurable: true,
-			value: {
-				getItem: (key: string) => store.get(key) ?? null,
-				setItem: (key: string, value: string) => {
-					store.set(key, value);
-				},
-				removeItem: (key: string) => {
-					store.delete(key);
-				}
-			}
-		});
-		try {
-			store.set('cusu:acme:thread-history', '{not-json');
-			expect(loadHistory('acme')).toEqual([]);
-			store.set('cusu:acme:thread-history', JSON.stringify([{ id: 'only-id' }]));
-			expect(loadHistory('acme')).toEqual([]);
-			store.set('cusu:acme:thread-history', JSON.stringify([summary({ id: 'ok' })]));
-			expect(loadHistory('acme')).toEqual([summary({ id: 'ok' })]);
-		} finally {
-			Object.defineProperty(globalThis, 'localStorage', {
-				configurable: true,
-				value: original
-			});
-		}
+describe('storage persistence', () => {
+	it('loads the current id from local storage, then session storage', () => {
+		const { local, session } = useStorage();
+		session.setItem(storageKey('g'), 'session-id');
+		expect(loadCurrentId('g')).toBe('session-id');
+		local.setItem(storageKey('g'), 'local-id');
+		expect(loadCurrentId('g')).toBe('local-id');
 	});
-});
 
-describe('lastMessagePreview', () => {
-	it('strips markdown and collapses whitespace', () => {
-		expect(lastMessagePreview([{ text: '**Bold** and `code`  with\nspaces' }])).toBe(
-			'Bold and code with spaces'
+	it('persists and clears the current id in both stores', () => {
+		const { local, session } = useStorage();
+		persistCurrentId('g', 'thread-id');
+		expect(local.getItem(storageKey('g'))).toBe('thread-id');
+		expect(session.getItem(storageKey('g'))).toBe('thread-id');
+		persistCurrentId('g', null);
+		expect(local.getItem(storageKey('g'))).toBeNull();
+		expect(session.getItem(storageKey('g'))).toBeNull();
+	});
+
+	it('loads valid persisted history and handles missing or malformed data', () => {
+		const { local } = useStorage();
+		expect(loadHistory('g')).toEqual([]);
+		local.setItem(historyKey('g'), JSON.stringify([summary('valid'), { bad: true }]));
+		expect(loadHistory('g')).toEqual([summary('valid')]);
+		local.setItem(historyKey('g'), '{');
+		expect(loadHistory('g')).toEqual([]);
+	});
+
+	it('limits persisted history to HISTORY_LIMIT entries', () => {
+		const { local } = useStorage();
+		const items = Array.from({ length: HISTORY_LIMIT + 2 }, (_, index) => summary(String(index)));
+		persistHistory('g', items);
+		expect(JSON.parse(local.getItem(historyKey('g')) ?? '[]')).toEqual(
+			items.slice(0, HISTORY_LIMIT)
 		);
 	});
 
-	it('truncates long text with an ellipsis', () => {
-		const long = 'a'.repeat(90);
-		expect(lastMessagePreview([{ text: long }])).toBe(`${'a'.repeat(80)}…`);
-	});
-
-	it('skips empty messages and walks backwards', () => {
-		expect(lastMessagePreview([{ text: 'first' }, { text: '   ' }, { text: '**last**' }])).toBe(
-			'last'
-		);
-		expect(lastMessagePreview([{ text: '' }, { text: '   ' }])).toBe('');
-	});
-});
-
-describe('upsertHistory', () => {
-	it('inserts, replaces by id, and sorts by updatedAt desc', () => {
-		const older = summary({ id: 'a', updatedAt: '2026-01-01T00:00:00.000Z' });
-		const newer = summary({ id: 'b', updatedAt: '2026-02-01T00:00:00.000Z' });
-		const updated = summary({
-			id: 'a',
-			preview: 'updated',
-			updatedAt: '2026-03-01T00:00:00.000Z'
-		});
-		expect(upsertHistory([older, newer], updated)).toEqual([updated, newer]);
+	it('ignores storage access failures', () => {
+		const { local, session } = useStorage();
+		local.throwOn = 'get';
+		expect(loadCurrentId('g')).toBeNull();
+		expect(loadHistory('g')).toEqual([]);
+		local.throwOn = 'set';
+		expect(() => persistCurrentId('g', 'id')).not.toThrow();
+		expect(() => persistHistory('g', [summary('id')])).not.toThrow();
+		local.throwOn = 'remove';
+		expect(() => persistCurrentId('g', null)).not.toThrow();
+		session.throwOn = 'set';
+		expect(() => persistCurrentId('g', 'id')).not.toThrow();
 	});
 });
 
-describe('recencyId', () => {
-	const now = new Date('2026-09-03T15:00:00');
-
-	it('classifies today, yesterday, week, and older', () => {
-		expect(recencyId('2026-09-03T08:00:00', now)).toBe('today');
-		expect(recencyId('2026-09-02T12:00:00', now)).toBe('yesterday');
-		expect(recencyId('2026-09-01T12:00:00', now)).toBe('week');
-		expect(recencyId('2026-08-01T12:00:00', now)).toBe('older');
+describe('recency and date formatting', () => {
+	it('starts at local midnight and assigns every recency bucket', () => {
+		const now = new Date(2026, 8, 10, 12);
+		expect(startOfDay(now)).toEqual(new Date(2026, 8, 10));
+		expect(recencyId(new Date(2026, 8, 10, 1).toISOString(), now)).toBe('today');
+		expect(recencyId(new Date(2026, 8, 9, 1).toISOString(), now)).toBe('yesterday');
+		expect(recencyId(new Date(2026, 8, 7, 1).toISOString(), now)).toBe('week');
+		expect(recencyId(new Date(2026, 7, 1).toISOString(), now)).toBe('older');
+		expect(recencyId('invalid', now)).toBe('older');
 	});
 
-	it('returns older for invalid dates', () => {
-		expect(recencyId('not-a-date', now)).toBe('older');
+	it('formats valid dates and preserves invalid strings', () => {
+		const iso = '2026-09-08T08:30:00.000Z';
+		expect(formatWhen(iso, 'en-US')).not.toBe(iso);
+		expect(formatWhen('invalid', 'en-US')).toBe('invalid');
+		expect(formatRowWhen(iso, 'today', 'en-US')).not.toBe(iso);
+		expect(formatRowWhen(iso, 'yesterday', 'en-US')).not.toBe(iso);
+		expect(formatRowWhen(iso, 'week', 'en-US')).not.toBe(iso);
+		expect(formatRowWhen('invalid', 'older', 'en-US')).toBe('invalid');
 	});
-});
 
-describe('groupHistory', () => {
-	it('buckets items by recency and omits empty groups', () => {
-		const fixedNow = new Date('2026-09-03T15:00:00');
-		const RealDate = Date;
-		class FakeDate extends RealDate {
-			constructor(...args: ConstructorParameters<typeof Date>) {
-				if (args.length === 0) {
-					super(fixedNow.getTime());
-					return;
-				}
-				super(...args);
-			}
-			static override now() {
-				return fixedNow.getTime();
-			}
-		}
-		globalThis.Date = FakeDate as DateConstructor;
-		try {
-			const today = summary({ id: 'today', updatedAt: '2026-09-03T10:00:00' });
-			const older = summary({ id: 'old', updatedAt: '2026-07-01T10:00:00' });
-			expect(groupHistory([today, older])).toEqual([
-				{ id: 'today', items: [today] },
-				{ id: 'older', items: [older] }
-			]);
-		} finally {
-			globalThis.Date = RealDate;
-		}
+	it('groups non-empty recency buckets in display order', () => {
+		const now = new Date();
+		const today = summary('today', now.toISOString());
+		const old = summary('old', new Date(now.getFullYear() - 1, 0, 1).toISOString());
+		expect(groupHistory([old, today])).toEqual([
+			{ id: 'today', items: [today] },
+			{ id: 'older', items: [old] }
+		]);
+		expect(groupHistory([])).toEqual([]);
 	});
 });
