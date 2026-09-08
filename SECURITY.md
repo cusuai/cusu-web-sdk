@@ -7,6 +7,11 @@ Please report security issues privately to the maintainers (GitHub Security Advi
 ## Notes for integrators
 
 - Public API keys (`pk_…`) are intended for browser use. Treat them as publishable but rotate if abused.
-- The chat WebSocket currently authenticates with `key` as a query parameter (`/ws/chat?company=&key=`). Prefer HTTPS/WSS and short-lived or scoped keys.
+- Restrict each key with **allowed origins** in the Cusu dashboard when you know your site origin(s).
+- Sign `identify` on your **backend** with the group identify secret (`isk_…`). Never put that secret in the browser. When a secret is configured, unsigned identify is rejected.
+- Customer **voice calls** use OpenAI Realtime only (`POST /shop/:company/realtime-session` + WebRTC). Dictation uses `POST /transcribe` with the same Bearer `pk_`. Do not call `/tts` from the widget.
+- After minting a Realtime session, the SDK forwards the one-time `grant` over the chat WebSocket (`chat.voice.ready`) before voice commits/tools are accepted.
+- The chat WebSocket authenticates with `key` as a query parameter (`/ws/chat?company=&key=`). Prefer HTTPS/WSS. Thread access is bound to the visitor id.
+- The service enforces Redis-backed rate limits and create quotas across instances; Redis is required in production.
 - Visitor id is stored in a first-party cookie `cusu_vid` (readable by JS, `SameSite=Lax`).
-- Do not commit real API keys or customer data into this repository.
+- Do not commit real API keys, identify secrets, or customer data into this repository.

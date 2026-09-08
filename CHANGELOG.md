@@ -9,9 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - `identify` first-class trait `gender?: 'male' | 'female' | 'other'`
+- Signed identify fields `signedAt` / `signature` (HMAC from your backend)
+- Realtime voice grant forwarding (`chat.voice.ready`)
+- Bearer `pk_` on dictation `/transcribe`
 
 ### Changed
 - Widget scrollbars are hidden (scroll still works)
+- Customer voice calls are Realtime-only (no legacy VAD/TTS call fallback)
 
 ## [0.1.0] - 2026-09-03
 

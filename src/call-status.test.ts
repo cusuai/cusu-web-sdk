@@ -5,6 +5,7 @@ const base = (): CallUiState => ({
 	connected: true,
 	closed: false,
 	transferred: false,
+	voiceRealtimeEnabled: true,
 	voiceMode: false,
 	recording: false,
 	transcribing: false,
@@ -35,6 +36,7 @@ describe('canStartCall', () => {
 		['disconnected', { connected: false }, false],
 		['closed', { closed: true }, false],
 		['transferred', { transferred: true }, false],
+		['realtime voice disabled', { voiceRealtimeEnabled: false }, false],
 		['transcribing', { transcribing: true }, false]
 	] as const)('%s', (_label, overrides, expected) => {
 		expect(canStartCall({ ...base(), ...overrides })).toBe(expected);

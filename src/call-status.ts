@@ -4,6 +4,7 @@ export type CallUiState = {
 	connected: boolean;
 	closed: boolean;
 	transferred: boolean;
+	voiceRealtimeEnabled: boolean;
 	voiceMode: boolean;
 	recording: boolean;
 	transcribing: boolean;
@@ -23,7 +24,13 @@ export function canSend(state: CallUiState): boolean {
 }
 
 export function canStartCall(state: CallUiState): boolean {
-	return state.connected && !state.closed && !state.transferred && !state.transcribing;
+	return (
+		state.voiceRealtimeEnabled &&
+		state.connected &&
+		!state.closed &&
+		!state.transferred &&
+		!state.transcribing
+	);
 }
 
 export function orbitTone(state: CallUiState): 'idle' | 'cold' | 'warm' {

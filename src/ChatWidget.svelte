@@ -227,7 +227,10 @@ const historySections = $derived(
 	}))
 );
 const showCall = $derived(
-	chat.voiceCallEnabled && !chat.transferred && chat.draft.trim().length === 0
+	chat.voiceCallEnabled &&
+		chat.voiceRealtimeEnabled &&
+		!chat.transferred &&
+		chat.draft.trim().length === 0
 );
 </script>
 

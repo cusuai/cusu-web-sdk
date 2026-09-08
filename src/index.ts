@@ -17,7 +17,9 @@ export type IdentifyTraits = {
 	email?: string;
 	phone?: string;
 	gender?: CustomerGender;
-	[key: string]: string | undefined;
+	signedAt?: number;
+	signature?: string;
+	[key: string]: string | number | undefined;
 };
 
 const HOST_ID = 'cusu-widget-root';
@@ -170,9 +172,10 @@ async function boot(config: CusuConfig, id: number): Promise<void> {
 			voiceCall: init.voice_call !== false,
 			dictation: init.dictation !== false,
 			voiceRealtime: init.voice_realtime === true,
-			ratingScale: init.rating_scale === 'thumbs' || init.rating_scale === 'faces_3'
-				? init.rating_scale
-				: 'stars_5'
+			ratingScale:
+				init.rating_scale === 'thumbs' || init.rating_scale === 'faces_3'
+					? init.rating_scale
+					: 'stars_5'
 		});
 		flushIdentify(ready);
 		return;
@@ -245,7 +248,7 @@ async function postIdentify(config: CusuConfig, call: IdentifyCall): Promise<voi
 	if (!visitorId) {
 		return;
 	}
-	const { name, email, phone, gender, ...rest } = call.traits ?? {};
+	const { name, email, phone, gender, signedAt, signature, ...rest } = call.traits ?? {};
 	const traits: Record<string, string> = {};
 	for (const [key, value] of Object.entries(rest)) {
 		if (typeof value === 'string' && value.trim()) {
@@ -269,6 +272,8 @@ async function postIdentify(config: CusuConfig, call: IdentifyCall): Promise<voi
 				...(email?.trim() ? { email: email.trim() } : {}),
 				...(phone?.trim() ? { phone: phone.trim() } : {}),
 				...(genderValue ? { gender: genderValue } : {}),
+				...(Number.isSafeInteger(signedAt) ? { signedAt } : {}),
+				...(signature?.trim() ? { signature: signature.trim() } : {}),
 				...(Object.keys(traits).length > 0 ? { traits } : {})
 			})
 		});

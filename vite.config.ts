@@ -18,7 +18,9 @@ export type IdentifyTraits = {
 	email?: string;
 	phone?: string;
 	gender?: CustomerGender;
-	[key: string]: string | undefined;
+	signedAt?: number;
+	signature?: string;
+	[key: string]: string | number | undefined;
 };
 
 export type CusuError = {

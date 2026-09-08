@@ -51,6 +51,7 @@ export * from "./error_too_many_files.js";
 export * from "./error_transcribe_failed.js";
 export * from "./error_upload_failed.js";
 export * from "./error_voice_playback.js";
+export * from "./error_voice_unavailable.js";
 export * from "./file_kind_image.js";
 export * from "./file_kind_pdf.js";
 export * from "./hangup.js";

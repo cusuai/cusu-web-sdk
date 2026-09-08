@@ -25,7 +25,6 @@ import {
 import * as m from './paraglide/messages.js';
 import { advancePlaybackHold, playbackOrbitEnergy, smoothPlaybackLevel } from './playback-meter';
 import { connectRealtimeCall, type RealtimeActivity, type RealtimeCall } from './realtime-call';
-import { splitSpeakable } from './speech';
 import type { ChatEvent, RatingScale, SupportThread, ThreadMessage, ThreadStatus } from './types';
 import { isClosedStatus, isTransferredStatus } from './types';
 import {
@@ -33,10 +32,8 @@ import {
 	chatAttachmentUrl,
 	realtimeSessionUrl,
 	toWsUrl,
-	transcribeUrl,
-	ttsUrl
+	transcribeUrl
 } from './urls';
-import { createVadState, tickVad, VAD_THRESHOLD } from './vad';
 import type { TapeState } from './waveform';
 import {
 	advanceTape,
@@ -162,17 +159,7 @@ export class GroupChat {
 	#tapeState: TapeState = createTapeState();
 	#tapeLast = 0;
 	#dictationSeq = 0;
-	#pauseVad = false;
-	#flushing = false;
-	#vadState = createVadState();
-	#ttsBuffer = '';
-	#ttsQueue: string[] = [];
-	#ttsPlaying = false;
-	#ttsSeq = 0;
-	#ttsAbort: AbortController | null = null;
 	#playbackContext: AudioContext | null = null;
-	#ttsSource: AudioBufferSourceNode | null = null;
-	#playbackDone: (() => void) | null = null;
 	#playbackAnalyser: AnalyserNode | null = null;
 	#playbackRaf: number | null = null;
 	#hangupAfterSpeech = false;
@@ -181,6 +168,8 @@ export class GroupChat {
 	#realtimeSeq = 0;
 	#realtimePending = false;
 	#realtimeAgentTalking = false;
+	#voiceGrant: string | null = null;
+	#voiceGrantSent = false;
 	#realtimeListenTimer: ReturnType<typeof setTimeout> | null = null;
 	#hangupQuietTimer: ReturnType<typeof setTimeout> | null = null;
 	#toolWaiters = new Map<
@@ -201,6 +190,7 @@ export class GroupChat {
 			connected: this.connected,
 			closed: this.closed,
 			transferred: this.transferred,
+			voiceRealtimeEnabled: this.voiceRealtimeEnabled,
 			voiceMode: this.voiceMode,
 			recording: this.recording,
 			transcribing: this.transcribing,
@@ -352,6 +342,10 @@ export class GroupChat {
 	}
 
 	async startCall(): Promise<void> {
+		if (!this.voiceRealtimeEnabled) {
+			this.error = m.error_voice_unavailable();
+			return;
+		}
 		if (!this.voiceCallEnabled || !this.canStartCall || this.voiceMode) {
 			return;
 		}
@@ -364,44 +358,30 @@ export class GroupChat {
 		await this.#stopRecording(true);
 		this.voiceMode = true;
 		this.callState = 'listening';
-		this.#pauseVad = false;
 		this.#hangupAfterSpeech = false;
-		this.#ttsBuffer = '';
-		this.#ttsQueue = [];
 		this.error = '';
-		if (this.voiceRealtimeEnabled) {
-			const started = await this.#startRealtimeCall();
-			if (started) {
-				return;
-			}
+		const started = await this.#startRealtimeCall();
+		if (!started) {
+			this.hangup();
+			this.error ||= m.error_voice_unavailable();
 		}
-		await this.#startCallMic();
-		await this.#playbackContext?.resume();
 	}
 
 	hangup(): void {
-		this.#ttsSeq += 1;
 		this.#dictationSeq += 1;
 		this.#realtimeSeq += 1;
 		this.transcribing = false;
-		this.#ttsQueue = [];
-		this.#ttsAbort?.abort();
-		this.#ttsAbort = null;
-		this.#stopPlayback();
 		this.#stopPlaybackMeter();
 		this.#closePlayback();
-		this.#ttsPlaying = false;
 		this.#hangupAfterSpeech = false;
-		this.#pauseVad = true;
-		this.#flushing = false;
-		this.#vadState = createVadState();
-		this.#ttsBuffer = '';
 		this.#agentTranscript = '';
 		this.#failToolWaiters();
 		this.#realtime?.disconnect();
 		this.#realtime = null;
 		this.#realtimePending = false;
 		this.#realtimeAgentTalking = false;
+		this.#voiceGrant = null;
+		this.#voiceGrantSent = false;
 		this.#clearRealtimeListenTimer();
 		this.#clearHangupQuietTimer();
 		this.voiceMode = false;
@@ -706,17 +686,8 @@ export class GroupChat {
 		await this.#openMic({ echoCancellation: false, noiseSuppression: false });
 	}
 
-	async #startCallMic(): Promise<void> {
-		await this.#openMic({ echoCancellation: true, noiseSuppression: true });
-		if (!this.recording) {
-			this.voiceMode = false;
-			this.callState = 'idle';
-		}
-	}
-
 	async #startRealtimeCall(): Promise<boolean> {
 		this.callState = 'listening';
-		this.#pauseVad = true;
 		this.#realtimePending = true;
 		this.#realtimeAgentTalking = false;
 		this.connect();
@@ -727,6 +698,9 @@ export class GroupChat {
 				this.#realtimePending = false;
 				return true;
 			}
+			this.#voiceGrant = minted.grant ?? null;
+			this.#voiceGrantSent = false;
+			this.#sendVoiceReady();
 			await this.#openMic({ echoCancellation: true, noiseSuppression: true }, { recorder: false });
 			if (seq !== this.#realtimeSeq || !this.voiceMode) {
 				this.#realtimePending = false;
@@ -754,7 +728,7 @@ export class GroupChat {
 			this.callState = 'listening';
 			await this.#playbackContext?.resume();
 			return true;
-		} catch {
+		} catch (error) {
 			if (seq !== this.#realtimeSeq) {
 				this.#realtimePending = false;
 				return true;
@@ -762,13 +736,13 @@ export class GroupChat {
 			this.#realtime?.disconnect();
 			this.#realtime = null;
 			this.#realtimePending = false;
-			this.#pauseVad = false;
 			await this.#stopRecording(true);
+			this.error = error instanceof Error ? error.message : m.error_voice_unavailable();
 			return false;
 		}
 	}
 
-	async #mintRealtimeSession(): Promise<{ clientSecret: string }> {
+	async #mintRealtimeSession(): Promise<{ clientSecret: string; grant?: string }> {
 		const response = await fetch(realtimeSessionUrl(this.config.apiUrl, this.config.group), {
 			method: 'POST',
 			headers: {
@@ -783,6 +757,7 @@ export class GroupChat {
 		});
 		const payload = (await response.json().catch(() => ({}))) as {
 			client_secret?: unknown;
+			grant?: unknown;
 			message?: unknown;
 		};
 		if (!response.ok || typeof payload.client_secret !== 'string' || !payload.client_secret) {
@@ -790,7 +765,23 @@ export class GroupChat {
 				typeof payload.message === 'string' ? payload.message : 'Realtime session failed'
 			);
 		}
-		return { clientSecret: payload.client_secret };
+		return {
+			clientSecret: payload.client_secret,
+			...(typeof payload.grant === 'string' && payload.grant ? { grant: payload.grant } : {})
+		};
+	}
+
+	#sendVoiceReady(): void {
+		if (
+			!this.#voiceGrant ||
+			this.#voiceGrantSent ||
+			!this.#ws ||
+			this.#ws.readyState !== WebSocket.OPEN
+		) {
+			return;
+		}
+		this.#ws.send(JSON.stringify({ type: 'chat.voice.ready', grant: this.#voiceGrant }));
+		this.#voiceGrantSent = true;
 	}
 
 	#runRealtimeTool(callId: string, name: string, args: string): Promise<string> {
@@ -1160,7 +1151,6 @@ export class GroupChat {
 				this.waveShift = advanced.waveShift;
 				this.waveTick += 1;
 				this.#tapeLast = advanced.tapeLast;
-				this.#tickVadEnergy(advanced.energy);
 			}
 			this.#analyserRaf = requestAnimationFrame(tick);
 		};
@@ -1205,54 +1195,6 @@ export class GroupChat {
 		this.levels = [];
 	}
 
-	#tickVadEnergy(energy: number): void {
-		if (this.#realtime || !this.voiceMode || this.closed || this.transferred) {
-			return;
-		}
-		const result = tickVad({
-			energy,
-			now: performance.now(),
-			paused: this.#pauseVad,
-			flushing: this.#flushing,
-			state: this.#vadState
-		});
-		this.#vadState = result.state;
-		if (energy >= VAD_THRESHOLD && !this.#pauseVad && !this.#flushing) {
-			this.callState = 'speaking';
-		}
-		if (result.flush) {
-			void this.#flushCallUtterance();
-		}
-	}
-
-	async #flushCallUtterance(): Promise<void> {
-		if (!this.voiceMode || this.#flushing) {
-			return;
-		}
-		this.#flushing = true;
-		this.#pauseVad = true;
-		this.callState = 'thinking';
-		try {
-			const blob = await this.#stopRecording(false, true);
-			if (!this.voiceMode) {
-				return;
-			}
-			if (this.#mediaStream) {
-				this.#attachRecorder(this.#mediaStream);
-			}
-			this.#flushing = false;
-			const sent = await this.#ingestSpokenBlob(blob, { revealPause: false });
-			if (!this.voiceMode) {
-				return;
-			}
-			if (!sent) {
-				this.#maybeResumeCall();
-			}
-		} finally {
-			this.#flushing = false;
-		}
-	}
-
 	#patchMessage(id: string, patch: Partial<WidgetMessage>): void {
 		const current = this.messages.find((message) => message.id === id);
 		if (!current) {
@@ -1268,6 +1210,9 @@ export class GroupChat {
 		form.append('context', 'thread');
 		const response = await fetch(transcribeUrl(this.config.apiUrl), {
 			method: 'POST',
+			headers: {
+				authorization: `Bearer ${this.config.apiKey}`
+			},
 			body: form
 		});
 		const payload = (await response.json().catch(() => ({}))) as {
@@ -1306,9 +1251,7 @@ export class GroupChat {
 		}
 		this.busy = true;
 		if (this.voiceMode) {
-			this.#pauseVad = true;
 			this.callState = 'thinking';
-			this.#ttsBuffer = '';
 		}
 		const streaming: WidgetMessage = {
 			id: crypto.randomUUID(),
@@ -1341,6 +1284,7 @@ export class GroupChat {
 		ws.addEventListener('open', () => {
 			if (this.#ws === ws) {
 				this.connected = true;
+				this.#sendVoiceReady();
 			}
 		});
 		ws.addEventListener('close', () => {
@@ -1362,6 +1306,7 @@ export class GroupChat {
 	#handle(event: ChatEvent): void {
 		if (event.type === 'chat.ready') {
 			this.#applyThread(event.thread);
+			this.#sendVoiceReady();
 			return;
 		}
 		if (event.type === 'chat.delta' && event.kind === 'answer') {
@@ -1630,10 +1575,6 @@ export class GroupChat {
 		if (current) {
 			current.text += text;
 		}
-		if (this.voiceMode) {
-			this.#ttsBuffer += text;
-			this.#flushSpeech(false);
-		}
 	}
 
 	#finishStream(text: string, id?: string): void {
@@ -1649,18 +1590,11 @@ export class GroupChat {
 					text,
 					streaming: false
 				});
-				if (this.voiceMode) {
-					this.#ttsBuffer += text;
-				}
-			}
-			if (this.voiceMode) {
-				this.#flushSpeech(true);
 			}
 			return;
 		}
 		const current = this.messages.find((message) => message.id === this.#streamingId);
 		if (current) {
-			const previous = current.text;
 			if (!current.text) {
 				current.text = text;
 			} else if (text && text.length > current.text.length && text.startsWith(current.text)) {
@@ -1669,12 +1603,6 @@ export class GroupChat {
 			current.streaming = false;
 			if (id) {
 				current.id = id;
-			}
-			if (this.voiceMode) {
-				if (current.text.startsWith(previous)) {
-					this.#ttsBuffer += current.text.slice(previous.length);
-				}
-				this.#flushSpeech(true);
 			}
 		}
 		this.#streamingId = null;
@@ -1688,150 +1616,6 @@ export class GroupChat {
 			(message) => message.id !== this.#streamingId || message.text
 		);
 		this.#streamingId = null;
-		this.#ttsBuffer = '';
-	}
-
-	#flushSpeech(force: boolean): void {
-		if (!this.voiceMode) {
-			this.#ttsBuffer = '';
-			return;
-		}
-		const { spoken, rest } = splitSpeakable(this.#ttsBuffer, force);
-		this.#ttsBuffer = rest;
-		for (const sentence of spoken) {
-			this.#enqueueSpeech(sentence);
-		}
-	}
-
-	#enqueueSpeech(text: string): void {
-		const cleaned = text.replace(/\s+/g, ' ').trim();
-		if (!cleaned || !this.voiceMode) {
-			return;
-		}
-		this.#ttsQueue.push(cleaned);
-		void this.#drainSpeech();
-	}
-
-	async #drainSpeech(): Promise<void> {
-		if (this.#ttsPlaying) {
-			return;
-		}
-		this.#ttsPlaying = true;
-		const seq = this.#ttsSeq;
-		try {
-			while (this.#ttsQueue.length && seq === this.#ttsSeq) {
-				const text = this.#ttsQueue.shift();
-				if (!text) {
-					continue;
-				}
-				this.#pauseVad = true;
-				this.callState = 'playing';
-				try {
-					await this.#playSpeech(text, seq);
-					if (seq === this.#ttsSeq) {
-						this.error = '';
-					}
-				} catch (error) {
-					if (seq !== this.#ttsSeq || isAbortError(error)) {
-						return;
-					}
-					this.error = m.error_voice_playback();
-				}
-			}
-		} finally {
-			if (seq === this.#ttsSeq) {
-				this.#ttsPlaying = false;
-				this.#maybeResumeCall();
-			}
-		}
-	}
-
-	async #playSpeech(text: string, seq: number): Promise<void> {
-		const controller = new AbortController();
-		this.#ttsAbort = controller;
-		const response = await fetch(ttsUrl(this.config.apiUrl), {
-			method: 'POST',
-			headers: {
-				'content-type': 'application/json',
-				accept: 'audio/mpeg'
-			},
-			body: JSON.stringify({
-				text,
-				company: this.config.group,
-				context: 'thread'
-			}),
-			signal: controller.signal
-		});
-		if (seq !== this.#ttsSeq) {
-			return;
-		}
-		if (!response.ok) {
-			throw new Error('tts');
-		}
-		const data = await response.arrayBuffer();
-		if (seq !== this.#ttsSeq) {
-			return;
-		}
-		if (data.byteLength < 32) {
-			throw new Error('tts');
-		}
-		await this.#playDecoded(data, seq);
-	}
-
-	async #playDecoded(data: ArrayBuffer, seq: number): Promise<void> {
-		this.#unlockPlayback();
-		const context = this.#playbackContext;
-		if (!context) {
-			throw new Error('play');
-		}
-		if (context.state === 'suspended') {
-			await context.resume();
-		}
-		if (seq !== this.#ttsSeq) {
-			return;
-		}
-		const buffer = await context.decodeAudioData(data.slice(0));
-		if (seq !== this.#ttsSeq) {
-			return;
-		}
-		await new Promise<void>((resolve, reject) => {
-			const source = context.createBufferSource();
-			this.#ttsSource = source;
-			source.buffer = buffer;
-			this.#startPlaybackMeter(context, source);
-			let settled = false;
-			const finish = (error?: Error): void => {
-				if (settled) {
-					return;
-				}
-				settled = true;
-				source.onended = null;
-				this.#stopPlaybackMeter();
-				if (this.#ttsSource === source) {
-					this.#ttsSource = null;
-				}
-				this.#playbackDone = null;
-				if (error) {
-					reject(error);
-					return;
-				}
-				resolve();
-			};
-			this.#playbackDone = () => {
-				try {
-					source.stop();
-				} catch {
-					// already stopped
-				}
-				finish();
-			};
-			source.onended = () => finish();
-			try {
-				source.start();
-			} catch (error) {
-				finish(error instanceof Error ? error : new Error('play'));
-			}
-		});
 	}
 
 	#unlockPlayback(): void {
@@ -1852,36 +1636,6 @@ export class GroupChat {
 		osc.stop(this.#playbackContext.currentTime + 0.05);
 	}
 
-	#startPlaybackMeter(context: AudioContext, source: AudioBufferSourceNode): void {
-		this.#stopPlaybackMeter();
-		const analyser = context.createAnalyser();
-		analyser.fftSize = 256;
-		analyser.smoothingTimeConstant = 0.8;
-		source.connect(analyser);
-		analyser.connect(context.destination);
-		this.#playbackAnalyser = analyser;
-		let smoothed = IDLE_LEVEL;
-		let published = IDLE_LEVEL;
-		const tick = (): void => {
-			if (!this.#playbackAnalyser) {
-				return;
-			}
-			const data = new Float32Array(this.#playbackAnalyser.fftSize);
-			this.#playbackAnalyser.getFloatTimeDomainData(data as Float32Array<ArrayBuffer>);
-			const { peak } = sampleEnergy(data);
-			smoothed = smoothPlaybackLevel(
-				smoothed,
-				playbackOrbitEnergy(Math.min(1, Math.max(0.4, peak * 4)))
-			);
-			if (Math.abs(smoothed - published) >= 0.04) {
-				published = smoothed;
-				this.levels = Array.from({ length: WAVEFORM_BARS }, () => smoothed);
-			}
-			this.#playbackRaf = requestAnimationFrame(tick);
-		};
-		this.#playbackRaf = requestAnimationFrame(tick);
-	}
-
 	#stopPlaybackMeter(): void {
 		if (this.#playbackRaf !== null) {
 			cancelAnimationFrame(this.#playbackRaf);
@@ -1898,27 +1652,11 @@ export class GroupChat {
 		this.#playbackContext = null;
 	}
 
-	#stopPlayback(): void {
-		this.#playbackDone?.();
-		this.#playbackDone = null;
-		this.#stopPlaybackMeter();
-		if (!this.#ttsSource) {
-			return;
-		}
-		try {
-			this.#ttsSource.stop();
-		} catch {
-			// already stopped
-		}
-		this.#ttsSource = null;
-	}
-
 	#requestHangupAfterSpeech(): void {
 		if (!this.voiceMode) {
 			return;
 		}
 		this.#hangupAfterSpeech = true;
-		this.#pauseVad = true;
 		if (
 			this.#realtime &&
 			!this.#realtimeAgentTalking &&
@@ -1935,25 +1673,12 @@ export class GroupChat {
 	}
 
 	#maybeResumeCall(): void {
-		if (!this.voiceMode) {
-			return;
-		}
-		if (this.#realtime) {
-			return;
-		}
-		if (this.#ttsPlaying || this.#ttsQueue.length > 0) {
+		if (!this.voiceMode || this.#realtime) {
 			return;
 		}
 		if (this.#hangupAfterSpeech || this.transferred) {
 			this.hangup();
-			return;
 		}
-		if (this.busy || this.transcribing || this.#flushing) {
-			return;
-		}
-		this.#pauseVad = false;
-		this.callState = 'listening';
-		this.#vadState = createVadState();
 	}
 
 	#armTurnTimer(): void {
@@ -2015,12 +1740,6 @@ function kindForFile(file: File): 'image' | 'pdf' | null {
 		return 'image';
 	}
 	return null;
-}
-
-function isAbortError(error: unknown): boolean {
-	return error instanceof DOMException
-		? error.name === 'AbortError'
-		: error instanceof Error && error.name === 'AbortError';
 }
 
 function lastAgentAttachments(

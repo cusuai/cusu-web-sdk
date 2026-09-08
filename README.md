@@ -27,17 +27,28 @@ Cusu.initialize({
   showLauncher: true // optional; default true
 });
 
-Cusu.identify('user_123', {
-  name: 'Jane Doe',
-  email: 'jane@shop.test',
-  gender: 'female'
-});
+const identity = await fetch('/api/cusu-identify', {
+  method: 'POST',
+  headers: { 'content-type': 'application/json' },
+  body: JSON.stringify({
+    externalId: 'user_123',
+    traits: { name: 'Jane Doe', email: 'jane@shop.test', gender: 'female' }
+  })
+}).then((response) => response.json());
+
+Cusu.identify('user_123', identity);
 
 Cusu.open();
 Cusu.close();
 Cusu.isOpened();
 Cusu.destroy();
 ```
+
+When an identify secret is configured, generate `signedAt` and `signature` on
+your backend, using the `cusu_vid` cookie as `visitorId`. Never expose the
+`isk_…` secret in browser code. The signature is the hex HMAC-SHA256 of
+`v1\n{visitorId}\n{externalId}\n{signedAt}\n{name}\n{email}\n{phone}\n{gender}`;
+`traits` are not signed.
 
 ### Headless launcher
 
