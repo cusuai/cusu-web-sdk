@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it } from 'bun:test';
 import {
 	type ConversationSummary,
+	clearSession,
 	formatRowWhen,
 	formatWhen,
 	groupHistory,
@@ -11,6 +12,7 @@ import {
 	loadCurrentId,
 	loadHistory,
 	parseHistory,
+	parseRemoteHistory,
 	persistCurrentId,
 	persistHistory,
 	recencyId,
@@ -110,6 +112,33 @@ describe('history keys and parsing', () => {
 		expect(parseHistory([valid, ...invalid])).toEqual([valid]);
 		expect(parseHistory({ item: valid })).toEqual([]);
 	});
+
+	it('maps identify thread rows onto conversation summaries', () => {
+		expect(
+			parseRemoteHistory([
+				{
+					id: 't1',
+					title: 'Stav objednávky',
+					preview: 'The ticket is now closed.',
+					updated_at: '2026-09-08T08:00:00.000Z',
+					status: 'waiting_customer',
+					assignee: { type: 'ai' }
+				},
+				{ id: 1 },
+				null
+			])
+		).toEqual([
+			{
+				id: 't1',
+				title: 'Stav objednávky',
+				preview: 'The ticket is now closed.',
+				updatedAt: '2026-09-08T08:00:00.000Z',
+				status: 'waiting_customer',
+				assignee: { type: 'ai' }
+			}
+		]);
+		expect(parseRemoteHistory({ threads: [] })).toEqual([]);
+	});
 });
 
 describe('history summaries', () => {
@@ -183,6 +212,23 @@ describe('storage persistence', () => {
 		expect(() => persistCurrentId('g', null)).not.toThrow();
 		session.throwOn = 'set';
 		expect(() => persistCurrentId('g', 'id')).not.toThrow();
+	});
+
+	it('clears the current thread and history for a group', () => {
+		const { local, session } = useStorage();
+		persistCurrentId('g', 'thread-id');
+		persistHistory('g', [summary('thread-id')]);
+		clearSession('g');
+		expect(local.getItem(storageKey('g'))).toBeNull();
+		expect(session.getItem(storageKey('g'))).toBeNull();
+		expect(local.getItem(historyKey('g'))).toBeNull();
+		expect(loadHistory('g')).toEqual([]);
+	});
+
+	it('ignores history-key removal failures when clearing a session', () => {
+		const { local } = useStorage();
+		local.throwOn = 'remove';
+		expect(() => clearSession('g')).not.toThrow();
 	});
 });
 

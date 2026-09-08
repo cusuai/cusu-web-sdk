@@ -23,5 +23,5 @@ Details for contributors and auditors: [docs/security-ci.md](./docs/security-ci.
 - After minting a Realtime session, the SDK forwards the one-time `grant` over the chat WebSocket (`chat.voice.ready`) before voice commits/tools are accepted.
 - The chat WebSocket authenticates with `key` as a query parameter (`/v1/ws/chat?group=&key=`). Prefer HTTPS/WSS. Thread access is bound to the visitor id.
 - The service enforces Redis-backed rate limits and create quotas across instances; Redis is required in production.
-- Visitor id is stored in a first-party cookie `cusu_vid` (readable by JS, `SameSite=Lax`).
+- Visitor id is stored in a first-party cookie `cusu_vid` (readable by JS, `SameSite=Lax`). Call `reset()` on host logout so a later customer cannot reopen the previous visitor's threads.
 - Do not commit real API keys, identify secrets, or customer data into this repository.

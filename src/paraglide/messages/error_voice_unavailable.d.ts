@@ -4,13 +4,13 @@
 * | "Voice calling is not available." |
 *
 * @param {Error_Voice_UnavailableInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" }} options
+* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
 export const error_voice_unavailable: ((inputs?: Error_Voice_UnavailableInputs, options?: {
-    locale?: "en" | "cs" | "sk" | "es" | "de";
+    locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi";
 }) => LocalizedString) & import("../runtime.js").MessageMetadata<Error_Voice_UnavailableInputs, {
-    locale?: "en" | "cs" | "sk" | "es" | "de";
+    locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi";
 }, {}>;
 export type LocalizedString = import("../runtime.js").LocalizedString;
 export type Error_Voice_UnavailableInputs = {};

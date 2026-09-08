@@ -4,6 +4,7 @@ export const HISTORY_LIMIT = 40;
 
 export type ConversationSummary = {
 	id: string;
+	title?: string;
 	preview: string;
 	updatedAt: string;
 	status: ThreadStatus;
@@ -46,6 +47,46 @@ export function isConversationSummary(value: unknown): value is ConversationSumm
 		typeof item.updatedAt === 'string' &&
 		isHistoryStatus(item.status)
 	);
+}
+
+function isAssigneeType(value: unknown): value is ConversationSummary['assignee'] {
+	if (!value || typeof value !== 'object') {
+		return false;
+	}
+	const type = (value as Record<string, unknown>).type;
+	return type === 'none' || type === 'ai' || type === 'user';
+}
+
+export function parseRemoteHistory(raw: unknown): ConversationSummary[] {
+	if (!Array.isArray(raw)) {
+		return [];
+	}
+	const items: ConversationSummary[] = [];
+	for (const entry of raw) {
+		if (!entry || typeof entry !== 'object') {
+			continue;
+		}
+		const item = entry as Record<string, unknown>;
+		const updatedAt = item.updatedAt ?? item.updated_at;
+		const preview = typeof item.preview === 'string' ? item.preview : '';
+		const title = typeof item.title === 'string' ? item.title : undefined;
+		if (
+			typeof item.id !== 'string' ||
+			typeof updatedAt !== 'string' ||
+			!isHistoryStatus(item.status)
+		) {
+			continue;
+		}
+		items.push({
+			id: item.id,
+			...(title ? { title } : {}),
+			preview,
+			updatedAt,
+			status: item.status,
+			...(isAssigneeType(item.assignee) ? { assignee: { type: item.assignee.type } } : {})
+		});
+	}
+	return items;
 }
 
 export function parseHistory(raw: unknown): ConversationSummary[] {
@@ -116,6 +157,15 @@ export function loadHistory(group: string): ConversationSummary[] {
 export function persistHistory(group: string, items: ConversationSummary[]): void {
 	try {
 		localStorage.setItem(historyKey(group), JSON.stringify(items.slice(0, HISTORY_LIMIT)));
+	} catch {
+		// ignore storage failures
+	}
+}
+
+export function clearSession(group: string): void {
+	persistCurrentId(group, null);
+	try {
+		localStorage.removeItem(historyKey(group));
 	} catch {
 		// ignore storage failures
 	}

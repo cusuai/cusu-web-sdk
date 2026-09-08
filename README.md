@@ -71,7 +71,8 @@ Cusu.open();
 1. Prefer registering `onError` before `initialize`.
 2. Always `initialize` first — the widget boots asynchronously.
 3. `identify` may be called before boot finishes; calls are queued and flushed when ready.
-4. Call `destroy()` when tearing down a SPA route that should fully remove the widget.
+4. Call `reset()` on host logout so the next visitor (or the next logged-in customer) does not inherit conversations.
+5. Call `destroy()` when tearing down a SPA route that should fully remove the widget.
 
 ---
 
@@ -113,7 +114,7 @@ The IIFE build exposes a global `Cusu` with the same API as the default export.
 | `group` | `string` | yes | Group slug from your Cusu install |
 | `apiUrl` | `string` | yes | Cusu service base URL (HTTPS in production) |
 | `apiKey` | `string` | yes | Public API key (`pk_…`) |
-| `locale` | `'en' \| 'cs' \| 'sk' \| 'es' \| 'de'` | no | Fallback UI locale when boot language is missing/unsupported |
+| `locale` | `'en' \| 'cs' \| 'sk' \| 'es' \| 'de' \| 'fr' \| 'pl' \| 'hu' \| 'it' \| 'nl' \| 'pt' \| 'da' \| 'sl' \| 'hr' \| 'ro' \| 'sv' \| 'fi'` | no | Fallback UI locale when boot language is missing/unsupported |
 | `showLauncher` | `boolean` | no | Floating FAB; default `true` |
 
 Calling `initialize` again tears down the previous instance and boots a new one.
@@ -129,6 +130,7 @@ Calling `initialize` again tears down the previous instance and boots a new one.
 | `open()` / `close()` | Open or close the panel |
 | `isOpened()` | `boolean` — panel open state |
 | `showLauncher()` / `hideLauncher()` | Toggle the floating button at runtime |
+| `reset()` | New anonymous visitor: rotate `cusu_vid`, clear local history, reboot if initialized |
 | `destroy()` | Unmount and clear runtime state |
 | `onError(handler \| null)` | Subscribe to recoverable SDK errors (or clear) |
 
@@ -250,6 +252,12 @@ const identity = await fetch('/api/cusu-identify', {
 }).then((r) => r.json());
 
 Cusu.identify('user_123', identity);
+```
+
+On **logout**, call `reset()` before the next `identify`. `destroy()` + `initialize()` is not enough: the same `cusu_vid` cookie and local conversation list would keep the previous customer's threads. After `identify`, the SDK replaces local history with that customer's threads from the server.
+
+```js
+Cusu.reset();
 ```
 
 Full protocol notes: [docs/protocol.md](./docs/protocol.md). Integrator security checklist: [SECURITY.md](./SECURITY.md).

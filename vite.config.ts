@@ -7,7 +7,7 @@ const dts = `export type CusuConfig = {
 	group: string;
 	apiUrl: string;
 	apiKey: string;
-	locale?: 'en' | 'cs' | 'sk' | 'es' | 'de';
+	locale?: 'en' | 'cs' | 'sk' | 'es' | 'de' | 'fr' | 'pl' | 'hu' | 'it' | 'nl' | 'pt' | 'da' | 'sl' | 'hr' | 'ro' | 'sv' | 'fi';
 	showLauncher?: boolean;
 };
 
@@ -38,6 +38,7 @@ type Cusu = {
 	isOpened(): boolean;
 	showLauncher(): void;
 	hideLauncher(): void;
+	reset(): void;
 	destroy(): void;
 	onError(handler: CusuErrorHandler | null): void;
 };

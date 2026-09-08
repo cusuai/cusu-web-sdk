@@ -9,19 +9,21 @@ import { onMount } from 'svelte';
 import { cubicOut } from 'svelte/easing';
 import { prefersReducedMotion } from 'svelte/motion';
 import { fly, type TransitionConfig } from 'svelte/transition';
+import AgentActivity from './AgentActivity.svelte';
 import AttachmentGallery from './AttachmentGallery.svelte';
 import CusuMark from './CusuMark.svelte';
 import type { ConversationSummary, GroupChat } from './chat.svelte';
 import FileAttachment from './FileAttachment.svelte';
 import { formatRowWhen, formatWhen, groupHistory, type RecencyId } from './history';
 import Icon from './Icon.svelte';
+import LinkAttachment from './LinkAttachment.svelte';
 import Markdown from './Markdown.svelte';
 import type { ThreadAttachment } from './messages';
 import Orbit from './Orbit.svelte';
 import * as m from './paraglide/messages.js';
 import { getLocale } from './paraglide/runtime.js';
 import { scrollToBottom } from './scroll';
-import { isClosedStatus, isTransferredStatus } from './types';
+import { isClosedStatus, isTransferredStatus, operatorHandoffBanner } from './types';
 import Waveform from './Waveform.svelte';
 
 let { chat }: { chat: GroupChat } = $props();
@@ -43,9 +45,20 @@ const roundBtn =
 const ratingBtn =
 	'inline-flex size-9 items-center justify-center rounded-full text-lg outline-none hover:bg-muted hover:scale-110 focus-visible:ring-2 focus-visible:ring-ring/30 disabled:pointer-events-none disabled:opacity-50';
 
+function isMobileViewport(): boolean {
+	return typeof window !== 'undefined' && window.matchMedia('(max-width: 639px)').matches;
+}
+
 function fromLauncher(_node: Element): TransitionConfig {
 	if (prefersReducedMotion.current) {
 		return { duration: 0 };
+	}
+	if (isMobileViewport()) {
+		return {
+			duration: 220,
+			easing: cubicOut,
+			css: (t) => `opacity: ${t}`
+		};
 	}
 	return {
 		duration: 260,
@@ -73,6 +86,24 @@ onMount(() => {
 });
 
 $effect(() => {
+	if (!chat.open) {
+		return;
+	}
+	const mq = window.matchMedia('(max-width: 639px)');
+	const html = document.documentElement;
+	const previous = html.style.overflow;
+	const apply = (): void => {
+		html.style.overflow = mq.matches ? 'hidden' : previous;
+	};
+	apply();
+	mq.addEventListener('change', apply);
+	return () => {
+		mq.removeEventListener('change', apply);
+		html.style.overflow = previous;
+	};
+});
+
+$effect(() => {
 	chat.open;
 	chat.view;
 	chat.recording;
@@ -81,6 +112,7 @@ $effect(() => {
 	chat.messages.at(-1)?.text;
 	chat.messages.at(-1)?.transcribing;
 	chat.messages.at(-1)?.transcribed;
+	chat.agentActivity;
 	chat.voiceMode;
 	if (chat.view === 'chat') {
 		scrollToBottom(scroller);
@@ -114,6 +146,13 @@ const voiceAttachments = $derived.by(() => {
 	}
 	return [] as ThreadAttachment[];
 });
+
+function attachmentHref(attachment: ThreadAttachment): string {
+	if (attachment.kind === 'link') {
+		return attachment.url ?? '#';
+	}
+	return chat.attachmentSrc(attachment);
+}
 
 function openGallery(startId: string): void {
 	const items: { src: string; filename: string; id: string }[] = [];
@@ -196,7 +235,39 @@ function roleLabel(role: string): string {
 }
 
 function toDateLocale(locale: string): string {
-	return locale === 'de' ? 'de-DE' : locale === 'es' ? 'es-ES' : locale === 'sk' ? 'sk-SK' : locale === 'cs' ? 'cs-CZ' : 'en-US';
+	return locale === 'de'
+		? 'de-DE'
+		: locale === 'es'
+			? 'es-ES'
+			: locale === 'fr'
+				? 'fr-FR'
+				: locale === 'it'
+					? 'it-IT'
+					: locale === 'hu'
+						? 'hu-HU'
+						: locale === 'sk'
+							? 'sk-SK'
+							: locale === 'sl'
+								? 'sl-SI'
+								: locale === 'cs'
+									? 'cs-CZ'
+									: locale === 'pl'
+										? 'pl-PL'
+										: locale === 'nl'
+											? 'nl-NL'
+											: locale === 'pt'
+												? 'pt-PT'
+												: locale === 'da'
+													? 'da-DK'
+													: locale === 'sv'
+														? 'sv-SE'
+														: locale === 'fi'
+															? 'fi-FI'
+															: locale === 'hr'
+																? 'hr-HR'
+																: locale === 'ro'
+																	? 'ro-RO'
+																	: 'en-US';
 }
 
 const LOCALE = $derived(toDateLocale(getLocale()));
@@ -232,16 +303,31 @@ const showCall = $derived(
 		!chat.transferred &&
 		chat.draft.trim().length === 0
 );
+const handoffBanner = $derived(
+	operatorHandoffBanner({
+		transferred: chat.transferred,
+		closed: chat.closed,
+		inboxCovered: chat.inboxCovered,
+		awaitedOperator: chat.awaitedOperator
+	})
+);
+
+const CUSU_HOME = 'https://cusu.ai';
 </script>
 
 <svelte:window onkeydown={onWindowKeydown} />
 
 <div
-	class="fixed right-5 bottom-5 z-50 flex flex-col items-end gap-3 font-sans antialiased text-foreground"
+	class={[
+		'fixed z-50 flex font-sans antialiased text-foreground',
+		chat.open
+			? 'inset-0 flex-col max-sm:items-stretch sm:inset-auto sm:right-5 sm:bottom-5 sm:items-end sm:gap-3'
+			: 'right-[max(0.75rem,env(safe-area-inset-right))] bottom-[max(0.75rem,env(safe-area-inset-bottom))] items-end sm:right-5 sm:bottom-5'
+	]}
 >
 	{#if chat.open}
 		<section
-			class="relative flex h-[32rem] w-[22rem] origin-bottom-right flex-col overflow-hidden rounded-[1.75rem] border border-border bg-card text-card-foreground shadow-xl"
+			class="relative flex h-full w-full origin-bottom-right flex-col overflow-hidden overscroll-none border-0 bg-card pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] text-card-foreground shadow-none sm:h-[32rem] sm:w-[22rem] sm:rounded-[1.75rem] sm:border sm:border-border sm:pt-0 sm:pb-0 sm:shadow-xl"
 			transition:fromLauncher
 		>
 			{#if chat.view !== 'history'}
@@ -305,7 +391,7 @@ const showCall = $derived(
 											>
 												<span class="min-w-0 flex-1">
 													<p class="truncate text-sm font-medium group-hover/row:underline">
-														{item.preview || m.conversation_fallback()}
+														{item.title || item.preview || m.conversation_fallback()}
 													</p>
 													<p class="mt-0.5 truncate text-xs text-muted-foreground">
 														{statusLabel(item)}
@@ -325,6 +411,21 @@ const showCall = $derived(
 						{/each}
 					</div>
 				{/if}
+				<a
+					href={CUSU_HOME}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="flex shrink-0 items-center justify-center gap-2 px-3 pt-0.5 pb-2.5 text-muted-foreground/70 outline-none transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring/30"
+					aria-label={m.aria_brand_home()}
+				>
+					<span
+						class="flex size-4 items-center justify-center rounded-[5px] bg-foreground text-background"
+						aria-hidden="true"
+					>
+						<CusuMark class="size-2.5" />
+					</span>
+					<span class="text-[11px] font-medium tracking-tight">{m.brand_name()}</span>
+				</a>
 			{:else if chat.voiceMode}
 				<div class="relative flex min-h-0 flex-1 flex-col overflow-hidden">
 					<div
@@ -399,6 +500,17 @@ const showCall = $derived(
 												>
 											</span>
 										</button>
+									{:else if attachment.kind === 'link'}
+										<LinkAttachment
+											compact
+											class="shadow-lg"
+											href={attachmentHref(attachment)}
+											filename={attachment.filename}
+											imageUrl={attachment.imageUrl}
+											description={attachment.description}
+											kindLabel={m.file_kind_link()}
+											openLabel={m.aria_open_link()}
+										/>
 									{:else}
 										<FileAttachment
 											class="shadow-lg"
@@ -443,22 +555,35 @@ const showCall = $derived(
 							!message.text &&
 							images.length === 0 &&
 							files.length === 0}
-						{@const showBubble = Boolean(message.text) || showTyping || showTranscribing}
+						{@const showBubble = Boolean(message.text) || showTranscribing}
+						{@const showAction =
+							!mine &&
+							Boolean(message.streaming) &&
+							!message.text &&
+							(Boolean(chat.agentStatusLabel) || showTyping)}
+						{@const showChrome =
+							showBubble ||
+							images.length > 0 ||
+							files.length > 0 ||
+							Boolean(message.transcribing && message.text) ||
+							Boolean(message.transcribed)}
 						<article
 							class={[
 								'flex w-fit max-w-[min(100%,18rem)] flex-col text-sm leading-relaxed break-words',
 								mine ? 'ml-auto items-end' : 'items-start'
 							]}
 						>
-							<p
-								class={[
-									'mb-1 text-[11px] font-medium text-muted-foreground',
-									mine && 'text-right'
-								]}
-							>
-								{roleLabel(message.role)}
-								· {formatWhen(message.at, LOCALE)}
-							</p>
+							{#if showChrome}
+								<p
+									class={[
+										'mb-1 text-[11px] font-medium text-muted-foreground',
+										mine && 'text-right'
+									]}
+								>
+									{roleLabel(message.role)}
+									· {formatWhen(message.at, LOCALE)}
+								</p>
+							{/if}
 							{#if images.length > 0}
 								<div class={['flex flex-col gap-2', mine ? 'items-end' : 'items-start']}>
 									{#each images as attachment (attachment.id)}
@@ -493,8 +618,6 @@ const showCall = $derived(
 										{:else}
 											<Markdown source={message.text} />
 										{/if}
-									{:else if showTyping}
-										<p class={mine ? 'opacity-70' : 'text-muted-foreground'}>{m.typing()}</p>
 									{/if}
 								</div>
 							{/if}
@@ -506,15 +629,32 @@ const showCall = $derived(
 									]}
 								>
 									{#each files as attachment (attachment.id)}
-										<FileAttachment
-											href={chat.attachmentSrc(attachment)}
-											filename={attachment.filename}
-											byteSize={attachment.byteSize}
-											downloadLabel={m.aria_download_file()}
-											kindLabel={m.file_kind_pdf()}
-										/>
+										{#if attachment.kind === 'link'}
+											<LinkAttachment
+												href={attachmentHref(attachment)}
+												filename={attachment.filename}
+												imageUrl={attachment.imageUrl}
+												description={attachment.description}
+												kindLabel={m.file_kind_link()}
+												openLabel={m.aria_open_link()}
+											/>
+										{:else}
+											<FileAttachment
+												href={chat.attachmentSrc(attachment)}
+												filename={attachment.filename}
+												byteSize={attachment.byteSize}
+												downloadLabel={m.aria_download_file()}
+												kindLabel={m.file_kind_pdf()}
+											/>
+										{/if}
 									{/each}
 								</div>
+							{/if}
+							{#if showAction}
+								<AgentActivity
+									label={chat.agentStatusLabel ?? m.typing()}
+									stacked={showChrome}
+								/>
 							{/if}
 							{#if message.transcribing && message.text}
 								<p class={['mt-1 text-[11px] text-muted-foreground', mine && 'text-right']}>
@@ -527,9 +667,15 @@ const showCall = $derived(
 							{/if}
 						</article>
 					{/each}
-					{#if chat.transferred && !chat.closed}
+					{#if handoffBanner}
 						<p class="text-center text-xs text-muted-foreground">
-							{m.conversation_transferred()}
+							{#if handoffBanner === 'waiting'}
+								{chat.waitingMessage || m.conversation_waiting_operator()}
+							{:else if handoffBanner === 'connected'}
+								{m.operator_connected()}
+							{:else}
+								{m.conversation_transferred()}
+							{/if}
 						</p>
 					{/if}
 					{#if chat.error && !chat.closed}
@@ -758,14 +904,18 @@ const showCall = $derived(
 	{#if chat.showLauncher}
 		<button
 			type="button"
-			class="flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg outline-none transition duration-200 ease-out hover:scale-110 hover:bg-primary/80 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-ring/30 active:scale-95"
+			class={[
+				'flex items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg outline-none transition duration-200 ease-out hover:scale-110 hover:bg-primary/80 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-ring/30 active:scale-95',
+				'size-12 sm:size-14',
+				chat.open && 'max-sm:hidden'
+			]}
 			onclick={() => chat.toggle()}
 			aria-label={chat.open ? m.aria_hide_chat() : m.aria_open_chat()}
 		>
 			{#if chat.open}
-				<Icon icon={Cancel01Icon} class="size-6" strokeWidth={2} />
+				<Icon icon={Cancel01Icon} class="size-5 sm:size-6" strokeWidth={2} />
 			{:else}
-				<CusuMark class="size-7" />
+				<CusuMark class="size-6 sm:size-7" />
 			{/if}
 		</button>
 	{/if}

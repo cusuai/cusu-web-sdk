@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { isClosedStatus, isTransferredStatus } from './types';
+import { isClosedStatus, isTransferredStatus, operatorHandoffBanner } from './types';
 
 describe('isClosedStatus', () => {
 	it('is true for the three closed reasons', () => {
@@ -34,5 +34,56 @@ describe('isTransferredStatus', () => {
 		expect(isTransferredStatus('waiting_us')).toBe(false);
 		expect(isTransferredStatus('resolved')).toBe(false);
 		expect(isTransferredStatus('other')).toBe(false);
+	});
+});
+
+describe('operatorHandoffBanner', () => {
+	it('hides when the thread is not transferred or is closed', () => {
+		expect(
+			operatorHandoffBanner({
+				transferred: false,
+				closed: false,
+				inboxCovered: false,
+				awaitedOperator: false
+			})
+		).toBeNull();
+		expect(
+			operatorHandoffBanner({
+				transferred: true,
+				closed: true,
+				inboxCovered: false,
+				awaitedOperator: true
+			})
+		).toBeNull();
+	});
+
+	it('waits when nobody is covering, then shows connected after coverage', () => {
+		expect(
+			operatorHandoffBanner({
+				transferred: true,
+				closed: false,
+				inboxCovered: false,
+				awaitedOperator: true
+			})
+		).toBe('waiting');
+		expect(
+			operatorHandoffBanner({
+				transferred: true,
+				closed: false,
+				inboxCovered: true,
+				awaitedOperator: true
+			})
+		).toBe('connected');
+	});
+
+	it('keeps the original transferred copy when someone was already covering', () => {
+		expect(
+			operatorHandoffBanner({
+				transferred: true,
+				closed: false,
+				inboxCovered: true,
+				awaitedOperator: false
+			})
+		).toBe('transferred');
 	});
 });

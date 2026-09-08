@@ -14,6 +14,17 @@ export function ensureVisitorId(): string {
 	return id;
 }
 
+/** Mint a new anonymous visitor. Call on host logout so the next session cannot see prior threads. */
+export function resetVisitorId(): string {
+	if (typeof document === 'undefined') {
+		return '';
+	}
+	clearCookie(COOKIE);
+	const id = crypto.randomUUID();
+	writeCookie(COOKIE, id);
+	return id;
+}
+
 function readCookie(name: string): string | null {
 	const prefix = `${name}=`;
 	for (const part of document.cookie.split(';')) {
@@ -34,4 +45,9 @@ function writeCookie(name: string, value: string): void {
 	// Cookie Store API is not available in all embed contexts.
 	// biome-ignore lint/suspicious/noDocumentCookie: intentional first-party visitor cookie
 	document.cookie = `${name}=${encodeURIComponent(value)}; Max-Age=${MAX_AGE_SEC}; Path=/; SameSite=Lax`;
+}
+
+function clearCookie(name: string): void {
+	// biome-ignore lint/suspicious/noDocumentCookie: intentional first-party visitor cookie
+	document.cookie = `${name}=; Max-Age=0; Path=/; SameSite=Lax`;
 }

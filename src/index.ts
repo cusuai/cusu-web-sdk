@@ -2,10 +2,11 @@ import { mount, unmount } from 'svelte';
 import ChatWidget from './ChatWidget.svelte';
 import { GroupChat } from './chat.svelte';
 import type { CusuConfig } from './config';
+import { clearSession, parseRemoteHistory } from './history';
 import { resolveWidgetLocale } from './locale';
 import { setLocale } from './paraglide/runtime.js';
 import { groupUrl, identifyUrl } from './urls';
-import { ensureVisitorId } from './visitor';
+import { ensureVisitorId, resetVisitorId } from './visitor';
 import widgetCss from './widget.css?inline';
 
 export type { CusuConfig } from './config';
@@ -34,6 +35,7 @@ type IdentifyCall = { id: string; traits?: IdentifyTraits };
 
 let runtime: Runtime | null = null;
 let bootId = 0;
+let lastConfig: CusuConfig | null = null;
 let activeConfig: CusuConfig | null = null;
 let queuedIdentify: IdentifyCall[] = [];
 
@@ -57,6 +59,7 @@ function reportError(error: CusuError): void {
 }
 
 function initialize(config: CusuConfig): void {
+	lastConfig = config;
 	const id = ++bootId;
 	activeConfig = null;
 	teardown();
@@ -85,8 +88,22 @@ function hideLauncher(): void {
 
 function destroy(): void {
 	bootId += 1;
+	lastConfig = null;
 	activeConfig = null;
+	queuedIdentify = [];
 	teardown();
+}
+
+function reset(): void {
+	queuedIdentify = [];
+	const config = lastConfig;
+	if (config) {
+		clearSession(config.group.trim());
+	}
+	resetVisitorId();
+	if (config) {
+		initialize(config);
+	}
 }
 
 function identify(id: string, traits?: IdentifyTraits): void {
@@ -279,7 +296,13 @@ async function postIdentify(config: CusuConfig, call: IdentifyCall): Promise<voi
 		});
 		if (!response.ok) {
 			console.error('Cusu: identify failed', response.status);
+			return;
 		}
+		const body = (await response.json().catch(() => ({}))) as { threads?: unknown };
+		if (runtime?.chat.visitorId !== visitorId) {
+			return;
+		}
+		runtime.chat.applyRemoteHistory(parseRemoteHistory(body.threads));
 	} catch (error) {
 		console.error('Cusu: identify failed', error);
 	}
@@ -293,6 +316,7 @@ const Cusu = {
 	isOpened,
 	showLauncher,
 	hideLauncher,
+	reset,
 	destroy,
 	onError
 };

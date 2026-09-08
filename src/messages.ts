@@ -5,9 +5,12 @@ export type ThreadAttachment = {
 	filename: string;
 	contentType: string;
 	byteSize: number;
-	kind: 'image' | 'pdf';
+	kind: 'image' | 'pdf' | 'link';
 	source: 'upload' | 'integration';
 	previewUrl?: string;
+	url?: string;
+	imageUrl?: string;
+	description?: string;
 };
 
 export type WidgetMessage = {

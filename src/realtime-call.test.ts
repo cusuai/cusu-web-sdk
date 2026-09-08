@@ -83,18 +83,26 @@ describe('transcriptFromEvent', () => {
 });
 
 describe('activityFromEvent', () => {
-	it('starts agent speaking on audio, not on response.created', () => {
+	it('starts agent speaking on audio, not on transcripts or response.created', () => {
 		expect(activityFromEvent({ type: 'response.created' })).toBeNull();
+		expect(activityFromEvent({ type: 'response.output_audio_transcript.delta' })).toBeNull();
 		expect(activityFromEvent({ type: 'response.output_audio.delta' })).toBe('agent-start');
 		expect(activityFromEvent({ type: 'output_audio_buffer.started' })).toBe('agent-start');
 	});
 
-	it('keeps agent speaking through buffer pauses and only ends on response.done', () => {
-		expect(activityFromEvent({ type: 'output_audio_buffer.stopped' })).toBeNull();
+	it('ends agent speaking when the output buffer stops, and on a finished response', () => {
+		expect(activityFromEvent({ type: 'output_audio_buffer.stopped' })).toBe('agent-end');
 		expect(activityFromEvent({ type: 'response.done' })).toBe('agent-end');
 	});
 
-	it('does not end the agent turn when response.done still has a function call', () => {
+	it('marks thinking when the model starts a tool call', () => {
+		expect(
+			activityFromEvent({
+				type: 'response.function_call_arguments.done',
+				call_id: 'call_3',
+				name: 'search_pages'
+			})
+		).toBe('thinking');
 		expect(
 			activityFromEvent({
 				type: 'response.done',
@@ -109,7 +117,7 @@ describe('activityFromEvent', () => {
 					]
 				}
 			})
-		).toBeNull();
+		).toBe('thinking');
 	});
 
 	it('maps customer speech start and stop', () => {

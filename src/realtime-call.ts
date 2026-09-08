@@ -12,7 +12,7 @@ export type RealtimeTranscript = {
 	done: boolean;
 };
 
-export type RealtimeActivity = 'agent-start' | 'agent-end' | 'user-start' | 'user-end';
+export type RealtimeActivity = 'agent-start' | 'agent-end' | 'user-start' | 'user-end' | 'thinking';
 
 export type RealtimeCallHandlers = {
 	onFunctionCall: (call: RealtimeFunctionCall) => Promise<string>;
@@ -134,15 +134,19 @@ export function activityFromEvent(event: RealtimeEvent): RealtimeActivity | null
 	if (
 		type === 'output_audio_buffer.started' ||
 		type === 'response.output_audio.delta' ||
-		type === 'response.audio.delta' ||
-		type === 'response.output_audio_transcript.delta' ||
-		type === 'response.audio_transcript.delta'
+		type === 'response.audio.delta'
 	) {
 		return 'agent-start';
 	}
+	if (type === 'output_audio_buffer.stopped' || type === 'output_audio_buffer.cleared') {
+		return 'agent-end';
+	}
+	if (type === 'response.function_call_arguments.done') {
+		return 'thinking';
+	}
 	if (type === 'response.done') {
 		if (responseHasFunctionCall(event)) {
-			return null;
+			return 'thinking';
 		}
 		return 'agent-end';
 	}

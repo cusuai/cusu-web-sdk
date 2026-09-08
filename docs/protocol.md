@@ -8,7 +8,7 @@ The SDK talks to a Cusu service. Public config uses **`group`** (slug). Some req
 |-----|------|
 | `config.group` | Path `:group` / body `company` / query `group` (legacy query `company` still accepted) |
 | Gate | `GET /v1/group/:group` + `Authorization: Bearer {apiKey}` (+ optional `Origin`) |
-| Identify | `POST /v1/group/:group/identify` body: `visitorId`, `externalId`, `name?`, `email?`, `phone?`, `gender?`, `traits?`, `signedAt?`, `signature?` |
+| Identify | `POST /v1/group/:group/identify` body: `visitorId`, `externalId`, … → `{ customer, threads }` (this group's history for the identified customer) |
 | Realtime mint | `POST /v1/group/:group/realtime-session` → `{ client_secret, model, grant, … }` |
 | Chat | `WS /v1/ws/chat?group={slug}&key={apiKey}&thread?&visitor?` |
 | Voice ready | WS `{ type: "chat.voice.ready", grant }` (one-time; enables voice commit/tool) |
@@ -29,7 +29,8 @@ Empty optional fields are empty segments. Skew window is ±5 minutes. Sign on yo
 
 - Redis-backed rate limits and thread-create quotas (shared across replicas).
 - Public key `allowedOrigins`: empty = unrestricted; non-empty = exact `Origin` match.
-- Chat thread boot rejects visitor mismatch when the thread already has a `visitorId`.
+- Chat thread boot rejects visitor mismatch when the thread already has a `visitorId`, unless the visitor is identified as that thread's customer.
+- `Cusu.reset()` mints a new `visitorId` (cookie `cusu_vid`) and drops local thread history. `destroy()` does not. `identify` then returns the customer's threads so login can restore them.
 - Voice `chat.voice.commit` / `chat.voice.tool` require an activated Realtime grant.
 
 Language for STT/TTS and widget chrome follows the group language. `GET /v1/group/:group` returns `language`, `rating_scale`, and `voice_realtime`.

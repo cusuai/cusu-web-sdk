@@ -1,4 +1,5 @@
 import {
+	agentActivityLabel,
 	canSend as callCanSend,
 	canStartCall as callCanStartCall,
 	orbitTone as callOrbitTone,
@@ -7,6 +8,7 @@ import {
 import type { CusuConfig } from './config';
 import type { ConversationSummary } from './history';
 import {
+	HISTORY_LIMIT,
 	lastMessagePreview,
 	loadCurrentId,
 	loadHistory,
@@ -80,6 +82,13 @@ function wait(ms: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function customerVisibleError(message: string): string {
+	if (message === 'Too many open conversations' || message === 'Too many conversations created') {
+		return '';
+	}
+	return message;
+}
+
 function audioContextCtor(): typeof AudioContext | undefined {
 	if (typeof window === 'undefined') {
 		return undefined;
@@ -128,11 +137,15 @@ export class GroupChat {
 	connected = $state(false);
 	busy = $state(false);
 	transferred = $state(false);
+	inboxCovered = $state(false);
+	awaitedOperator = $state(false);
+	waitingMessage = $state('');
 	status = $state<ThreadStatus>('waiting_customer');
 	recording = $state(false);
 	transcribing = $state(false);
 	voiceMode = $state(false);
 	callState = $state<CallState>('idle');
+	agentActivity = $state<string | null>(null);
 	levels = $state.raw<number[]>([]);
 	waveTick = $state(0);
 	waveShift = $state(0);
@@ -196,7 +209,8 @@ export class GroupChat {
 			transcribing: this.transcribing,
 			draft: this.draft,
 			pendingCount: this.pending.filter((item) => item.id && !item.error).length,
-			callState: this.callState
+			callState: this.callState,
+			agentActivity: this.agentActivity
 		};
 	}
 
@@ -218,6 +232,10 @@ export class GroupChat {
 
 	get callStatusLabel(): string {
 		return callStatusLabelOf(this.#callUi);
+	}
+
+	get agentStatusLabel(): string | null {
+		return agentActivityLabel(this.agentActivity);
 	}
 
 	toggle(): void {
@@ -275,6 +293,9 @@ export class GroupChat {
 		persistCurrentId(this.config.group, null);
 		this.messages = [];
 		this.transferred = false;
+		this.inboxCovered = false;
+		this.awaitedOperator = false;
+		this.waitingMessage = '';
 		this.status = 'waiting_customer';
 		this.rated = false;
 		this.ratingBusy = false;
@@ -283,6 +304,30 @@ export class GroupChat {
 		this.#streamingId = null;
 		this.#clearTurnTimer();
 		this.#open();
+	}
+
+	applyRemoteHistory(items: ConversationSummary[]): void {
+		const inProgress =
+			this.currentId &&
+			this.messages.length > 0 &&
+			!items.some((item) => item.id === this.currentId)
+				? this.history.find((item) => item.id === this.currentId)
+				: undefined;
+		this.history = (inProgress ? upsertHistory(items, inProgress) : items).slice(0, HISTORY_LIMIT);
+		persistHistory(this.config.group, this.history);
+		if (this.currentId && !this.history.some((item) => item.id === this.currentId)) {
+			this.currentId = null;
+			persistCurrentId(this.config.group, null);
+		}
+		const idle =
+			this.messages.length === 0 &&
+			!this.draft.trim() &&
+			this.pending.length === 0 &&
+			!this.busy &&
+			!this.voiceMode;
+		if (this.history.length > 0 && idle) {
+			this.view = 'history';
+		}
 	}
 
 	openThread(id: string): void {
@@ -386,6 +431,7 @@ export class GroupChat {
 		this.#clearHangupQuietTimer();
 		this.voiceMode = false;
 		this.callState = 'idle';
+		this.agentActivity = null;
 		void this.#stopRecording(true);
 	}
 
@@ -789,6 +835,10 @@ export class GroupChat {
 			return Promise.resolve(JSON.stringify({ error: 'Chat is disconnected' }));
 		}
 		return new Promise((resolve, reject) => {
+			this.agentActivity = name;
+			if (this.voiceMode) {
+				this.callState = 'thinking';
+			}
 			this.#toolWaiters.set(callId, { resolve, reject });
 			this.#ws?.send(
 				JSON.stringify({
@@ -855,7 +905,12 @@ export class GroupChat {
 			this.#clearRealtimeListenTimer();
 			this.#clearHangupQuietTimer();
 			this.#realtimeAgentTalking = true;
-			this.callState = 'playing';
+			this.callState = this.#toolWaiters.size > 0 ? 'thinking' : 'playing';
+			return;
+		}
+		if (activity === 'thinking') {
+			this.#clearRealtimeListenTimer();
+			this.callState = 'thinking';
 			return;
 		}
 		if (activity === 'agent-end') {
@@ -866,7 +921,7 @@ export class GroupChat {
 				if (!this.voiceMode) {
 					return;
 				}
-				if (this.#toolWaiters.size > 0) {
+				if (this.#toolWaiters.size > 0 || this.agentActivity) {
 					this.callState = 'thinking';
 					return;
 				}
@@ -878,10 +933,19 @@ export class GroupChat {
 			}, 1400);
 			return;
 		}
-		if (this.#hangupAfterSpeech || this.#realtimeAgentTalking) {
+		if (activity === 'user-start') {
+			this.callState = 'speaking';
 			return;
 		}
-		this.callState = activity === 'user-start' ? 'speaking' : 'listening';
+		if (this.#toolWaiters.size > 0 || this.agentActivity) {
+			this.callState = 'thinking';
+			return;
+		}
+		if (this.#hangupAfterSpeech || this.#realtimeAgentTalking) {
+			this.callState = 'playing';
+			return;
+		}
+		this.callState = 'listening';
 	}
 
 	#clearRealtimeListenTimer(): void {
@@ -1309,7 +1373,12 @@ export class GroupChat {
 		}
 		if (event.type === 'chat.ready') {
 			this.#applyThread(event.thread);
+			this.#applyInboxCovered(event.inboxCovered);
 			this.#sendVoiceReady();
+			return;
+		}
+		if (event.type === 'chat.status') {
+			this.agentActivity = event.activity;
 			return;
 		}
 		if (event.type === 'chat.delta' && event.kind === 'answer') {
@@ -1317,6 +1386,7 @@ export class GroupChat {
 			return;
 		}
 		if (event.type === 'chat.ask') {
+			this.agentActivity = null;
 			this.#finishStream(event.question, event.message?.id);
 			if (this.voiceMode) {
 				this.busy = false;
@@ -1329,6 +1399,7 @@ export class GroupChat {
 		}
 		if (event.type === 'chat.done') {
 			this.#clearTurnTimer();
+			this.agentActivity = null;
 			this.#finishStream(event.text);
 			if (event.thread) {
 				this.#rememberThread(event.thread);
@@ -1344,6 +1415,7 @@ export class GroupChat {
 				}
 			}
 			this.busy = false;
+			this.#applyInboxCovered(event.inboxCovered);
 			if (
 				event.transferred ||
 				isTransferredStatus(event.thread.status, event.thread.assignee) ||
@@ -1356,6 +1428,7 @@ export class GroupChat {
 		}
 		if (event.type === 'chat.queued') {
 			this.#clearTurnTimer();
+			this.agentActivity = null;
 			this.#dropEmptyStream();
 			this.busy = false;
 			this.#requestHangupAfterSpeech();
@@ -1364,13 +1437,15 @@ export class GroupChat {
 		}
 		if (event.type === 'chat.error') {
 			this.#clearTurnTimer();
+			this.agentActivity = null;
 			this.#dropEmptyStream();
 			this.busy = false;
+			const message = customerVisibleError(event.message);
 			if (this.ratingBusy) {
 				this.ratingBusy = false;
-				this.error = event.message;
+				this.error = message;
 			} else if (!this.closed) {
-				this.error = event.message;
+				this.error = message;
 			}
 			this.#maybeResumeCall();
 			return;
@@ -1397,6 +1472,12 @@ export class GroupChat {
 				this.#toolWaiters.delete(event.callId);
 				waiter.resolve(event.output);
 			}
+			if (this.#toolWaiters.size === 0) {
+				this.agentActivity = null;
+				if (this.voiceMode && !this.#realtimeAgentTalking) {
+					this.callState = 'thinking';
+				}
+			}
 			if (event.thread) {
 				this.currentId = event.thread.id;
 				persistCurrentId(this.config.group, event.thread.id);
@@ -1404,6 +1485,7 @@ export class GroupChat {
 				this.transferred = isTransferredStatus(event.thread.status, event.thread.assignee);
 				this.#upsertHistory({
 					id: event.thread.id,
+					...(event.thread.title ? { title: event.thread.title } : {}),
 					preview:
 						event.thread.preview || lastMessagePreview(this.messages) || m.conversation_new(),
 					updatedAt: event.thread.updatedAt,
@@ -1412,8 +1494,19 @@ export class GroupChat {
 				});
 			}
 			this.#applyVoiceAttachments(event.attachments ?? lastAgentAttachments(event.thread));
+			this.#applyInboxCovered(event.inboxCovered);
 			if (event.transferred || event.closed) {
 				this.#requestHangupAfterSpeech();
+			}
+			return;
+		}
+		if (event.type === 'inbox.coverage') {
+			this.#applyInboxCovered(event.covered);
+			return;
+		}
+		if (event.type === 'inbox.waiting') {
+			if (this.transferred && !this.closed && !this.inboxCovered) {
+				this.waitingMessage = event.message;
 			}
 			return;
 		}
@@ -1428,7 +1521,10 @@ export class GroupChat {
 				this.#upsertHistory({
 					...existing,
 					status: event.thread.status,
-					assignee: event.thread.assignee ?? existing.assignee
+					assignee: event.thread.assignee ?? existing.assignee,
+					...(event.thread.title ? { title: event.thread.title } : {}),
+					...(event.thread.preview ? { preview: event.thread.preview } : {}),
+					...(event.thread.updatedAt ? { updatedAt: event.thread.updatedAt } : {})
 				});
 			}
 			if (this.closed || this.transferred) {
@@ -1448,6 +1544,9 @@ export class GroupChat {
 				this.messages = [];
 			}
 			this.transferred = false;
+			this.inboxCovered = false;
+			this.awaitedOperator = false;
+			this.waitingMessage = '';
 			this.status = 'waiting_customer';
 			this.rated = false;
 			this.ratingBusy = false;
@@ -1458,6 +1557,14 @@ export class GroupChat {
 		}
 		this.rated = thread.rated === true;
 		this.ratingBusy = false;
+		const keepLocalComposer =
+			!this.currentId &&
+			this.messages.some((message) => message.role === 'customer') &&
+			thread.messages.length > 0;
+		if (keepLocalComposer) {
+			this.#rememberThread(thread);
+			return;
+		}
 		if (thread.messages.length > 0) {
 			const previews = previewUrlsByAttachment(this.messages);
 			this.messages = threadToMessages(thread.messages).map((message) =>
@@ -1499,13 +1606,24 @@ export class GroupChat {
 	}
 
 	#rememberThread(
-		thread: Pick<SupportThread, 'id' | 'preview' | 'updatedAt' | 'status' | 'assignee' | 'messages'>
+		thread: Pick<
+			SupportThread,
+			'id' | 'preview' | 'updatedAt' | 'status' | 'assignee' | 'messages'
+		> & {
+			title?: string;
+		}
 	): void {
 		this.currentId = thread.id;
 		persistCurrentId(this.config.group, thread.id);
 		this.#applyStatus(thread.status, thread.assignee);
+		const existing = this.history.find((item) => item.id === thread.id);
 		this.#upsertHistory({
 			id: thread.id,
+			...(thread.title?.trim()
+				? { title: thread.title }
+				: existing?.title
+					? { title: existing.title }
+					: {}),
 			preview:
 				lastMessagePreview(thread.messages ?? this.messages) ||
 				thread.preview ||
@@ -1531,11 +1649,28 @@ export class GroupChat {
 	#applyStatus(status: ThreadStatus, assignee?: SupportThread['assignee']): void {
 		this.status = status;
 		this.transferred = isTransferredStatus(status, assignee);
+		if (!this.transferred || this.closed) {
+			this.awaitedOperator = false;
+			this.waitingMessage = '';
+		}
 		if (!this.voiceMode) {
 			return;
 		}
 		if (this.closed || this.transferred) {
 			this.#requestHangupAfterSpeech();
+		}
+	}
+
+	#applyInboxCovered(covered: boolean | undefined): void {
+		if (typeof covered !== 'boolean') {
+			return;
+		}
+		if (this.transferred && !this.closed && !covered) {
+			this.awaitedOperator = true;
+		}
+		this.inboxCovered = covered;
+		if (covered) {
+			this.waitingMessage = '';
 		}
 	}
 

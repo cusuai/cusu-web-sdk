@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `reset()` — new anonymous visitor on host logout (rotates `cusu_vid`, clears local thread history, reboots)
+- `identify` returns the customer's widget thread history and the SDK hydrates the conversation list
 - `identify` first-class trait `gender?: 'male' | 'female' | 'other'`
 - Signed identify fields `signedAt` / `signature` (HMAC from your backend)
 - Realtime voice grant forwarding (`chat.voice.ready`)

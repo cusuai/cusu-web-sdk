@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'bun:test';
-import { type CallUiState, callStatusLabel, canSend, canStartCall, orbitTone } from './call-status';
+import {
+	agentActivityLabel,
+	type CallUiState,
+	callStatusLabel,
+	canSend,
+	canStartCall,
+	orbitTone
+} from './call-status';
 
 const base = (): CallUiState => ({
 	connected: true,
@@ -48,6 +55,11 @@ describe('orbitTone', () => {
 		['idle when not in voice mode', { voiceMode: false, callState: 'playing' as const }, 'idle'],
 		['warm when playing', { voiceMode: true, callState: 'playing' as const }, 'warm'],
 		['warm when thinking', { voiceMode: true, callState: 'thinking' as const }, 'warm'],
+		[
+			'warm when looking something up',
+			{ voiceMode: true, callState: 'listening' as const, agentActivity: 'search_pages' },
+			'warm'
+		],
 		['cold when listening', { voiceMode: true, callState: 'listening' as const }, 'cold'],
 		['cold when speaking', { voiceMode: true, callState: 'speaking' as const }, 'cold'],
 		['cold when idle call state', { voiceMode: true, callState: 'idle' as const }, 'cold']
@@ -68,5 +80,46 @@ describe('callStatusLabel', () => {
 
 		expect(labels.every((label) => label.length > 0)).toBe(true);
 		expect(new Set(labels).size).toBe(labels.length);
+	});
+
+	it('shows tool activity while thinking', () => {
+		expect(
+			callStatusLabel({
+				...base(),
+				voiceMode: true,
+				callState: 'thinking',
+				agentActivity: 'search_pages'
+			})
+		).not.toBe(callStatusLabel({ ...base(), callState: 'thinking' }));
+	});
+
+	it('shows tool activity even while the assistant audio is playing', () => {
+		expect(
+			callStatusLabel({
+				...base(),
+				voiceMode: true,
+				callState: 'playing',
+				agentActivity: 'browse_page'
+			})
+		).toBe(agentActivityLabel('browse_page'));
+	});
+
+	it('keeps hearing the customer above tool activity', () => {
+		expect(
+			callStatusLabel({
+				...base(),
+				voiceMode: true,
+				callState: 'speaking',
+				agentActivity: 'search_pages'
+			})
+		).toBe(callStatusLabel({ ...base(), callState: 'speaking' }));
+	});
+});
+
+describe('agentActivityLabel', () => {
+	it('maps known tools and falls back for unknown ones', () => {
+		expect(agentActivityLabel(null)).toBeNull();
+		expect(agentActivityLabel('search_pages')).not.toBe(agentActivityLabel('browse_page'));
+		expect(agentActivityLabel('unknown_tool')?.length).toBeGreaterThan(0);
 	});
 });

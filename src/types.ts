@@ -47,6 +47,26 @@ export function isTransferredStatus(
 	return status === 'waiting' || status === 'human' || status === 'needs_operator';
 }
 
+export type OperatorHandoffBanner = 'waiting' | 'connected' | 'transferred';
+
+export function operatorHandoffBanner(params: {
+	transferred: boolean;
+	closed: boolean;
+	inboxCovered: boolean;
+	awaitedOperator: boolean;
+}): OperatorHandoffBanner | null {
+	if (!params.transferred || params.closed) {
+		return null;
+	}
+	if (!params.inboxCovered) {
+		return 'waiting';
+	}
+	if (params.awaitedOperator) {
+		return 'connected';
+	}
+	return 'transferred';
+}
+
 export type ThreadMessage = {
 	id: string;
 	at: string;
@@ -58,8 +78,11 @@ export type ThreadMessage = {
 		filename: string;
 		contentType: string;
 		byteSize: number;
-		kind: 'image' | 'pdf';
+		kind: 'image' | 'pdf' | 'link';
 		source: 'upload' | 'integration';
+		url?: string;
+		imageUrl?: string;
+		description?: string;
 	}>;
 };
 
@@ -69,6 +92,7 @@ export type SupportThread = {
 	assignee?: ThreadAssignee;
 	createdAt: string;
 	updatedAt: string;
+	title?: string;
 	preview: string;
 	messages: ThreadMessage[];
 	rated?: boolean;
@@ -78,10 +102,17 @@ export type RatingScale = 'stars_5' | 'thumbs' | 'faces_3';
 
 export type ChatEvent =
 	| { type: 'ping' }
-	| { type: 'chat.ready'; thread: SupportThread | null }
+	| { type: 'chat.ready'; thread: SupportThread | null; inboxCovered?: boolean }
 	| { type: 'chat.delta'; kind: 'thinking' | 'answer'; text: string }
+	| { type: 'chat.status'; activity: string }
 	| { type: 'chat.ask'; question: string; message?: ThreadMessage }
-	| { type: 'chat.done'; text: string; transferred: boolean; thread: SupportThread }
+	| {
+			type: 'chat.done';
+			text: string;
+			transferred: boolean;
+			inboxCovered?: boolean;
+			thread: SupportThread;
+	  }
 	| { type: 'chat.queued' }
 	| { type: 'chat.error'; message: string }
 	| { type: 'chat.rated' }
@@ -97,10 +128,13 @@ export type ChatEvent =
 			output: string;
 			transferred?: boolean;
 			closed?: boolean;
+			inboxCovered?: boolean;
 			thread?: SupportThread | null;
 			attachments?: ThreadMessage['attachments'];
 	  }
 	| { type: 'thread.message'; threadId: string; message: ThreadMessage }
+	| { type: 'inbox.coverage'; covered: boolean }
+	| { type: 'inbox.waiting'; message: string }
 	| {
 			type: 'thread.updated';
 			thread: {
@@ -108,5 +142,7 @@ export type ChatEvent =
 				status: ThreadStatus;
 				assignee?: ThreadAssignee;
 				updatedAt?: string;
+				title?: string;
+				preview?: string;
 			};
 	  };
