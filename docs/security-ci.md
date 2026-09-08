@@ -36,24 +36,30 @@ We do **not** vendor a separate npm-audit JSON report; the CI log is the artifac
 
 ## Secret scanning
 
-CI runs Gitleaks in protected mode on the checked-out tree:
+CI installs the official [Gitleaks CLI](https://github.com/gitleaks/gitleaks)
+(pinned release) and runs:
 
-```yaml
-- uses: gitleaks/gitleaks-action@v2
-  env:
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```bash
+gitleaks detect --source . --verbose --redact
 ```
+
+Checkout uses `fetch-depth: 0`, so the scan covers **git history**, not only the
+working tree. Config: [`.gitleaks.toml`](../.gitleaks.toml).
+
+We intentionally do **not** use `gitleaks/gitleaks-action@v2+`. That wrapper
+requires a `GITLEAKS_LICENSE` secret for organization repositories (free/paid
+key from gitleaks.io). The CLI itself remains usable without a license and is
+a better fit for a public open-source repo.
 
 Locally (optional):
 
 ```bash
 # brew install gitleaks
-gitleaks detect --source . --verbose
+gitleaks detect --source . --verbose --redact
 ```
 
-Config lives in [`.gitleaks.toml`](../.gitleaks.toml). Allowlists only cover
-**intentional** demo placeholders (for example `pk_…` / `isk_…` shapes in docs),
-never real credentials.
+Allowlists only cover **intentional** demo placeholders (for example `pk_…` /
+`isk_…` shapes in docs), never real credentials.
 
 If Gitleaks fails:
 

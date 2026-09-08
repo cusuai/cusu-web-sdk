@@ -18,13 +18,14 @@ Thanks for helping with `@cusuai/web-sdk`.
 7. `bun run build` — production ES + IIFE
 8. `bun run audit` — dependency advisories (same gate as CI)
 
-Or run everything local CI runs except Gitleaks: `bun run ci`.
+Or run everything local CI runs (including the same audit gate): `bun run ci`.
 
-Secret scanning in CI uses [Gitleaks](https://github.com/gitleaks/gitleaks). Optional locally:
+Secret scanning in GitHub Actions uses the **Gitleaks CLI** (no org license).
+Optional locally:
 
 ```bash
 brew install gitleaks
-gitleaks detect --source . --verbose
+gitleaks detect --source . --verbose --redact
 ```
 
 ## i18n (Paraglide)

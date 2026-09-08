@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Signed identify fields `signedAt` / `signature` (HMAC from your backend)
 - Realtime voice grant forwarding (`chat.voice.ready`)
 - Bearer `pk_` on dictation `/transcribe`
-- CI dependency audit (`bun audit`), Gitleaks secret scan, LCOV coverage artifact + pure-module floors
+- CI dependency audit (`bun audit`), Gitleaks CLI secret scan (no Action license), LCOV coverage artifact + pure-module floors
 - Docs: [docs/security-ci.md](./docs/security-ci.md)
 
 ### Changed
