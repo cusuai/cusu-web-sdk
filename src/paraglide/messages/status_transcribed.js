@@ -9,6 +9,10 @@ const en_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => L
 	return /** @type {LocalizedString} */ (`Transcribed`)
 };
 
+const bg_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Транскрибирано`)
+};
+
 const cs_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Přepsáno`)
 };
@@ -23,6 +27,10 @@ const es_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => L
 
 const de_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Transkribiert`)
+};
+
+const et_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transkribeeritud`)
 };
 
 const fr_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => L
 	return /** @type {LocalizedString} */ (`Trascritto`)
 };
 
+const lt_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transkribuota`)
+};
+
+const lv_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transkribēts`)
+};
+
 const nl_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Getranscribeerd`)
+};
+
+const no_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transkribert`)
 };
 
 const pt_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => L
 * | "Transcribed" |
 *
 * @param {Status_TranscribedInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const status_transcribed = /** @type {((inputs?: Status_TranscribedInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_TranscribedInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const status_transcribed = /** @type {((inputs?: Status_TranscribedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_TranscribedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_status_transcribed(inputs)
 	if (locale === "cs") return cs_status_transcribed(inputs)
 	if (locale === "sk") return sk_status_transcribed(inputs)
 	if (locale === "es") return es_status_transcribed(inputs)
 	if (locale === "de") return de_status_transcribed(inputs)
+	if (locale === "et") return et_status_transcribed(inputs)
 	if (locale === "fr") return fr_status_transcribed(inputs)
 	if (locale === "pl") return pl_status_transcribed(inputs)
 	if (locale === "hu") return hu_status_transcribed(inputs)
 	if (locale === "it") return it_status_transcribed(inputs)
+	if (locale === "lt") return lt_status_transcribed(inputs)
+	if (locale === "lv") return lv_status_transcribed(inputs)
 	if (locale === "nl") return nl_status_transcribed(inputs)
+	if (locale === "no") return no_status_transcribed(inputs)
 	if (locale === "pt") return pt_status_transcribed(inputs)
 	if (locale === "da") return da_status_transcribed(inputs)
 	if (locale === "sl") return sl_status_transcribed(inputs)

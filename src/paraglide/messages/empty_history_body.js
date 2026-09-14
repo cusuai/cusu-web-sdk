@@ -9,6 +9,10 @@ const en_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => L
 	return /** @type {LocalizedString} */ (`No conversations yet — go ahead and ask. We've got you.`)
 };
 
+const bg_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Все още няма разговори — попитайте смело. Ние сме насреща.`)
+};
+
 const cs_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Žádná konverzace ještě neproběhla — pojď se zeptat. Jsme v tom s tebou.`)
 };
@@ -23,6 +27,10 @@ const es_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => L
 
 const de_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Es gibt noch keine Unterhaltungen — stellen Sie einfach eine Frage. Wir helfen Ihnen gerne.`)
+};
+
+const et_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Vestlusi veel pole — küsige julgelt. Oleme valmis aitama.`)
 };
 
 const fr_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => L
 	return /** @type {LocalizedString} */ (`Non ci sono ancora conversazioni — fai pure una domanda. Siamo qui per aiutarti.`)
 };
 
+const lt_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Pokalbių dar nėra — drąsiai klauskite. Mes pasiruošę padėti.`)
+};
+
+const lv_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Sarunu vēl nav — droši jautājiet. Mēs esam gatavi palīdzēt.`)
+};
+
 const nl_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Er zijn nog geen gesprekken — stel gerust een vraag. We helpen je graag.`)
+};
+
+const no_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Ingen samtaler ennå — bare spør. Vi er klare til å hjelpe.`)
 };
 
 const pt_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => L
 * | "No conversations yet — go ahead and ask. We've got you." |
 *
 * @param {Empty_History_BodyInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const empty_history_body = /** @type {((inputs?: Empty_History_BodyInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Empty_History_BodyInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const empty_history_body = /** @type {((inputs?: Empty_History_BodyInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Empty_History_BodyInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_empty_history_body(inputs)
 	if (locale === "cs") return cs_empty_history_body(inputs)
 	if (locale === "sk") return sk_empty_history_body(inputs)
 	if (locale === "es") return es_empty_history_body(inputs)
 	if (locale === "de") return de_empty_history_body(inputs)
+	if (locale === "et") return et_empty_history_body(inputs)
 	if (locale === "fr") return fr_empty_history_body(inputs)
 	if (locale === "pl") return pl_empty_history_body(inputs)
 	if (locale === "hu") return hu_empty_history_body(inputs)
 	if (locale === "it") return it_empty_history_body(inputs)
+	if (locale === "lt") return lt_empty_history_body(inputs)
+	if (locale === "lv") return lv_empty_history_body(inputs)
 	if (locale === "nl") return nl_empty_history_body(inputs)
+	if (locale === "no") return no_empty_history_body(inputs)
 	if (locale === "pt") return pt_empty_history_body(inputs)
 	if (locale === "da") return da_empty_history_body(inputs)
 	if (locale === "sl") return sl_empty_history_body(inputs)

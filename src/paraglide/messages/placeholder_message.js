@@ -9,6 +9,10 @@ const en_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) =>
 	return /** @type {LocalizedString} */ (`Message…`)
 };
 
+const bg_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Съобщение…`)
+};
+
 const cs_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Zpráva…`)
 };
@@ -23,6 +27,10 @@ const es_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) =>
 
 const de_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Nachricht…`)
+};
+
+const et_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Sõnum…`)
 };
 
 const fr_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) =>
 	return /** @type {LocalizedString} */ (`Messaggio…`)
 };
 
+const lt_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Žinutė…`)
+};
+
+const lv_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Ziņa…`)
+};
+
 const nl_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Bericht…`)
+};
+
+const no_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Melding…`)
 };
 
 const pt_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) =>
 * | "Message…" |
 *
 * @param {Placeholder_MessageInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const placeholder_message = /** @type {((inputs?: Placeholder_MessageInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Placeholder_MessageInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const placeholder_message = /** @type {((inputs?: Placeholder_MessageInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Placeholder_MessageInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_placeholder_message(inputs)
 	if (locale === "cs") return cs_placeholder_message(inputs)
 	if (locale === "sk") return sk_placeholder_message(inputs)
 	if (locale === "es") return es_placeholder_message(inputs)
 	if (locale === "de") return de_placeholder_message(inputs)
+	if (locale === "et") return et_placeholder_message(inputs)
 	if (locale === "fr") return fr_placeholder_message(inputs)
 	if (locale === "pl") return pl_placeholder_message(inputs)
 	if (locale === "hu") return hu_placeholder_message(inputs)
 	if (locale === "it") return it_placeholder_message(inputs)
+	if (locale === "lt") return lt_placeholder_message(inputs)
+	if (locale === "lv") return lv_placeholder_message(inputs)
 	if (locale === "nl") return nl_placeholder_message(inputs)
+	if (locale === "no") return no_placeholder_message(inputs)
 	if (locale === "pt") return pt_placeholder_message(inputs)
 	if (locale === "da") return da_placeholder_message(inputs)
 	if (locale === "sl") return sl_placeholder_message(inputs)

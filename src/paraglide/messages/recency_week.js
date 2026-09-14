@@ -9,6 +9,10 @@ const en_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedStri
 	return /** @type {LocalizedString} */ (`This week`)
 };
 
+const bg_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Тази седмица`)
+};
+
 const cs_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Tento týden`)
 };
@@ -23,6 +27,10 @@ const es_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedStri
 
 const de_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Diese Woche`)
+};
+
+const et_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Sel nädalal`)
 };
 
 const fr_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedStri
 	return /** @type {LocalizedString} */ (`Questa settimana`)
 };
 
+const lt_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Šią savaitę`)
+};
+
+const lv_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Šonedēļ`)
+};
+
 const nl_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Deze week`)
+};
+
+const no_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Denne uken`)
 };
 
 const pt_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedStri
 * | "This week" |
 *
 * @param {Recency_WeekInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const recency_week = /** @type {((inputs?: Recency_WeekInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Recency_WeekInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const recency_week = /** @type {((inputs?: Recency_WeekInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Recency_WeekInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_recency_week(inputs)
 	if (locale === "cs") return cs_recency_week(inputs)
 	if (locale === "sk") return sk_recency_week(inputs)
 	if (locale === "es") return es_recency_week(inputs)
 	if (locale === "de") return de_recency_week(inputs)
+	if (locale === "et") return et_recency_week(inputs)
 	if (locale === "fr") return fr_recency_week(inputs)
 	if (locale === "pl") return pl_recency_week(inputs)
 	if (locale === "hu") return hu_recency_week(inputs)
 	if (locale === "it") return it_recency_week(inputs)
+	if (locale === "lt") return lt_recency_week(inputs)
+	if (locale === "lv") return lv_recency_week(inputs)
 	if (locale === "nl") return nl_recency_week(inputs)
+	if (locale === "no") return no_recency_week(inputs)
 	if (locale === "pt") return pt_recency_week(inputs)
 	if (locale === "da") return da_recency_week(inputs)
 	if (locale === "sl") return sl_recency_week(inputs)

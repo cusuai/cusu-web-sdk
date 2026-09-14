@@ -9,6 +9,10 @@ const en_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) 
 	return /** @type {LocalizedString} */ (`Opening a page…`)
 };
 
+const bg_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Отварям страница…`)
+};
+
 const cs_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Otevírám stránku…`)
 };
@@ -23,6 +27,10 @@ const es_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) 
 
 const de_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Öffne eine Seite…`)
+};
+
+const et_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Avan lehte…`)
 };
 
 const fr_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) 
 	return /** @type {LocalizedString} */ (`Apro una pagina…`)
 };
 
+const lt_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Atidaromas puslapis…`)
+};
+
+const lv_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Atver lapu…`)
+};
+
 const nl_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Een pagina openen…`)
+};
+
+const no_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Åpner en side…`)
 };
 
 const pt_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) 
 * | "Opening a page…" |
 *
 * @param {Activity_Browse_PageInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const activity_browse_page = /** @type {((inputs?: Activity_Browse_PageInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Activity_Browse_PageInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const activity_browse_page = /** @type {((inputs?: Activity_Browse_PageInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Activity_Browse_PageInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_activity_browse_page(inputs)
 	if (locale === "cs") return cs_activity_browse_page(inputs)
 	if (locale === "sk") return sk_activity_browse_page(inputs)
 	if (locale === "es") return es_activity_browse_page(inputs)
 	if (locale === "de") return de_activity_browse_page(inputs)
+	if (locale === "et") return et_activity_browse_page(inputs)
 	if (locale === "fr") return fr_activity_browse_page(inputs)
 	if (locale === "pl") return pl_activity_browse_page(inputs)
 	if (locale === "hu") return hu_activity_browse_page(inputs)
 	if (locale === "it") return it_activity_browse_page(inputs)
+	if (locale === "lt") return lt_activity_browse_page(inputs)
+	if (locale === "lv") return lv_activity_browse_page(inputs)
 	if (locale === "nl") return nl_activity_browse_page(inputs)
+	if (locale === "no") return no_activity_browse_page(inputs)
 	if (locale === "pt") return pt_activity_browse_page(inputs)
 	if (locale === "da") return da_activity_browse_page(inputs)
 	if (locale === "sl") return sl_activity_browse_page(inputs)

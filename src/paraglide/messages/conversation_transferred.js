@@ -9,6 +9,10 @@ const en_conversation_transferred = /** @type {(inputs: Conversation_Transferred
 	return /** @type {LocalizedString} */ (`The conversation was handed over to an operator.`)
 };
 
+const bg_conversation_transferred = /** @type {(inputs: Conversation_TransferredInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Разговорът беше прехвърлен към оператор.`)
+};
+
 const cs_conversation_transferred = /** @type {(inputs: Conversation_TransferredInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Konverzace byla předána operátorovi.`)
 };
@@ -23,6 +27,10 @@ const es_conversation_transferred = /** @type {(inputs: Conversation_Transferred
 
 const de_conversation_transferred = /** @type {(inputs: Conversation_TransferredInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Die Unterhaltung wurde an einen Mitarbeiter übergeben.`)
+};
+
+const et_conversation_transferred = /** @type {(inputs: Conversation_TransferredInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Vestlus anti üle operaatorile.`)
 };
 
 const fr_conversation_transferred = /** @type {(inputs: Conversation_TransferredInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_conversation_transferred = /** @type {(inputs: Conversation_Transferred
 	return /** @type {LocalizedString} */ (`La conversazione è stata trasferita a un operatore.`)
 };
 
+const lt_conversation_transferred = /** @type {(inputs: Conversation_TransferredInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Pokalbis perduotas operatoriui.`)
+};
+
+const lv_conversation_transferred = /** @type {(inputs: Conversation_TransferredInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Saruna tika nodota operatoram.`)
+};
+
 const nl_conversation_transferred = /** @type {(inputs: Conversation_TransferredInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Het gesprek is overgedragen aan een medewerker.`)
+};
+
+const no_conversation_transferred = /** @type {(inputs: Conversation_TransferredInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Samtalen ble overført til en operatør.`)
 };
 
 const pt_conversation_transferred = /** @type {(inputs: Conversation_TransferredInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_conversation_transferred = /** @type {(inputs: Conversation_Transferred
 * | "The conversation was handed over to an operator." |
 *
 * @param {Conversation_TransferredInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const conversation_transferred = /** @type {((inputs?: Conversation_TransferredInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_TransferredInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const conversation_transferred = /** @type {((inputs?: Conversation_TransferredInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_TransferredInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_conversation_transferred(inputs)
 	if (locale === "cs") return cs_conversation_transferred(inputs)
 	if (locale === "sk") return sk_conversation_transferred(inputs)
 	if (locale === "es") return es_conversation_transferred(inputs)
 	if (locale === "de") return de_conversation_transferred(inputs)
+	if (locale === "et") return et_conversation_transferred(inputs)
 	if (locale === "fr") return fr_conversation_transferred(inputs)
 	if (locale === "pl") return pl_conversation_transferred(inputs)
 	if (locale === "hu") return hu_conversation_transferred(inputs)
 	if (locale === "it") return it_conversation_transferred(inputs)
+	if (locale === "lt") return lt_conversation_transferred(inputs)
+	if (locale === "lv") return lv_conversation_transferred(inputs)
 	if (locale === "nl") return nl_conversation_transferred(inputs)
+	if (locale === "no") return no_conversation_transferred(inputs)
 	if (locale === "pt") return pt_conversation_transferred(inputs)
 	if (locale === "da") return da_conversation_transferred(inputs)
 	if (locale === "sl") return sl_conversation_transferred(inputs)

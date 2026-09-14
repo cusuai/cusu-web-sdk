@@ -9,6 +9,10 @@ const en_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => L
 	return /** @type {LocalizedString} */ (`An operator connected.`)
 };
 
+const bg_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Оператор се свърза.`)
+};
+
 const cs_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Operátor se připojil.`)
 };
@@ -23,6 +27,10 @@ const es_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => L
 
 const de_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Ein Mitarbeiter hat sich verbunden.`)
+};
+
+const et_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Operaator liitus vestlusega.`)
 };
 
 const fr_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => L
 	return /** @type {LocalizedString} */ (`Un operatore si è connesso.`)
 };
 
+const lt_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Operatorius prisijungė.`)
+};
+
+const lv_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Operators pievienojās sarunai.`)
+};
+
 const nl_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Een medewerker heeft verbinding gemaakt.`)
+};
+
+const no_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`En operatør koblet seg til.`)
 };
 
 const pt_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => L
 * | "An operator connected." |
 *
 * @param {Operator_ConnectedInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const operator_connected = /** @type {((inputs?: Operator_ConnectedInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Operator_ConnectedInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const operator_connected = /** @type {((inputs?: Operator_ConnectedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Operator_ConnectedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_operator_connected(inputs)
 	if (locale === "cs") return cs_operator_connected(inputs)
 	if (locale === "sk") return sk_operator_connected(inputs)
 	if (locale === "es") return es_operator_connected(inputs)
 	if (locale === "de") return de_operator_connected(inputs)
+	if (locale === "et") return et_operator_connected(inputs)
 	if (locale === "fr") return fr_operator_connected(inputs)
 	if (locale === "pl") return pl_operator_connected(inputs)
 	if (locale === "hu") return hu_operator_connected(inputs)
 	if (locale === "it") return it_operator_connected(inputs)
+	if (locale === "lt") return lt_operator_connected(inputs)
+	if (locale === "lv") return lv_operator_connected(inputs)
 	if (locale === "nl") return nl_operator_connected(inputs)
+	if (locale === "no") return no_operator_connected(inputs)
 	if (locale === "pt") return pt_operator_connected(inputs)
 	if (locale === "da") return da_operator_connected(inputs)
 	if (locale === "sl") return sl_operator_connected(inputs)

@@ -9,6 +9,10 @@ const en_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => Local
 	return /** @type {LocalizedString} */ (`Could not start the microphone.`)
 };
 
+const bg_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Микрофонът не можа да бъде включен.`)
+};
+
 const cs_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Mikrofon se nepodařilo spustit.`)
 };
@@ -23,6 +27,10 @@ const es_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => Local
 
 const de_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Das Mikrofon konnte nicht gestartet werden.`)
+};
+
+const et_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Mikrofoni ei õnnestunud käivitada.`)
 };
 
 const fr_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => Local
 	return /** @type {LocalizedString} */ (`Non è stato possibile avviare il microfono.`)
 };
 
+const lt_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Nepavyko įjungti mikrofono.`)
+};
+
+const lv_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Neizdevās ieslēgt mikrofonu.`)
+};
+
 const nl_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`De microfoon kon niet worden gestart.`)
+};
+
+const no_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Kunne ikke starte mikrofonen.`)
 };
 
 const pt_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => Local
 * | "Could not start the microphone." |
 *
 * @param {Error_Mic_FailedInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_mic_failed = /** @type {((inputs?: Error_Mic_FailedInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Mic_FailedInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_mic_failed = /** @type {((inputs?: Error_Mic_FailedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Mic_FailedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_error_mic_failed(inputs)
 	if (locale === "cs") return cs_error_mic_failed(inputs)
 	if (locale === "sk") return sk_error_mic_failed(inputs)
 	if (locale === "es") return es_error_mic_failed(inputs)
 	if (locale === "de") return de_error_mic_failed(inputs)
+	if (locale === "et") return et_error_mic_failed(inputs)
 	if (locale === "fr") return fr_error_mic_failed(inputs)
 	if (locale === "pl") return pl_error_mic_failed(inputs)
 	if (locale === "hu") return hu_error_mic_failed(inputs)
 	if (locale === "it") return it_error_mic_failed(inputs)
+	if (locale === "lt") return lt_error_mic_failed(inputs)
+	if (locale === "lv") return lv_error_mic_failed(inputs)
 	if (locale === "nl") return nl_error_mic_failed(inputs)
+	if (locale === "no") return no_error_mic_failed(inputs)
 	if (locale === "pt") return pt_error_mic_failed(inputs)
 	if (locale === "da") return da_error_mic_failed(inputs)
 	if (locale === "sl") return sl_error_mic_failed(inputs)

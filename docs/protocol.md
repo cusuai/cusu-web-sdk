@@ -1,6 +1,6 @@
 # Backend protocol
 
-The SDK talks to a Cusu service. Public config uses **`group`** (slug). Some request bodies still say **`company`** — they take the same slug.
+The SDK talks to a Cusu service. Public config uses **`group`** (stable group id, `grp_…`). Some request bodies still say **`company`** — they take the same group id.
 
 ## Map
 
@@ -10,7 +10,7 @@ The SDK talks to a Cusu service. Public config uses **`group`** (slug). Some req
 | Gate | `GET /v1/group/:group` + `Authorization: Bearer {apiKey}` (+ optional `Origin`) |
 | Identify | `POST /v1/group/:group/identify` body: `visitorId`, `externalId`, … → `{ customer, threads }` (this group's history for the identified customer) |
 | Realtime mint | `POST /v1/group/:group/realtime-session` → `{ client_secret, model, grant, … }` |
-| Chat | `WS /v1/ws/chat?group={slug}&key={apiKey}&thread?&visitor?` |
+| Chat | `WS /v1/ws/chat?group={groupId}&key={apiKey}&thread?&visitor?` |
 | Voice ready | WS `{ type: "chat.voice.ready", grant }` (one-time; enables voice commit/tool) |
 | STT (dictation) | `POST /v1/transcribe` FormData: `file`, `company`, … + `Authorization: Bearer {apiKey}` or platform JWT |
 | TTS | `POST /v1/tts` — **platform / session auth**; widget voice calls do not use this |
@@ -39,4 +39,4 @@ After a ticket is `resolved`, the widget sends `chat.rate` `{ value }`. The serv
 
 ## Platform note
 
-Authenticated platform APIs use `/v1/groups/:id` (`grp_…`). The widget public surface is `/v1/group/:group` (slug or id).
+Authenticated platform APIs use `/v1/groups/:id` (`grp_…`). The widget public surface is `/v1/group/:group` and accepts the same group id (`grp_…`).

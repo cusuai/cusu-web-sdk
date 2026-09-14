@@ -9,6 +9,10 @@ const en_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`How did we do?`)
 };
 
+const bg_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Как се справихме?`)
+};
+
 const cs_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Jak jsme to zvládli?`)
 };
@@ -23,6 +27,10 @@ const es_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedSt
 
 const de_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Wie zufrieden waren Sie?`)
+};
+
+const et_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Kuidas meil läks?`)
 };
 
 const fr_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`Come è andata?`)
 };
 
+const lt_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Kaip mums sekėsi?`)
+};
+
+const lv_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Kā mums veicās?`)
+};
+
 const nl_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Hoe hebben we het gedaan?`)
+};
+
+const no_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Hvordan gjorde vi det?`)
 };
 
 const pt_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedSt
 * | "How did we do?" |
 *
 * @param {Rating_PromptInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const rating_prompt = /** @type {((inputs?: Rating_PromptInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Rating_PromptInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const rating_prompt = /** @type {((inputs?: Rating_PromptInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Rating_PromptInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_rating_prompt(inputs)
 	if (locale === "cs") return cs_rating_prompt(inputs)
 	if (locale === "sk") return sk_rating_prompt(inputs)
 	if (locale === "es") return es_rating_prompt(inputs)
 	if (locale === "de") return de_rating_prompt(inputs)
+	if (locale === "et") return et_rating_prompt(inputs)
 	if (locale === "fr") return fr_rating_prompt(inputs)
 	if (locale === "pl") return pl_rating_prompt(inputs)
 	if (locale === "hu") return hu_rating_prompt(inputs)
 	if (locale === "it") return it_rating_prompt(inputs)
+	if (locale === "lt") return lt_rating_prompt(inputs)
+	if (locale === "lv") return lv_rating_prompt(inputs)
 	if (locale === "nl") return nl_rating_prompt(inputs)
+	if (locale === "no") return no_rating_prompt(inputs)
 	if (locale === "pt") return pt_rating_prompt(inputs)
 	if (locale === "da") return da_rating_prompt(inputs)
 	if (locale === "sl") return sl_rating_prompt(inputs)

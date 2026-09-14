@@ -20,7 +20,7 @@ export const baseLocale = "en";
  *     throw new Error('Locale is not available');
  *   }
  */
-export const locales = /** @type {const} */ (["en","cs","sk","es","de","fr","pl","hu","it","nl","pt","da","sl","hr","ro","sv","fi"]);
+export const locales = /** @type {const} */ (["en","bg","cs","sk","es","de","et","fr","pl","hu","it","lt","lv","nl","no","pt","da","sl","hr","ro","sv","fi"]);
 /** @type {string} */
 export const cookieName = "PARAGLIDE_LOCALE";
 /** @type {number} */
@@ -59,6 +59,10 @@ export const urlPatterns = [
     "pattern": ":protocol://:domain(.*)::port?/:path(.*)?",
     "localized": [
       [
+        "bg",
+        ":protocol://:domain(.*)::port?/bg/:path(.*)?"
+      ],
+      [
         "cs",
         ":protocol://:domain(.*)::port?/cs/:path(.*)?"
       ],
@@ -73,6 +77,10 @@ export const urlPatterns = [
       [
         "de",
         ":protocol://:domain(.*)::port?/de/:path(.*)?"
+      ],
+      [
+        "et",
+        ":protocol://:domain(.*)::port?/et/:path(.*)?"
       ],
       [
         "fr",
@@ -91,8 +99,20 @@ export const urlPatterns = [
         ":protocol://:domain(.*)::port?/it/:path(.*)?"
       ],
       [
+        "lt",
+        ":protocol://:domain(.*)::port?/lt/:path(.*)?"
+      ],
+      [
+        "lv",
+        ":protocol://:domain(.*)::port?/lv/:path(.*)?"
+      ],
+      [
         "nl",
         ":protocol://:domain(.*)::port?/nl/:path(.*)?"
+      ],
+      [
+        "no",
+        ":protocol://:domain(.*)::port?/no/:path(.*)?"
       ],
       [
         "pt",

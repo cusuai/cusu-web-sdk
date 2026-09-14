@@ -9,6 +9,10 @@ const en_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInpu
 	return /** @type {LocalizedString} */ (`Remove attachment`)
 };
 
+const bg_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Премахване на прикачения файл`)
+};
+
 const cs_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Odebrat přílohu`)
 };
@@ -23,6 +27,10 @@ const es_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInpu
 
 const de_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Anhang entfernen`)
+};
+
+const et_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Eemalda manus`)
 };
 
 const fr_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInpu
 	return /** @type {LocalizedString} */ (`Rimuovi allegato`)
 };
 
+const lt_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Pašalinti priedą`)
+};
+
+const lv_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Noņemt pielikumu`)
+};
+
 const nl_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Bijlage verwijderen`)
+};
+
+const no_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Fjern vedlegget`)
 };
 
 const pt_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInpu
 * | "Remove attachment" |
 *
 * @param {Aria_Remove_AttachmentInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_remove_attachment = /** @type {((inputs?: Aria_Remove_AttachmentInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Remove_AttachmentInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_remove_attachment = /** @type {((inputs?: Aria_Remove_AttachmentInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Remove_AttachmentInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_aria_remove_attachment(inputs)
 	if (locale === "cs") return cs_aria_remove_attachment(inputs)
 	if (locale === "sk") return sk_aria_remove_attachment(inputs)
 	if (locale === "es") return es_aria_remove_attachment(inputs)
 	if (locale === "de") return de_aria_remove_attachment(inputs)
+	if (locale === "et") return et_aria_remove_attachment(inputs)
 	if (locale === "fr") return fr_aria_remove_attachment(inputs)
 	if (locale === "pl") return pl_aria_remove_attachment(inputs)
 	if (locale === "hu") return hu_aria_remove_attachment(inputs)
 	if (locale === "it") return it_aria_remove_attachment(inputs)
+	if (locale === "lt") return lt_aria_remove_attachment(inputs)
+	if (locale === "lv") return lv_aria_remove_attachment(inputs)
 	if (locale === "nl") return nl_aria_remove_attachment(inputs)
+	if (locale === "no") return no_aria_remove_attachment(inputs)
 	if (locale === "pt") return pt_aria_remove_attachment(inputs)
 	if (locale === "da") return da_aria_remove_attachment(inputs)
 	if (locale === "sl") return sl_aria_remove_attachment(inputs)

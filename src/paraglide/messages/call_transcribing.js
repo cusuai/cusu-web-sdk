@@ -9,6 +9,10 @@ const en_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => Loc
 	return /** @type {LocalizedString} */ (`Transcribing what you said…`)
 };
 
+const bg_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Транскрибирам казаното от вас…`)
+};
+
 const cs_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Přepisuji, co jste řekli…`)
 };
@@ -23,6 +27,10 @@ const es_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => Loc
 
 const de_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Ihre Worte werden transkribiert…`)
+};
+
+const et_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transkribeerin teie öeldut…`)
 };
 
 const fr_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => Loc
 	return /** @type {LocalizedString} */ (`Trascrizione di ciò che hai detto…`)
 };
 
+const lt_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transkribuojama, ką pasakėte…`)
+};
+
+const lv_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transkribējam jūsu teikto…`)
+};
+
 const nl_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Transcriberen wat je zei…`)
+};
+
+const no_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transkriberer det du sa…`)
 };
 
 const pt_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => Loc
 * | "Transcribing what you said…" |
 *
 * @param {Call_TranscribingInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const call_transcribing = /** @type {((inputs?: Call_TranscribingInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Call_TranscribingInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const call_transcribing = /** @type {((inputs?: Call_TranscribingInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Call_TranscribingInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_call_transcribing(inputs)
 	if (locale === "cs") return cs_call_transcribing(inputs)
 	if (locale === "sk") return sk_call_transcribing(inputs)
 	if (locale === "es") return es_call_transcribing(inputs)
 	if (locale === "de") return de_call_transcribing(inputs)
+	if (locale === "et") return et_call_transcribing(inputs)
 	if (locale === "fr") return fr_call_transcribing(inputs)
 	if (locale === "pl") return pl_call_transcribing(inputs)
 	if (locale === "hu") return hu_call_transcribing(inputs)
 	if (locale === "it") return it_call_transcribing(inputs)
+	if (locale === "lt") return lt_call_transcribing(inputs)
+	if (locale === "lv") return lv_call_transcribing(inputs)
 	if (locale === "nl") return nl_call_transcribing(inputs)
+	if (locale === "no") return no_call_transcribing(inputs)
 	if (locale === "pt") return pt_call_transcribing(inputs)
 	if (locale === "da") return da_call_transcribing(inputs)
 	if (locale === "sl") return sl_call_transcribing(inputs)

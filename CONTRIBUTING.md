@@ -44,6 +44,26 @@ gitleaks detect --source . --verbose --redact
 - Pure modules must stay **≥ 90%** line/function coverage; see [docs/testing.md](./docs/testing.md)
 - CI uploads `coverage/lcov.info` as an artifact — see [docs/security-ci.md](./docs/security-ci.md)
 
+## Releasing
+
+First publish (package does not exist on npm yet) is local:
+
+```bash
+npm login
+bun run ci
+npm publish
+```
+
+That creates `@cusuai/web-sdk`. Then on npmjs.com open the package **Access** page and add a GitHub Actions trusted publisher:
+
+- Organization: `cusuai`
+- Repository: `cusu-web-sdk`
+- Workflow filename: `release.yml`
+- Environment: leave empty
+- Allowed actions: `npm publish`
+
+Later versions: bump `package.json` + CHANGELOG, merge to `main`, tag `vX.Y.Z` (must match `package.json`), push the tag. [`.github/workflows/release.yml`](./.github/workflows/release.yml) publishes via OIDC. Do not store an `NPM_TOKEN`.
+
 ## PR checklist
 
 - [ ] `bun run ci` passes locally

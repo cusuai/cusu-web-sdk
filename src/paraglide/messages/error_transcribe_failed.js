@@ -9,6 +9,10 @@ const en_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedIn
 	return /** @type {LocalizedString} */ (`Transcription failed.`)
 };
 
+const bg_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Транскрибирането е неуспешно.`)
+};
+
 const cs_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Přepis se nepovedl.`)
 };
@@ -23,6 +27,10 @@ const es_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedIn
 
 const de_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Die Transkription ist fehlgeschlagen.`)
+};
+
+const et_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transkribeerimine ebaõnnestus.`)
 };
 
 const fr_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedIn
 	return /** @type {LocalizedString} */ (`La trascrizione non è riuscita.`)
 };
 
+const lt_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Nepavyko transkribuoti.`)
+};
+
+const lv_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transkribēšana neizdevās.`)
+};
+
 const nl_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Transcriberen is mislukt.`)
+};
+
+const no_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transkriberingen mislyktes.`)
 };
 
 const pt_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedIn
 * | "Transcription failed." |
 *
 * @param {Error_Transcribe_FailedInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_transcribe_failed = /** @type {((inputs?: Error_Transcribe_FailedInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Transcribe_FailedInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_transcribe_failed = /** @type {((inputs?: Error_Transcribe_FailedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Transcribe_FailedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_error_transcribe_failed(inputs)
 	if (locale === "cs") return cs_error_transcribe_failed(inputs)
 	if (locale === "sk") return sk_error_transcribe_failed(inputs)
 	if (locale === "es") return es_error_transcribe_failed(inputs)
 	if (locale === "de") return de_error_transcribe_failed(inputs)
+	if (locale === "et") return et_error_transcribe_failed(inputs)
 	if (locale === "fr") return fr_error_transcribe_failed(inputs)
 	if (locale === "pl") return pl_error_transcribe_failed(inputs)
 	if (locale === "hu") return hu_error_transcribe_failed(inputs)
 	if (locale === "it") return it_error_transcribe_failed(inputs)
+	if (locale === "lt") return lt_error_transcribe_failed(inputs)
+	if (locale === "lv") return lv_error_transcribe_failed(inputs)
 	if (locale === "nl") return nl_error_transcribe_failed(inputs)
+	if (locale === "no") return no_error_transcribe_failed(inputs)
 	if (locale === "pt") return pt_error_transcribe_failed(inputs)
 	if (locale === "da") return da_error_transcribe_failed(inputs)
 	if (locale === "sl") return sl_error_transcribe_failed(inputs)

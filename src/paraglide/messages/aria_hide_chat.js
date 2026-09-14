@@ -9,6 +9,10 @@ const en_aria_hide_chat = /** @type {(inputs: Aria_Hide_ChatInputs) => Localized
 	return /** @type {LocalizedString} */ (`Hide chat`)
 };
 
+const bg_aria_hide_chat = /** @type {(inputs: Aria_Hide_ChatInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Скриване на чата`)
+};
+
 const cs_aria_hide_chat = /** @type {(inputs: Aria_Hide_ChatInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Skrýt chat`)
 };
@@ -23,6 +27,10 @@ const es_aria_hide_chat = /** @type {(inputs: Aria_Hide_ChatInputs) => Localized
 
 const de_aria_hide_chat = /** @type {(inputs: Aria_Hide_ChatInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Chat ausblenden`)
+};
+
+const et_aria_hide_chat = /** @type {(inputs: Aria_Hide_ChatInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Peida vestlus`)
 };
 
 const fr_aria_hide_chat = /** @type {(inputs: Aria_Hide_ChatInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_aria_hide_chat = /** @type {(inputs: Aria_Hide_ChatInputs) => Localized
 	return /** @type {LocalizedString} */ (`Nascondi chat`)
 };
 
+const lt_aria_hide_chat = /** @type {(inputs: Aria_Hide_ChatInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Slėpti pokalbį`)
+};
+
+const lv_aria_hide_chat = /** @type {(inputs: Aria_Hide_ChatInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Paslēpt tērzēšanu`)
+};
+
 const nl_aria_hide_chat = /** @type {(inputs: Aria_Hide_ChatInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Chat verbergen`)
+};
+
+const no_aria_hide_chat = /** @type {(inputs: Aria_Hide_ChatInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Skjul chatten`)
 };
 
 const pt_aria_hide_chat = /** @type {(inputs: Aria_Hide_ChatInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_aria_hide_chat = /** @type {(inputs: Aria_Hide_ChatInputs) => Localized
 * | "Hide chat" |
 *
 * @param {Aria_Hide_ChatInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_hide_chat = /** @type {((inputs?: Aria_Hide_ChatInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Hide_ChatInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_hide_chat = /** @type {((inputs?: Aria_Hide_ChatInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Hide_ChatInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_aria_hide_chat(inputs)
 	if (locale === "cs") return cs_aria_hide_chat(inputs)
 	if (locale === "sk") return sk_aria_hide_chat(inputs)
 	if (locale === "es") return es_aria_hide_chat(inputs)
 	if (locale === "de") return de_aria_hide_chat(inputs)
+	if (locale === "et") return et_aria_hide_chat(inputs)
 	if (locale === "fr") return fr_aria_hide_chat(inputs)
 	if (locale === "pl") return pl_aria_hide_chat(inputs)
 	if (locale === "hu") return hu_aria_hide_chat(inputs)
 	if (locale === "it") return it_aria_hide_chat(inputs)
+	if (locale === "lt") return lt_aria_hide_chat(inputs)
+	if (locale === "lv") return lv_aria_hide_chat(inputs)
 	if (locale === "nl") return nl_aria_hide_chat(inputs)
+	if (locale === "no") return no_aria_hide_chat(inputs)
 	if (locale === "pt") return pt_aria_hide_chat(inputs)
 	if (locale === "da") return da_aria_hide_chat(inputs)
 	if (locale === "sl") return sl_aria_hide_chat(inputs)

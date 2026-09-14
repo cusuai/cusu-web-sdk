@@ -134,7 +134,12 @@ export type ChatEvent =
 	  }
 	| { type: 'thread.message'; threadId: string; message: ThreadMessage }
 	| { type: 'inbox.coverage'; covered: boolean }
-	| { type: 'inbox.waiting'; message: string }
+	| {
+			type: 'inbox.waiting';
+			message?: string;
+			next_open_at?: string | null;
+			timezone?: string;
+	  }
 	| {
 			type: 'thread.updated';
 			thread: {

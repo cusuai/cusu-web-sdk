@@ -9,6 +9,10 @@ const en_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedStri
 	return /** @type {LocalizedString} */ (`Message`)
 };
 
+const bg_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Съобщение`)
+};
+
 const cs_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Zpráva`)
 };
@@ -23,6 +27,10 @@ const es_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedStri
 
 const de_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Nachricht`)
+};
+
+const et_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Sõnum`)
 };
 
 const fr_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedStri
 	return /** @type {LocalizedString} */ (`Messaggio`)
 };
 
+const lt_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Žinutė`)
+};
+
+const lv_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Ziņa`)
+};
+
 const nl_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Bericht`)
+};
+
+const no_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Melding`)
 };
 
 const pt_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedStri
 * | "Message" |
 *
 * @param {Aria_MessageInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_message = /** @type {((inputs?: Aria_MessageInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_MessageInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_message = /** @type {((inputs?: Aria_MessageInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_MessageInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_aria_message(inputs)
 	if (locale === "cs") return cs_aria_message(inputs)
 	if (locale === "sk") return sk_aria_message(inputs)
 	if (locale === "es") return es_aria_message(inputs)
 	if (locale === "de") return de_aria_message(inputs)
+	if (locale === "et") return et_aria_message(inputs)
 	if (locale === "fr") return fr_aria_message(inputs)
 	if (locale === "pl") return pl_aria_message(inputs)
 	if (locale === "hu") return hu_aria_message(inputs)
 	if (locale === "it") return it_aria_message(inputs)
+	if (locale === "lt") return lt_aria_message(inputs)
+	if (locale === "lv") return lv_aria_message(inputs)
 	if (locale === "nl") return nl_aria_message(inputs)
+	if (locale === "no") return no_aria_message(inputs)
 	if (locale === "pt") return pt_aria_message(inputs)
 	if (locale === "da") return da_aria_message(inputs)
 	if (locale === "sl") return sl_aria_message(inputs)

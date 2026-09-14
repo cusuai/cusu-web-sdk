@@ -61,7 +61,7 @@ const safeHref = $derived(href && href !== '#' ? href : undefined);
 			loading="lazy"
 			decoding="async"
 			onerror={() => (imageFailed = true)}
-		/>
+		>
 	{/if}
 	<span class={['flex gap-3', compact ? 'items-center p-2' : 'items-start px-3 py-2.5']}>
 		{#if showThumb}
@@ -72,7 +72,7 @@ const safeHref = $derived(href && href !== '#' ? href : undefined);
 				loading="lazy"
 				decoding="async"
 				onerror={() => (imageFailed = true)}
-			/>
+			>
 		{:else if showIcon}
 			<span
 				class="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-foreground text-background"
@@ -86,7 +86,9 @@ const safeHref = $derived(href && href !== '#' ? href : undefined);
 				>{filename}</span
 			>
 			{#if showDescription}
-				<span class="mt-0.5 line-clamp-2 text-[11px] leading-snug text-muted-foreground">{description}</span>
+				<span class="mt-0.5 line-clamp-2 text-[11px] leading-snug text-muted-foreground"
+					>{description}</span
+				>
 			{/if}
 			<span class="mt-0.5 block truncate text-[11px] text-muted-foreground">{meta}</span>
 		</span>

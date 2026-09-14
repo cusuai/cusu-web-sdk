@@ -9,6 +9,10 @@ const en_conversation_fallback = /** @type {(inputs: Conversation_FallbackInputs
 	return /** @type {LocalizedString} */ (`Conversation`)
 };
 
+const bg_conversation_fallback = /** @type {(inputs: Conversation_FallbackInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Разговор`)
+};
+
 const cs_conversation_fallback = /** @type {(inputs: Conversation_FallbackInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Konverzace`)
 };
@@ -23,6 +27,10 @@ const es_conversation_fallback = /** @type {(inputs: Conversation_FallbackInputs
 
 const de_conversation_fallback = /** @type {(inputs: Conversation_FallbackInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Unterhaltung`)
+};
+
+const et_conversation_fallback = /** @type {(inputs: Conversation_FallbackInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Vestlus`)
 };
 
 const fr_conversation_fallback = /** @type {(inputs: Conversation_FallbackInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_conversation_fallback = /** @type {(inputs: Conversation_FallbackInputs
 	return /** @type {LocalizedString} */ (`Conversazione`)
 };
 
+const lt_conversation_fallback = /** @type {(inputs: Conversation_FallbackInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Pokalbis`)
+};
+
+const lv_conversation_fallback = /** @type {(inputs: Conversation_FallbackInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Saruna`)
+};
+
 const nl_conversation_fallback = /** @type {(inputs: Conversation_FallbackInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Gesprek`)
+};
+
+const no_conversation_fallback = /** @type {(inputs: Conversation_FallbackInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Samtale`)
 };
 
 const pt_conversation_fallback = /** @type {(inputs: Conversation_FallbackInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_conversation_fallback = /** @type {(inputs: Conversation_FallbackInputs
 * | "Conversation" |
 *
 * @param {Conversation_FallbackInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const conversation_fallback = /** @type {((inputs?: Conversation_FallbackInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_FallbackInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const conversation_fallback = /** @type {((inputs?: Conversation_FallbackInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_FallbackInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_conversation_fallback(inputs)
 	if (locale === "cs") return cs_conversation_fallback(inputs)
 	if (locale === "sk") return sk_conversation_fallback(inputs)
 	if (locale === "es") return es_conversation_fallback(inputs)
 	if (locale === "de") return de_conversation_fallback(inputs)
+	if (locale === "et") return et_conversation_fallback(inputs)
 	if (locale === "fr") return fr_conversation_fallback(inputs)
 	if (locale === "pl") return pl_conversation_fallback(inputs)
 	if (locale === "hu") return hu_conversation_fallback(inputs)
 	if (locale === "it") return it_conversation_fallback(inputs)
+	if (locale === "lt") return lt_conversation_fallback(inputs)
+	if (locale === "lv") return lv_conversation_fallback(inputs)
 	if (locale === "nl") return nl_conversation_fallback(inputs)
+	if (locale === "no") return no_conversation_fallback(inputs)
 	if (locale === "pt") return pt_conversation_fallback(inputs)
 	if (locale === "da") return da_conversation_fallback(inputs)
 	if (locale === "sl") return sl_conversation_fallback(inputs)

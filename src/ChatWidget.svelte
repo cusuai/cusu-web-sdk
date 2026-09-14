@@ -25,6 +25,7 @@ import { getLocale } from './paraglide/runtime.js';
 import { scrollToBottom } from './scroll';
 import { isClosedStatus, isTransferredStatus, operatorHandoffBanner } from './types';
 import Waveform from './Waveform.svelte';
+import { formatWaitingWhen } from './waiting-until';
 
 let { chat }: { chat: GroupChat } = $props();
 let scroller: HTMLDivElement | undefined = $state();
@@ -267,7 +268,17 @@ function toDateLocale(locale: string): string {
 																? 'hr-HR'
 																: locale === 'ro'
 																	? 'ro-RO'
-																	: 'en-US';
+																	: locale === 'lt'
+																		? 'lt-LT'
+																		: locale === 'lv'
+																			? 'lv-LV'
+																			: locale === 'et'
+																				? 'et-EE'
+																				: locale === 'bg'
+																					? 'bg-BG'
+																					: locale === 'no'
+																						? 'nb-NO'
+																						: 'en-US';
 }
 
 const LOCALE = $derived(toDateLocale(getLocale()));
@@ -311,8 +322,17 @@ const handoffBanner = $derived(
 		awaitedOperator: chat.awaitedOperator
 	})
 );
+const waitingCopy = $derived.by(() => {
+	if (chat.waitingUntil) {
+		const when = formatWaitingWhen(chat.waitingUntil, chat.waitingTimezone, getLocale());
+		if (when) {
+			return m.conversation_waiting_until({ when });
+		}
+	}
+	return chat.waitingMessage || m.conversation_waiting_operator();
+});
 
-const CUSU_HOME = 'https://cusu.ai';
+const CUSU_HOME = 'https://cusuai.com';
 </script>
 
 <svelte:window onkeydown={onWindowKeydown} />
@@ -651,10 +671,7 @@ const CUSU_HOME = 'https://cusu.ai';
 								</div>
 							{/if}
 							{#if showAction}
-								<AgentActivity
-									label={chat.agentStatusLabel ?? m.typing()}
-									stacked={showChrome}
-								/>
+								<AgentActivity label={chat.agentStatusLabel ?? m.typing()} stacked={showChrome} />
 							{/if}
 							{#if message.transcribing && message.text}
 								<p class={['mt-1 text-[11px] text-muted-foreground', mine && 'text-right']}>
@@ -670,7 +687,7 @@ const CUSU_HOME = 'https://cusu.ai';
 					{#if handoffBanner}
 						<p class="text-center text-xs text-muted-foreground">
 							{#if handoffBanner === 'waiting'}
-								{chat.waitingMessage || m.conversation_waiting_operator()}
+								{waitingCopy}
 							{:else if handoffBanner === 'connected'}
 								{m.operator_connected()}
 							{:else}

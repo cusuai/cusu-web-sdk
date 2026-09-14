@@ -9,6 +9,10 @@ const en_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`PDF`)
 };
 
+const bg_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`PDF`)
+};
+
 const cs_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`PDF`)
 };
@@ -22,6 +26,10 @@ const es_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedSt
 };
 
 const de_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`PDF`)
+};
+
+const et_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`PDF`)
 };
 
@@ -41,7 +49,19 @@ const it_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`PDF`)
 };
 
+const lt_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`PDF`)
+};
+
+const lv_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`PDF`)
+};
+
 const nl_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`PDF`)
+};
+
+const no_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`PDF`)
 };
 
@@ -79,20 +99,25 @@ const fi_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedSt
 * | "PDF" |
 *
 * @param {File_Kind_PdfInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const file_kind_pdf = /** @type {((inputs?: File_Kind_PdfInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<File_Kind_PdfInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const file_kind_pdf = /** @type {((inputs?: File_Kind_PdfInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<File_Kind_PdfInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_file_kind_pdf(inputs)
 	if (locale === "cs") return cs_file_kind_pdf(inputs)
 	if (locale === "sk") return sk_file_kind_pdf(inputs)
 	if (locale === "es") return es_file_kind_pdf(inputs)
 	if (locale === "de") return de_file_kind_pdf(inputs)
+	if (locale === "et") return et_file_kind_pdf(inputs)
 	if (locale === "fr") return fr_file_kind_pdf(inputs)
 	if (locale === "pl") return pl_file_kind_pdf(inputs)
 	if (locale === "hu") return hu_file_kind_pdf(inputs)
 	if (locale === "it") return it_file_kind_pdf(inputs)
+	if (locale === "lt") return lt_file_kind_pdf(inputs)
+	if (locale === "lv") return lv_file_kind_pdf(inputs)
 	if (locale === "nl") return nl_file_kind_pdf(inputs)
+	if (locale === "no") return no_file_kind_pdf(inputs)
 	if (locale === "pt") return pt_file_kind_pdf(inputs)
 	if (locale === "da") return da_file_kind_pdf(inputs)
 	if (locale === "sl") return sl_file_kind_pdf(inputs)

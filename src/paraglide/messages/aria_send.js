@@ -9,6 +9,10 @@ const en_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */
 	return /** @type {LocalizedString} */ (`Send`)
 };
 
+const bg_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Изпращане`)
+};
+
 const cs_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Odeslat`)
 };
@@ -23,6 +27,10 @@ const es_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */
 
 const de_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Senden`)
+};
+
+const et_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Saada`)
 };
 
 const fr_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */
 	return /** @type {LocalizedString} */ (`Invia`)
 };
 
+const lt_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Siųsti`)
+};
+
+const lv_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Sūtīt`)
+};
+
 const nl_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Verzenden`)
+};
+
+const no_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Send`)
 };
 
 const pt_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */
 * | "Send" |
 *
 * @param {Aria_SendInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_send = /** @type {((inputs?: Aria_SendInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_SendInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_send = /** @type {((inputs?: Aria_SendInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_SendInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_aria_send(inputs)
 	if (locale === "cs") return cs_aria_send(inputs)
 	if (locale === "sk") return sk_aria_send(inputs)
 	if (locale === "es") return es_aria_send(inputs)
 	if (locale === "de") return de_aria_send(inputs)
+	if (locale === "et") return et_aria_send(inputs)
 	if (locale === "fr") return fr_aria_send(inputs)
 	if (locale === "pl") return pl_aria_send(inputs)
 	if (locale === "hu") return hu_aria_send(inputs)
 	if (locale === "it") return it_aria_send(inputs)
+	if (locale === "lt") return lt_aria_send(inputs)
+	if (locale === "lv") return lv_aria_send(inputs)
 	if (locale === "nl") return nl_aria_send(inputs)
+	if (locale === "no") return no_aria_send(inputs)
 	if (locale === "pt") return pt_aria_send(inputs)
 	if (locale === "da") return da_aria_send(inputs)
 	if (locale === "sl") return sl_aria_send(inputs)

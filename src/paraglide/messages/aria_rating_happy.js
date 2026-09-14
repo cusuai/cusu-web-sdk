@@ -9,6 +9,10 @@ const en_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => Loc
 	return /** @type {LocalizedString} */ (`Happy`)
 };
 
+const bg_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Доволен`)
+};
+
 const cs_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Spokojený`)
 };
@@ -23,6 +27,10 @@ const es_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => Loc
 
 const de_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Zufrieden`)
+};
+
+const et_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Rahul`)
 };
 
 const fr_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => Loc
 	return /** @type {LocalizedString} */ (`Soddisfatto`)
 };
 
+const lt_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Patenkintas`)
+};
+
+const lv_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Apmierināts`)
+};
+
 const nl_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Tevreden`)
+};
+
+const no_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Fornøyd`)
 };
 
 const pt_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => Loc
 * | "Happy" |
 *
 * @param {Aria_Rating_HappyInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_rating_happy = /** @type {((inputs?: Aria_Rating_HappyInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_HappyInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_rating_happy = /** @type {((inputs?: Aria_Rating_HappyInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_HappyInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_aria_rating_happy(inputs)
 	if (locale === "cs") return cs_aria_rating_happy(inputs)
 	if (locale === "sk") return sk_aria_rating_happy(inputs)
 	if (locale === "es") return es_aria_rating_happy(inputs)
 	if (locale === "de") return de_aria_rating_happy(inputs)
+	if (locale === "et") return et_aria_rating_happy(inputs)
 	if (locale === "fr") return fr_aria_rating_happy(inputs)
 	if (locale === "pl") return pl_aria_rating_happy(inputs)
 	if (locale === "hu") return hu_aria_rating_happy(inputs)
 	if (locale === "it") return it_aria_rating_happy(inputs)
+	if (locale === "lt") return lt_aria_rating_happy(inputs)
+	if (locale === "lv") return lv_aria_rating_happy(inputs)
 	if (locale === "nl") return nl_aria_rating_happy(inputs)
+	if (locale === "no") return no_aria_rating_happy(inputs)
 	if (locale === "pt") return pt_aria_rating_happy(inputs)
 	if (locale === "da") return da_aria_rating_happy(inputs)
 	if (locale === "sl") return sl_aria_rating_happy(inputs)

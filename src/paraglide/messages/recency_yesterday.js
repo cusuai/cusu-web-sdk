@@ -9,6 +9,10 @@ const en_recency_yesterday = /** @type {(inputs: Recency_YesterdayInputs) => Loc
 	return /** @type {LocalizedString} */ (`Yesterday`)
 };
 
+const bg_recency_yesterday = /** @type {(inputs: Recency_YesterdayInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Вчера`)
+};
+
 const cs_recency_yesterday = /** @type {(inputs: Recency_YesterdayInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Včera`)
 };
@@ -23,6 +27,10 @@ const es_recency_yesterday = /** @type {(inputs: Recency_YesterdayInputs) => Loc
 
 const de_recency_yesterday = /** @type {(inputs: Recency_YesterdayInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Gestern`)
+};
+
+const et_recency_yesterday = /** @type {(inputs: Recency_YesterdayInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Eile`)
 };
 
 const fr_recency_yesterday = /** @type {(inputs: Recency_YesterdayInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_recency_yesterday = /** @type {(inputs: Recency_YesterdayInputs) => Loc
 	return /** @type {LocalizedString} */ (`Ieri`)
 };
 
+const lt_recency_yesterday = /** @type {(inputs: Recency_YesterdayInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Vakar`)
+};
+
+const lv_recency_yesterday = /** @type {(inputs: Recency_YesterdayInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Vakar`)
+};
+
 const nl_recency_yesterday = /** @type {(inputs: Recency_YesterdayInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Gisteren`)
+};
+
+const no_recency_yesterday = /** @type {(inputs: Recency_YesterdayInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`I går`)
 };
 
 const pt_recency_yesterday = /** @type {(inputs: Recency_YesterdayInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_recency_yesterday = /** @type {(inputs: Recency_YesterdayInputs) => Loc
 * | "Yesterday" |
 *
 * @param {Recency_YesterdayInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const recency_yesterday = /** @type {((inputs?: Recency_YesterdayInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Recency_YesterdayInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const recency_yesterday = /** @type {((inputs?: Recency_YesterdayInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Recency_YesterdayInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_recency_yesterday(inputs)
 	if (locale === "cs") return cs_recency_yesterday(inputs)
 	if (locale === "sk") return sk_recency_yesterday(inputs)
 	if (locale === "es") return es_recency_yesterday(inputs)
 	if (locale === "de") return de_recency_yesterday(inputs)
+	if (locale === "et") return et_recency_yesterday(inputs)
 	if (locale === "fr") return fr_recency_yesterday(inputs)
 	if (locale === "pl") return pl_recency_yesterday(inputs)
 	if (locale === "hu") return hu_recency_yesterday(inputs)
 	if (locale === "it") return it_recency_yesterday(inputs)
+	if (locale === "lt") return lt_recency_yesterday(inputs)
+	if (locale === "lv") return lv_recency_yesterday(inputs)
 	if (locale === "nl") return nl_recency_yesterday(inputs)
+	if (locale === "no") return no_recency_yesterday(inputs)
 	if (locale === "pt") return pt_recency_yesterday(inputs)
 	if (locale === "da") return da_recency_yesterday(inputs)
 	if (locale === "sl") return sl_recency_yesterday(inputs)

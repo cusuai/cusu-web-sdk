@@ -9,6 +9,10 @@ const en_error_conversation_gone = /** @type {(inputs: Error_Conversation_GoneIn
 	return /** @type {LocalizedString} */ (`This conversation no longer exists.`)
 };
 
+const bg_error_conversation_gone = /** @type {(inputs: Error_Conversation_GoneInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Този разговор вече не съществува.`)
+};
+
 const cs_error_conversation_gone = /** @type {(inputs: Error_Conversation_GoneInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Konverzace už neexistuje.`)
 };
@@ -23,6 +27,10 @@ const es_error_conversation_gone = /** @type {(inputs: Error_Conversation_GoneIn
 
 const de_error_conversation_gone = /** @type {(inputs: Error_Conversation_GoneInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Diese Unterhaltung existiert nicht mehr.`)
+};
+
+const et_error_conversation_gone = /** @type {(inputs: Error_Conversation_GoneInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Seda vestlust pole enam olemas.`)
 };
 
 const fr_error_conversation_gone = /** @type {(inputs: Error_Conversation_GoneInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_error_conversation_gone = /** @type {(inputs: Error_Conversation_GoneIn
 	return /** @type {LocalizedString} */ (`Questa conversazione non esiste più.`)
 };
 
+const lt_error_conversation_gone = /** @type {(inputs: Error_Conversation_GoneInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Šio pokalbio nebėra.`)
+};
+
+const lv_error_conversation_gone = /** @type {(inputs: Error_Conversation_GoneInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Šī saruna vairs nepastāv.`)
+};
+
 const nl_error_conversation_gone = /** @type {(inputs: Error_Conversation_GoneInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Dit gesprek bestaat niet meer.`)
+};
+
+const no_error_conversation_gone = /** @type {(inputs: Error_Conversation_GoneInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Denne samtalen finnes ikke lenger.`)
 };
 
 const pt_error_conversation_gone = /** @type {(inputs: Error_Conversation_GoneInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_error_conversation_gone = /** @type {(inputs: Error_Conversation_GoneIn
 * | "This conversation no longer exists." |
 *
 * @param {Error_Conversation_GoneInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_conversation_gone = /** @type {((inputs?: Error_Conversation_GoneInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Conversation_GoneInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_conversation_gone = /** @type {((inputs?: Error_Conversation_GoneInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Conversation_GoneInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_error_conversation_gone(inputs)
 	if (locale === "cs") return cs_error_conversation_gone(inputs)
 	if (locale === "sk") return sk_error_conversation_gone(inputs)
 	if (locale === "es") return es_error_conversation_gone(inputs)
 	if (locale === "de") return de_error_conversation_gone(inputs)
+	if (locale === "et") return et_error_conversation_gone(inputs)
 	if (locale === "fr") return fr_error_conversation_gone(inputs)
 	if (locale === "pl") return pl_error_conversation_gone(inputs)
 	if (locale === "hu") return hu_error_conversation_gone(inputs)
 	if (locale === "it") return it_error_conversation_gone(inputs)
+	if (locale === "lt") return lt_error_conversation_gone(inputs)
+	if (locale === "lv") return lv_error_conversation_gone(inputs)
 	if (locale === "nl") return nl_error_conversation_gone(inputs)
+	if (locale === "no") return no_error_conversation_gone(inputs)
 	if (locale === "pt") return pt_error_conversation_gone(inputs)
 	if (locale === "da") return da_error_conversation_gone(inputs)
 	if (locale === "sl") return sl_error_conversation_gone(inputs)

@@ -9,6 +9,10 @@ const en_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedStri
 	return /** @type {LocalizedString} */ (`Assistant is answering`)
 };
 
+const bg_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Асистентът отговаря`)
+};
+
 const cs_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Asistent odpovídá`)
 };
@@ -23,6 +27,10 @@ const es_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedStri
 
 const de_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Die Assistenz antwortet`)
+};
+
+const et_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Assistent vastab`)
 };
 
 const fr_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedStri
 	return /** @type {LocalizedString} */ (`L’assistente sta rispondendo`)
 };
 
+const lt_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Asistentas atsako`)
+};
+
+const lv_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Asistents atbild`)
+};
+
 const nl_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`De assistent antwoordt`)
+};
+
+const no_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Assistenten svarer`)
 };
 
 const pt_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedStri
 * | "Assistant is answering" |
 *
 * @param {Call_PlayingInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const call_playing = /** @type {((inputs?: Call_PlayingInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Call_PlayingInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const call_playing = /** @type {((inputs?: Call_PlayingInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Call_PlayingInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_call_playing(inputs)
 	if (locale === "cs") return cs_call_playing(inputs)
 	if (locale === "sk") return sk_call_playing(inputs)
 	if (locale === "es") return es_call_playing(inputs)
 	if (locale === "de") return de_call_playing(inputs)
+	if (locale === "et") return et_call_playing(inputs)
 	if (locale === "fr") return fr_call_playing(inputs)
 	if (locale === "pl") return pl_call_playing(inputs)
 	if (locale === "hu") return hu_call_playing(inputs)
 	if (locale === "it") return it_call_playing(inputs)
+	if (locale === "lt") return lt_call_playing(inputs)
+	if (locale === "lv") return lv_call_playing(inputs)
 	if (locale === "nl") return nl_call_playing(inputs)
+	if (locale === "no") return no_call_playing(inputs)
 	if (locale === "pt") return pt_call_playing(inputs)
 	if (locale === "da") return da_call_playing(inputs)
 	if (locale === "sl") return sl_call_playing(inputs)

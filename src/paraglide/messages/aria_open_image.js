@@ -9,6 +9,10 @@ const en_aria_open_image = /** @type {(inputs: Aria_Open_ImageInputs) => Localiz
 	return /** @type {LocalizedString} */ (`View image`)
 };
 
+const bg_aria_open_image = /** @type {(inputs: Aria_Open_ImageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Преглед на изображението`)
+};
+
 const cs_aria_open_image = /** @type {(inputs: Aria_Open_ImageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Zobrazit obrázek`)
 };
@@ -23,6 +27,10 @@ const es_aria_open_image = /** @type {(inputs: Aria_Open_ImageInputs) => Localiz
 
 const de_aria_open_image = /** @type {(inputs: Aria_Open_ImageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Bild ansehen`)
+};
+
+const et_aria_open_image = /** @type {(inputs: Aria_Open_ImageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Vaata pilti`)
 };
 
 const fr_aria_open_image = /** @type {(inputs: Aria_Open_ImageInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_aria_open_image = /** @type {(inputs: Aria_Open_ImageInputs) => Localiz
 	return /** @type {LocalizedString} */ (`Visualizza immagine`)
 };
 
+const lt_aria_open_image = /** @type {(inputs: Aria_Open_ImageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Peržiūrėti vaizdą`)
+};
+
+const lv_aria_open_image = /** @type {(inputs: Aria_Open_ImageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Skatīt attēlu`)
+};
+
 const nl_aria_open_image = /** @type {(inputs: Aria_Open_ImageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Afbeelding bekijken`)
+};
+
+const no_aria_open_image = /** @type {(inputs: Aria_Open_ImageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Vis bildet`)
 };
 
 const pt_aria_open_image = /** @type {(inputs: Aria_Open_ImageInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_aria_open_image = /** @type {(inputs: Aria_Open_ImageInputs) => Localiz
 * | "View image" |
 *
 * @param {Aria_Open_ImageInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_open_image = /** @type {((inputs?: Aria_Open_ImageInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Open_ImageInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_open_image = /** @type {((inputs?: Aria_Open_ImageInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Open_ImageInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_aria_open_image(inputs)
 	if (locale === "cs") return cs_aria_open_image(inputs)
 	if (locale === "sk") return sk_aria_open_image(inputs)
 	if (locale === "es") return es_aria_open_image(inputs)
 	if (locale === "de") return de_aria_open_image(inputs)
+	if (locale === "et") return et_aria_open_image(inputs)
 	if (locale === "fr") return fr_aria_open_image(inputs)
 	if (locale === "pl") return pl_aria_open_image(inputs)
 	if (locale === "hu") return hu_aria_open_image(inputs)
 	if (locale === "it") return it_aria_open_image(inputs)
+	if (locale === "lt") return lt_aria_open_image(inputs)
+	if (locale === "lv") return lv_aria_open_image(inputs)
 	if (locale === "nl") return nl_aria_open_image(inputs)
+	if (locale === "no") return no_aria_open_image(inputs)
 	if (locale === "pt") return pt_aria_open_image(inputs)
 	if (locale === "da") return da_aria_open_image(inputs)
 	if (locale === "sl") return sl_aria_open_image(inputs)

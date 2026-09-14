@@ -9,6 +9,10 @@ const en_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) 
 	return /** @type {LocalizedString} */ (`You can attach up to 5 files per message.`)
 };
 
+const bg_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Можете да прикачите до 5 файла към едно съобщение.`)
+};
+
 const cs_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Ke zprávě lze přiložit nejvýš 5 souborů.`)
 };
@@ -23,6 +27,10 @@ const es_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) 
 
 const de_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Sie können bis zu 5 Dateien pro Nachricht anhängen.`)
+};
+
+const et_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Ühele sõnumile saate lisada kuni 5 faili.`)
 };
 
 const fr_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) 
 	return /** @type {LocalizedString} */ (`Puoi allegare fino a 5 file per messaggio.`)
 };
 
+const lt_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Prie vienos žinutės galite pridėti iki 5 failų.`)
+};
+
+const lv_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Vienai ziņai varat pievienot līdz 5 failiem.`)
+};
+
 const nl_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Je kunt maximaal 5 bestanden per bericht bijvoegen.`)
+};
+
+const no_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Du kan legge ved opptil 5 filer per melding.`)
 };
 
 const pt_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) 
 * | "You can attach up to 5 files per message." |
 *
 * @param {Error_Too_Many_FilesInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_too_many_files = /** @type {((inputs?: Error_Too_Many_FilesInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Too_Many_FilesInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_too_many_files = /** @type {((inputs?: Error_Too_Many_FilesInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Too_Many_FilesInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_error_too_many_files(inputs)
 	if (locale === "cs") return cs_error_too_many_files(inputs)
 	if (locale === "sk") return sk_error_too_many_files(inputs)
 	if (locale === "es") return es_error_too_many_files(inputs)
 	if (locale === "de") return de_error_too_many_files(inputs)
+	if (locale === "et") return et_error_too_many_files(inputs)
 	if (locale === "fr") return fr_error_too_many_files(inputs)
 	if (locale === "pl") return pl_error_too_many_files(inputs)
 	if (locale === "hu") return hu_error_too_many_files(inputs)
 	if (locale === "it") return it_error_too_many_files(inputs)
+	if (locale === "lt") return lt_error_too_many_files(inputs)
+	if (locale === "lv") return lv_error_too_many_files(inputs)
 	if (locale === "nl") return nl_error_too_many_files(inputs)
+	if (locale === "no") return no_error_too_many_files(inputs)
 	if (locale === "pt") return pt_error_too_many_files(inputs)
 	if (locale === "da") return da_error_too_many_files(inputs)
 	if (locale === "sl") return sl_error_too_many_files(inputs)

@@ -4,7 +4,7 @@
 [![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/cusuai/cusu-web-sdk/main/docs/badges/coverage.json)](./docs/testing.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 
-Framework-agnostic **customer chat + voice widget** for [Cusu](https://cusu.ai). Call `initialize` once; the messenger mounts into a Shadow DOM host on your page (no iframe CDN). Works with Svelte, React, Vue, or a plain `<script>` tag.
+Framework-agnostic **customer chat + voice widget** for [Cusu](https://cusuai.com). Call `initialize` once; the messenger mounts into a Shadow DOM host on your page (no iframe CDN). Works with Svelte, React, Vue, or a plain `<script>` tag.
 
 ```bash
 npm install @cusuai/web-sdk
@@ -19,7 +19,7 @@ npm install @cusuai/web-sdk
 - Optional **Realtime voice** calls (WebRTC; server-minted session)
 - Dictation via `/v1/transcribe` (Bearer public key)
 - `identify` for logged-in customers (optional HMAC signature from your backend)
-- Locales: English (`en`) and Czech (`cs`); chrome follows the group language from boot
+- Locales: English (`en`), Bulgarian (`bg`), Czech (`cs`), Slovak (`sk`), Spanish (`es`), German (`de`), Estonian (`et`), French (`fr`), Polish (`pl`), Hungarian (`hu`), Italian (`it`), Lithuanian (`lt`), Latvian (`lv`), Dutch (`nl`), Norwegian Bokmål (`no`), Portuguese (`pt`), Danish (`da`), Slovenian (`sl`), Croatian (`hr`), Romanian (`ro`), Swedish (`sv`), and Finnish (`fi`); chrome follows the group language from boot
 - Published builds: **ES module** (`dist/index.js`) + **IIFE** (`dist/cusu.iife.js`, global `Cusu`)
 
 ---
@@ -30,8 +30,7 @@ You need a running Cusu service and a **group** configured for the widget:
 
 | Item | Where | Example |
 |------|--------|---------|
-| Group slug | Dashboard / install docs | `acme-support` |
-| Service base URL | Your API host | `https://api.example.com` |
+| Group id | Dashboard / install docs | `grp_…` |
 | Public API key | Widget settings (`pk_…`) | Browser-safe; restrict with **allowed origins** |
 | Identify secret (optional) | Group settings (`isk_…`) | **Server only** — never ship to the browser |
 
@@ -49,8 +48,7 @@ Cusu.onError((error) => {
 });
 
 Cusu.initialize({
-  group: 'acme-support',
-  apiUrl: 'https://api.example.com',
+  group: 'grp_…',
   apiKey: 'pk_…',
   // locale: 'en',       // optional fallback if boot has no renderable language
   // showLauncher: true  // default; set false for a headless launcher
@@ -94,8 +92,7 @@ After install (or from your CDN of the published `dist/`):
 <script src="https://cdn.example.com/cusu.iife.js"></script>
 <script>
   Cusu.initialize({
-    group: 'acme-support',
-    apiUrl: 'https://api.example.com',
+    group: 'grp_…',
     apiKey: 'pk_…'
   });
 </script>
@@ -111,10 +108,10 @@ The IIFE build exposes a global `Cusu` with the same API as the default export.
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `group` | `string` | yes | Group slug from your Cusu install |
-| `apiUrl` | `string` | yes | Cusu service base URL (HTTPS in production) |
+| `group` | `string` | yes | Stable group id (`grp_…`) from your Cusu install |
 | `apiKey` | `string` | yes | Public API key (`pk_…`) |
-| `locale` | `'en' \| 'cs' \| 'sk' \| 'es' \| 'de' \| 'fr' \| 'pl' \| 'hu' \| 'it' \| 'nl' \| 'pt' \| 'da' \| 'sl' \| 'hr' \| 'ro' \| 'sv' \| 'fi'` | no | Fallback UI locale when boot language is missing/unsupported |
+| `apiUrl` | `string` | no | API base URL. Defaults to `https://api.cusuai.com` |
+| `locale` | `'en' \| 'bg' \| 'cs' \| 'sk' \| 'es' \| 'de' \| 'et' \| 'fr' \| 'pl' \| 'hu' \| 'it' \| 'lt' \| 'lv' \| 'nl' \| 'no' \| 'pt' \| 'da' \| 'sl' \| 'hr' \| 'ro' \| 'sv' \| 'fi'` | no | Fallback UI locale when boot language is missing/unsupported |
 | `showLauncher` | `boolean` | no | Floating FAB; default `true` |
 
 Calling `initialize` again tears down the previous instance and boots a new one.
@@ -140,8 +137,7 @@ Hide the FAB and open from your own CTA:
 
 ```js
 Cusu.initialize({
-  group: 'acme-support',
-  apiUrl: 'https://api.example.com',
+  group: 'grp_…',
   apiKey: 'pk_…',
   showLauncher: false
 });
@@ -271,15 +267,15 @@ The SDK is a singleton that mounts into `document`. Use it from any framework th
 ```js
 // React (client component / useEffect)
 useEffect(() => {
-  Cusu.initialize({ group, apiUrl, apiKey });
+  Cusu.initialize({ group, apiKey });
   return () => Cusu.destroy();
-}, [group, apiUrl, apiKey]);
+}, [group, apiKey]);
 ```
 
 ```js
 // Svelte
 onMount(() => {
-  Cusu.initialize({ group, apiUrl, apiKey });
+  Cusu.initialize({ group, apiKey });
   return () => Cusu.destroy();
 });
 ```

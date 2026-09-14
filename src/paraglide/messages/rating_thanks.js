@@ -9,6 +9,10 @@ const en_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`Thanks for the rating.`)
 };
 
+const bg_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Благодарим за оценката.`)
+};
+
 const cs_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Díky za hodnocení.`)
 };
@@ -23,6 +27,10 @@ const es_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedSt
 
 const de_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Vielen Dank für Ihre Bewertung.`)
+};
+
+const et_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Täname hinnangu eest.`)
 };
 
 const fr_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`Grazie per la valutazione.`)
 };
 
+const lt_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Dėkojame už įvertinimą.`)
+};
+
+const lv_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Paldies par vērtējumu.`)
+};
+
 const nl_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Bedankt voor je beoordeling.`)
+};
+
+const no_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Takk for vurderingen.`)
 };
 
 const pt_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedSt
 * | "Thanks for the rating." |
 *
 * @param {Rating_ThanksInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const rating_thanks = /** @type {((inputs?: Rating_ThanksInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Rating_ThanksInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const rating_thanks = /** @type {((inputs?: Rating_ThanksInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Rating_ThanksInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_rating_thanks(inputs)
 	if (locale === "cs") return cs_rating_thanks(inputs)
 	if (locale === "sk") return sk_rating_thanks(inputs)
 	if (locale === "es") return es_rating_thanks(inputs)
 	if (locale === "de") return de_rating_thanks(inputs)
+	if (locale === "et") return et_rating_thanks(inputs)
 	if (locale === "fr") return fr_rating_thanks(inputs)
 	if (locale === "pl") return pl_rating_thanks(inputs)
 	if (locale === "hu") return hu_rating_thanks(inputs)
 	if (locale === "it") return it_rating_thanks(inputs)
+	if (locale === "lt") return lt_rating_thanks(inputs)
+	if (locale === "lv") return lv_rating_thanks(inputs)
 	if (locale === "nl") return nl_rating_thanks(inputs)
+	if (locale === "no") return no_rating_thanks(inputs)
 	if (locale === "pt") return pt_rating_thanks(inputs)
 	if (locale === "da") return da_rating_thanks(inputs)
 	if (locale === "sl") return sl_rating_thanks(inputs)

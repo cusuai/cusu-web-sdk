@@ -9,6 +9,10 @@ const en_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`Older`)
 };
 
+const bg_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`По-стари`)
+};
+
 const cs_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Starší`)
 };
@@ -23,6 +27,10 @@ const es_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedSt
 
 const de_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Älter`)
+};
+
+const et_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Vanemad`)
 };
 
 const fr_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`Meno recenti`)
 };
 
+const lt_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Senesni`)
+};
+
+const lv_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Senāki`)
+};
+
 const nl_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Ouder`)
+};
+
+const no_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Eldre`)
 };
 
 const pt_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_recency_older = /** @type {(inputs: Recency_OlderInputs) => LocalizedSt
 * | "Older" |
 *
 * @param {Recency_OlderInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const recency_older = /** @type {((inputs?: Recency_OlderInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Recency_OlderInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const recency_older = /** @type {((inputs?: Recency_OlderInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Recency_OlderInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_recency_older(inputs)
 	if (locale === "cs") return cs_recency_older(inputs)
 	if (locale === "sk") return sk_recency_older(inputs)
 	if (locale === "es") return es_recency_older(inputs)
 	if (locale === "de") return de_recency_older(inputs)
+	if (locale === "et") return et_recency_older(inputs)
 	if (locale === "fr") return fr_recency_older(inputs)
 	if (locale === "pl") return pl_recency_older(inputs)
 	if (locale === "hu") return hu_recency_older(inputs)
 	if (locale === "it") return it_recency_older(inputs)
+	if (locale === "lt") return lt_recency_older(inputs)
+	if (locale === "lv") return lv_recency_older(inputs)
 	if (locale === "nl") return nl_recency_older(inputs)
+	if (locale === "no") return no_recency_older(inputs)
 	if (locale === "pt") return pt_recency_older(inputs)
 	if (locale === "da") return da_recency_older(inputs)
 	if (locale === "sl") return sl_recency_older(inputs)

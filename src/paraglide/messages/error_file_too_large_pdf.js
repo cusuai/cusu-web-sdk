@@ -9,6 +9,10 @@ const en_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_Pdf
 	return /** @type {LocalizedString} */ (`PDFs can be at most 16 MB.`)
 };
 
+const bg_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_PdfInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`PDF файлът може да бъде с размер до 16 MB.`)
+};
+
 const cs_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_PdfInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`PDF může mít nejvýš 16 MB.`)
 };
@@ -23,6 +27,10 @@ const es_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_Pdf
 
 const de_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_PdfInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`PDF-Dateien dürfen höchstens 16 MB groß sein.`)
+};
+
+const et_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_PdfInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`PDF-faili suurus võib olla kuni 16 MB.`)
 };
 
 const fr_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_PdfInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_Pdf
 	return /** @type {LocalizedString} */ (`I file PDF possono avere una dimensione massima di 16 MB.`)
 };
 
+const lt_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_PdfInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`PDF failas gali būti ne didesnis nei 16 MB.`)
+};
+
+const lv_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_PdfInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`PDF faila lielums nedrīkst pārsniegt 16 MB.`)
+};
+
 const nl_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_PdfInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`PDF-bestanden mogen maximaal 16 MB groot zijn.`)
+};
+
+const no_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_PdfInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`PDF-filer kan være opptil 16 MB.`)
 };
 
 const pt_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_PdfInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_Pdf
 * | "PDFs can be at most 16 MB." |
 *
 * @param {Error_File_Too_Large_PdfInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_file_too_large_pdf = /** @type {((inputs?: Error_File_Too_Large_PdfInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_File_Too_Large_PdfInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_file_too_large_pdf = /** @type {((inputs?: Error_File_Too_Large_PdfInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_File_Too_Large_PdfInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_error_file_too_large_pdf(inputs)
 	if (locale === "cs") return cs_error_file_too_large_pdf(inputs)
 	if (locale === "sk") return sk_error_file_too_large_pdf(inputs)
 	if (locale === "es") return es_error_file_too_large_pdf(inputs)
 	if (locale === "de") return de_error_file_too_large_pdf(inputs)
+	if (locale === "et") return et_error_file_too_large_pdf(inputs)
 	if (locale === "fr") return fr_error_file_too_large_pdf(inputs)
 	if (locale === "pl") return pl_error_file_too_large_pdf(inputs)
 	if (locale === "hu") return hu_error_file_too_large_pdf(inputs)
 	if (locale === "it") return it_error_file_too_large_pdf(inputs)
+	if (locale === "lt") return lt_error_file_too_large_pdf(inputs)
+	if (locale === "lv") return lv_error_file_too_large_pdf(inputs)
 	if (locale === "nl") return nl_error_file_too_large_pdf(inputs)
+	if (locale === "no") return no_error_file_too_large_pdf(inputs)
 	if (locale === "pt") return pt_error_file_too_large_pdf(inputs)
 	if (locale === "da") return da_error_file_too_large_pdf(inputs)
 	if (locale === "sl") return sl_error_file_too_large_pdf(inputs)

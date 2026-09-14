@@ -41,6 +41,7 @@ export * from "./conversation_fallback.js";
 export * from "./conversation_new.js";
 export * from "./conversation_transferred.js";
 export * from "./conversation_waiting_operator.js";
+export * from "./conversation_waiting_until.js";
 export * from "./empty_chat_body.js";
 export * from "./empty_chat_title.js";
 export * from "./empty_history_ask.js";

@@ -49,7 +49,7 @@ export function isConversationSummary(value: unknown): value is ConversationSumm
 	);
 }
 
-function isAssigneeType(value: unknown): value is ConversationSummary['assignee'] {
+function isAssigneeType(value: unknown): value is { type: 'none' | 'ai' | 'user' } {
 	if (!value || typeof value !== 'object') {
 		return false;
 	}
@@ -77,13 +77,14 @@ export function parseRemoteHistory(raw: unknown): ConversationSummary[] {
 		) {
 			continue;
 		}
+		const assignee = item.assignee;
 		items.push({
 			id: item.id,
 			...(title ? { title } : {}),
 			preview,
 			updatedAt,
 			status: item.status,
-			...(isAssigneeType(item.assignee) ? { assignee: { type: item.assignee.type } } : {})
+			...(isAssigneeType(assignee) ? { assignee: { type: assignee.type } } : {})
 		});
 	}
 	return items;

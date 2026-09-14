@@ -9,6 +9,10 @@ const en_error_speech_failed = /** @type {(inputs: Error_Speech_FailedInputs) =>
 	return /** @type {LocalizedString} */ (`Could not recognize speech.`)
 };
 
+const bg_error_speech_failed = /** @type {(inputs: Error_Speech_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Неуспешно разпознаване на речта.`)
+};
+
 const cs_error_speech_failed = /** @type {(inputs: Error_Speech_FailedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Nepodařilo se rozpoznat řeč.`)
 };
@@ -23,6 +27,10 @@ const es_error_speech_failed = /** @type {(inputs: Error_Speech_FailedInputs) =>
 
 const de_error_speech_failed = /** @type {(inputs: Error_Speech_FailedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Die Sprache konnte nicht erkannt werden.`)
+};
+
+const et_error_speech_failed = /** @type {(inputs: Error_Speech_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Kõnet ei õnnestunud tuvastada.`)
 };
 
 const fr_error_speech_failed = /** @type {(inputs: Error_Speech_FailedInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_error_speech_failed = /** @type {(inputs: Error_Speech_FailedInputs) =>
 	return /** @type {LocalizedString} */ (`Non è stato possibile riconoscere la voce.`)
 };
 
+const lt_error_speech_failed = /** @type {(inputs: Error_Speech_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Nepavyko atpažinti kalbos.`)
+};
+
+const lv_error_speech_failed = /** @type {(inputs: Error_Speech_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Neizdevās atpazīt runu.`)
+};
+
 const nl_error_speech_failed = /** @type {(inputs: Error_Speech_FailedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`De spraak kon niet worden herkend.`)
+};
+
+const no_error_speech_failed = /** @type {(inputs: Error_Speech_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Kunne ikke gjenkjenne talen.`)
 };
 
 const pt_error_speech_failed = /** @type {(inputs: Error_Speech_FailedInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_error_speech_failed = /** @type {(inputs: Error_Speech_FailedInputs) =>
 * | "Could not recognize speech." |
 *
 * @param {Error_Speech_FailedInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_speech_failed = /** @type {((inputs?: Error_Speech_FailedInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Speech_FailedInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_speech_failed = /** @type {((inputs?: Error_Speech_FailedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Speech_FailedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_error_speech_failed(inputs)
 	if (locale === "cs") return cs_error_speech_failed(inputs)
 	if (locale === "sk") return sk_error_speech_failed(inputs)
 	if (locale === "es") return es_error_speech_failed(inputs)
 	if (locale === "de") return de_error_speech_failed(inputs)
+	if (locale === "et") return et_error_speech_failed(inputs)
 	if (locale === "fr") return fr_error_speech_failed(inputs)
 	if (locale === "pl") return pl_error_speech_failed(inputs)
 	if (locale === "hu") return hu_error_speech_failed(inputs)
 	if (locale === "it") return it_error_speech_failed(inputs)
+	if (locale === "lt") return lt_error_speech_failed(inputs)
+	if (locale === "lv") return lv_error_speech_failed(inputs)
 	if (locale === "nl") return nl_error_speech_failed(inputs)
+	if (locale === "no") return no_error_speech_failed(inputs)
 	if (locale === "pt") return pt_error_speech_failed(inputs)
 	if (locale === "da") return da_error_speech_failed(inputs)
 	if (locale === "sl") return sl_error_speech_failed(inputs)

@@ -9,6 +9,10 @@ const en_status_assistant = /** @type {(inputs: Status_AssistantInputs) => Local
 	return /** @type {LocalizedString} */ (`AI Assistant`)
 };
 
+const bg_status_assistant = /** @type {(inputs: Status_AssistantInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`AI асистент`)
+};
+
 const cs_status_assistant = /** @type {(inputs: Status_AssistantInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`AI asistent`)
 };
@@ -23,6 +27,10 @@ const es_status_assistant = /** @type {(inputs: Status_AssistantInputs) => Local
 
 const de_status_assistant = /** @type {(inputs: Status_AssistantInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`AI-Assistenz`)
+};
+
+const et_status_assistant = /** @type {(inputs: Status_AssistantInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`AI-assistent`)
 };
 
 const fr_status_assistant = /** @type {(inputs: Status_AssistantInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_status_assistant = /** @type {(inputs: Status_AssistantInputs) => Local
 	return /** @type {LocalizedString} */ (`Assistente AI`)
 };
 
+const lt_status_assistant = /** @type {(inputs: Status_AssistantInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`DI asistentas`)
+};
+
+const lv_status_assistant = /** @type {(inputs: Status_AssistantInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`MI asistents`)
+};
+
 const nl_status_assistant = /** @type {(inputs: Status_AssistantInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`AI-assistent`)
+};
+
+const no_status_assistant = /** @type {(inputs: Status_AssistantInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`KI-assistent`)
 };
 
 const pt_status_assistant = /** @type {(inputs: Status_AssistantInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_status_assistant = /** @type {(inputs: Status_AssistantInputs) => Local
 * | "AI Assistant" |
 *
 * @param {Status_AssistantInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const status_assistant = /** @type {((inputs?: Status_AssistantInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_AssistantInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const status_assistant = /** @type {((inputs?: Status_AssistantInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_AssistantInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_status_assistant(inputs)
 	if (locale === "cs") return cs_status_assistant(inputs)
 	if (locale === "sk") return sk_status_assistant(inputs)
 	if (locale === "es") return es_status_assistant(inputs)
 	if (locale === "de") return de_status_assistant(inputs)
+	if (locale === "et") return et_status_assistant(inputs)
 	if (locale === "fr") return fr_status_assistant(inputs)
 	if (locale === "pl") return pl_status_assistant(inputs)
 	if (locale === "hu") return hu_status_assistant(inputs)
 	if (locale === "it") return it_status_assistant(inputs)
+	if (locale === "lt") return lt_status_assistant(inputs)
+	if (locale === "lv") return lv_status_assistant(inputs)
 	if (locale === "nl") return nl_status_assistant(inputs)
+	if (locale === "no") return no_status_assistant(inputs)
 	if (locale === "pt") return pt_status_assistant(inputs)
 	if (locale === "da") return da_status_assistant(inputs)
 	if (locale === "sl") return sl_status_assistant(inputs)

@@ -9,6 +9,10 @@ const en_role_assistant = /** @type {(inputs: Role_AssistantInputs) => Localized
 	return /** @type {LocalizedString} */ (`AI Assistant`)
 };
 
+const bg_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`AI асистент`)
+};
+
 const cs_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`AI asistent`)
 };
@@ -23,6 +27,10 @@ const es_role_assistant = /** @type {(inputs: Role_AssistantInputs) => Localized
 
 const de_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`AI-Assistenz`)
+};
+
+const et_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`AI-assistent`)
 };
 
 const fr_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_role_assistant = /** @type {(inputs: Role_AssistantInputs) => Localized
 	return /** @type {LocalizedString} */ (`Assistente AI`)
 };
 
+const lt_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`DI asistentas`)
+};
+
+const lv_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`MI asistents`)
+};
+
 const nl_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`AI-assistent`)
+};
+
+const no_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`KI-assistent`)
 };
 
 const pt_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_role_assistant = /** @type {(inputs: Role_AssistantInputs) => Localized
 * | "AI Assistant" |
 *
 * @param {Role_AssistantInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const role_assistant = /** @type {((inputs?: Role_AssistantInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Role_AssistantInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const role_assistant = /** @type {((inputs?: Role_AssistantInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Role_AssistantInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_role_assistant(inputs)
 	if (locale === "cs") return cs_role_assistant(inputs)
 	if (locale === "sk") return sk_role_assistant(inputs)
 	if (locale === "es") return es_role_assistant(inputs)
 	if (locale === "de") return de_role_assistant(inputs)
+	if (locale === "et") return et_role_assistant(inputs)
 	if (locale === "fr") return fr_role_assistant(inputs)
 	if (locale === "pl") return pl_role_assistant(inputs)
 	if (locale === "hu") return hu_role_assistant(inputs)
 	if (locale === "it") return it_role_assistant(inputs)
+	if (locale === "lt") return lt_role_assistant(inputs)
+	if (locale === "lv") return lv_role_assistant(inputs)
 	if (locale === "nl") return nl_role_assistant(inputs)
+	if (locale === "no") return no_role_assistant(inputs)
 	if (locale === "pt") return pt_role_assistant(inputs)
 	if (locale === "da") return da_role_assistant(inputs)
 	if (locale === "sl") return sl_role_assistant(inputs)

@@ -4,10 +4,11 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 
 const dts = `export type CusuConfig = {
+	/** Stable group id (\`grp_…\`), not a human slug. */
 	group: string;
-	apiUrl: string;
 	apiKey: string;
-	locale?: 'en' | 'cs' | 'sk' | 'es' | 'de' | 'fr' | 'pl' | 'hu' | 'it' | 'nl' | 'pt' | 'da' | 'sl' | 'hr' | 'ro' | 'sv' | 'fi';
+	apiUrl?: string;
+	locale?: 'en' | 'bg' | 'cs' | 'sk' | 'es' | 'de' | 'et' | 'fr' | 'pl' | 'hu' | 'it' | 'lt' | 'lv' | 'nl' | 'no' | 'pt' | 'da' | 'sl' | 'hr' | 'ro' | 'sv' | 'fi';
 	showLauncher?: boolean;
 };
 

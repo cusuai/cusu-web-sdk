@@ -9,6 +9,10 @@ const en_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString
 	return /** @type {LocalizedString} */ (`Hang up`)
 };
 
+const bg_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Край на разговора`)
+};
+
 const cs_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Zavěsit`)
 };
@@ -23,6 +27,10 @@ const es_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString
 
 const de_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Auflegen`)
+};
+
+const et_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Lõpeta kõne`)
 };
 
 const fr_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString
 	return /** @type {LocalizedString} */ (`Termina chiamata`)
 };
 
+const lt_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Baigti skambutį`)
+};
+
+const lv_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Beigt zvanu`)
+};
+
 const nl_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Ophangen`)
+};
+
+const no_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Avslutt samtalen`)
 };
 
 const pt_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString
 * | "Hang up" |
 *
 * @param {Aria_HangupInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_hangup = /** @type {((inputs?: Aria_HangupInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_HangupInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_hangup = /** @type {((inputs?: Aria_HangupInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_HangupInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_aria_hangup(inputs)
 	if (locale === "cs") return cs_aria_hangup(inputs)
 	if (locale === "sk") return sk_aria_hangup(inputs)
 	if (locale === "es") return es_aria_hangup(inputs)
 	if (locale === "de") return de_aria_hangup(inputs)
+	if (locale === "et") return et_aria_hangup(inputs)
 	if (locale === "fr") return fr_aria_hangup(inputs)
 	if (locale === "pl") return pl_aria_hangup(inputs)
 	if (locale === "hu") return hu_aria_hangup(inputs)
 	if (locale === "it") return it_aria_hangup(inputs)
+	if (locale === "lt") return lt_aria_hangup(inputs)
+	if (locale === "lv") return lv_aria_hangup(inputs)
 	if (locale === "nl") return nl_aria_hangup(inputs)
+	if (locale === "no") return no_aria_hangup(inputs)
 	if (locale === "pt") return pt_aria_hangup(inputs)
 	if (locale === "da") return da_aria_hangup(inputs)
 	if (locale === "sl") return sl_aria_hangup(inputs)

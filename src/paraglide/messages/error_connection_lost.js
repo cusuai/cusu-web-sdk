@@ -9,6 +9,10 @@ const en_error_connection_lost = /** @type {(inputs: Error_Connection_LostInputs
 	return /** @type {LocalizedString} */ (`Connection lost. Try again.`)
 };
 
+const bg_error_connection_lost = /** @type {(inputs: Error_Connection_LostInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Връзката е прекъсната. Опитайте отново.`)
+};
+
 const cs_error_connection_lost = /** @type {(inputs: Error_Connection_LostInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Připojení se ztratilo. Zkuste to znovu.`)
 };
@@ -23,6 +27,10 @@ const es_error_connection_lost = /** @type {(inputs: Error_Connection_LostInputs
 
 const de_error_connection_lost = /** @type {(inputs: Error_Connection_LostInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Verbindung unterbrochen. Versuchen Sie es erneut.`)
+};
+
+const et_error_connection_lost = /** @type {(inputs: Error_Connection_LostInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Ühendus katkes. Proovige uuesti.`)
 };
 
 const fr_error_connection_lost = /** @type {(inputs: Error_Connection_LostInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_error_connection_lost = /** @type {(inputs: Error_Connection_LostInputs
 	return /** @type {LocalizedString} */ (`Connessione persa. Riprova.`)
 };
 
+const lt_error_connection_lost = /** @type {(inputs: Error_Connection_LostInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Ryšys nutrūko. Bandykite dar kartą.`)
+};
+
+const lv_error_connection_lost = /** @type {(inputs: Error_Connection_LostInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Savienojums pārtrūka. Mēģiniet vēlreiz.`)
+};
+
 const nl_error_connection_lost = /** @type {(inputs: Error_Connection_LostInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Verbinding verbroken. Probeer het opnieuw.`)
+};
+
+const no_error_connection_lost = /** @type {(inputs: Error_Connection_LostInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Tilkoblingen ble brutt. Prøv igjen.`)
 };
 
 const pt_error_connection_lost = /** @type {(inputs: Error_Connection_LostInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_error_connection_lost = /** @type {(inputs: Error_Connection_LostInputs
 * | "Connection lost. Try again." |
 *
 * @param {Error_Connection_LostInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_connection_lost = /** @type {((inputs?: Error_Connection_LostInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Connection_LostInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_connection_lost = /** @type {((inputs?: Error_Connection_LostInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Connection_LostInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_error_connection_lost(inputs)
 	if (locale === "cs") return cs_error_connection_lost(inputs)
 	if (locale === "sk") return sk_error_connection_lost(inputs)
 	if (locale === "es") return es_error_connection_lost(inputs)
 	if (locale === "de") return de_error_connection_lost(inputs)
+	if (locale === "et") return et_error_connection_lost(inputs)
 	if (locale === "fr") return fr_error_connection_lost(inputs)
 	if (locale === "pl") return pl_error_connection_lost(inputs)
 	if (locale === "hu") return hu_error_connection_lost(inputs)
 	if (locale === "it") return it_error_connection_lost(inputs)
+	if (locale === "lt") return lt_error_connection_lost(inputs)
+	if (locale === "lv") return lv_error_connection_lost(inputs)
 	if (locale === "nl") return nl_error_connection_lost(inputs)
+	if (locale === "no") return no_error_connection_lost(inputs)
 	if (locale === "pt") return pt_error_connection_lost(inputs)
 	if (locale === "da") return da_error_connection_lost(inputs)
 	if (locale === "sl") return sl_error_connection_lost(inputs)

@@ -9,6 +9,10 @@ const en_empty_history_ask = /** @type {(inputs: Empty_History_AskInputs) => Loc
 	return /** @type {LocalizedString} */ (`Ask something`)
 };
 
+const bg_empty_history_ask = /** @type {(inputs: Empty_History_AskInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Задайте въпрос`)
+};
+
 const cs_empty_history_ask = /** @type {(inputs: Empty_History_AskInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Zeptat se`)
 };
@@ -23,6 +27,10 @@ const es_empty_history_ask = /** @type {(inputs: Empty_History_AskInputs) => Loc
 
 const de_empty_history_ask = /** @type {(inputs: Empty_History_AskInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Frage stellen`)
+};
+
+const et_empty_history_ask = /** @type {(inputs: Empty_History_AskInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Küsi midagi`)
 };
 
 const fr_empty_history_ask = /** @type {(inputs: Empty_History_AskInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_empty_history_ask = /** @type {(inputs: Empty_History_AskInputs) => Loc
 	return /** @type {LocalizedString} */ (`Fai una domanda`)
 };
 
+const lt_empty_history_ask = /** @type {(inputs: Empty_History_AskInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Užduoti klausimą`)
+};
+
+const lv_empty_history_ask = /** @type {(inputs: Empty_History_AskInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Uzdot jautājumu`)
+};
+
 const nl_empty_history_ask = /** @type {(inputs: Empty_History_AskInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Stel een vraag`)
+};
+
+const no_empty_history_ask = /** @type {(inputs: Empty_History_AskInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Still et spørsmål`)
 };
 
 const pt_empty_history_ask = /** @type {(inputs: Empty_History_AskInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_empty_history_ask = /** @type {(inputs: Empty_History_AskInputs) => Loc
 * | "Ask something" |
 *
 * @param {Empty_History_AskInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const empty_history_ask = /** @type {((inputs?: Empty_History_AskInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Empty_History_AskInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const empty_history_ask = /** @type {((inputs?: Empty_History_AskInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Empty_History_AskInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_empty_history_ask(inputs)
 	if (locale === "cs") return cs_empty_history_ask(inputs)
 	if (locale === "sk") return sk_empty_history_ask(inputs)
 	if (locale === "es") return es_empty_history_ask(inputs)
 	if (locale === "de") return de_empty_history_ask(inputs)
+	if (locale === "et") return et_empty_history_ask(inputs)
 	if (locale === "fr") return fr_empty_history_ask(inputs)
 	if (locale === "pl") return pl_empty_history_ask(inputs)
 	if (locale === "hu") return hu_empty_history_ask(inputs)
 	if (locale === "it") return it_empty_history_ask(inputs)
+	if (locale === "lt") return lt_empty_history_ask(inputs)
+	if (locale === "lv") return lv_empty_history_ask(inputs)
 	if (locale === "nl") return nl_empty_history_ask(inputs)
+	if (locale === "no") return no_empty_history_ask(inputs)
 	if (locale === "pt") return pt_empty_history_ask(inputs)
 	if (locale === "da") return da_empty_history_ask(inputs)
 	if (locale === "sl") return sl_empty_history_ask(inputs)

@@ -9,6 +9,10 @@ const en_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => Localiz
 	return /** @type {LocalizedString} */ (`Only images (JPEG, PNG, GIF, WebP) and PDFs are allowed.`)
 };
 
+const bg_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Разрешени са само изображения (JPEG, PNG, GIF, WebP) и PDF файлове.`)
+};
+
 const cs_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Povolené jsou obrázky (JPEG, PNG, GIF, WebP) a PDF.`)
 };
@@ -23,6 +27,10 @@ const es_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => Localiz
 
 const de_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Nur Bilder (JPEG, PNG, GIF, WebP) und PDF-Dateien sind erlaubt.`)
+};
+
+const et_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Lubatud on ainult pildid (JPEG, PNG, GIF, WebP) ja PDF-failid.`)
 };
 
 const fr_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => Localiz
 	return /** @type {LocalizedString} */ (`Sono consentiti solo immagini (JPEG, PNG, GIF, WebP) e file PDF.`)
 };
 
+const lt_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Leidžiami tik vaizdai (JPEG, PNG, GIF, WebP) ir PDF failai.`)
+};
+
+const lv_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Atļauti tikai attēli (JPEG, PNG, GIF, WebP) un PDF faili.`)
+};
+
 const nl_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Alleen afbeeldingen (JPEG, PNG, GIF, WebP) en PDF-bestanden zijn toegestaan.`)
+};
+
+const no_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Bare bilder (JPEG, PNG, GIF, WebP) og PDF-filer er tillatt.`)
 };
 
 const pt_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => Localiz
 * | "Only images (JPEG, PNG, GIF, WebP) and PDFs are allowed." |
 *
 * @param {Error_File_TypeInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_file_type = /** @type {((inputs?: Error_File_TypeInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_File_TypeInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_file_type = /** @type {((inputs?: Error_File_TypeInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_File_TypeInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_error_file_type(inputs)
 	if (locale === "cs") return cs_error_file_type(inputs)
 	if (locale === "sk") return sk_error_file_type(inputs)
 	if (locale === "es") return es_error_file_type(inputs)
 	if (locale === "de") return de_error_file_type(inputs)
+	if (locale === "et") return et_error_file_type(inputs)
 	if (locale === "fr") return fr_error_file_type(inputs)
 	if (locale === "pl") return pl_error_file_type(inputs)
 	if (locale === "hu") return hu_error_file_type(inputs)
 	if (locale === "it") return it_error_file_type(inputs)
+	if (locale === "lt") return lt_error_file_type(inputs)
+	if (locale === "lv") return lv_error_file_type(inputs)
 	if (locale === "nl") return nl_error_file_type(inputs)
+	if (locale === "no") return no_error_file_type(inputs)
 	if (locale === "pt") return pt_error_file_type(inputs)
 	if (locale === "da") return da_error_file_type(inputs)
 	if (locale === "sl") return sl_error_file_type(inputs)

@@ -9,6 +9,10 @@ const en_aria_open_link = /** @type {(inputs: Aria_Open_LinkInputs) => Localized
 	return /** @type {LocalizedString} */ (`Open link`)
 };
 
+const bg_aria_open_link = /** @type {(inputs: Aria_Open_LinkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Отваряне на връзката`)
+};
+
 const cs_aria_open_link = /** @type {(inputs: Aria_Open_LinkInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Otevřít odkaz`)
 };
@@ -23,6 +27,10 @@ const es_aria_open_link = /** @type {(inputs: Aria_Open_LinkInputs) => Localized
 
 const de_aria_open_link = /** @type {(inputs: Aria_Open_LinkInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Link öffnen`)
+};
+
+const et_aria_open_link = /** @type {(inputs: Aria_Open_LinkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Ava link`)
 };
 
 const fr_aria_open_link = /** @type {(inputs: Aria_Open_LinkInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_aria_open_link = /** @type {(inputs: Aria_Open_LinkInputs) => Localized
 	return /** @type {LocalizedString} */ (`Apri link`)
 };
 
+const lt_aria_open_link = /** @type {(inputs: Aria_Open_LinkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Atidaryti nuorodą`)
+};
+
+const lv_aria_open_link = /** @type {(inputs: Aria_Open_LinkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Atvērt saiti`)
+};
+
 const nl_aria_open_link = /** @type {(inputs: Aria_Open_LinkInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Link openen`)
+};
+
+const no_aria_open_link = /** @type {(inputs: Aria_Open_LinkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Åpne lenken`)
 };
 
 const pt_aria_open_link = /** @type {(inputs: Aria_Open_LinkInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_aria_open_link = /** @type {(inputs: Aria_Open_LinkInputs) => Localized
 * | "Open link" |
 *
 * @param {Aria_Open_LinkInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_open_link = /** @type {((inputs?: Aria_Open_LinkInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Open_LinkInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_open_link = /** @type {((inputs?: Aria_Open_LinkInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Open_LinkInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_aria_open_link(inputs)
 	if (locale === "cs") return cs_aria_open_link(inputs)
 	if (locale === "sk") return sk_aria_open_link(inputs)
 	if (locale === "es") return es_aria_open_link(inputs)
 	if (locale === "de") return de_aria_open_link(inputs)
+	if (locale === "et") return et_aria_open_link(inputs)
 	if (locale === "fr") return fr_aria_open_link(inputs)
 	if (locale === "pl") return pl_aria_open_link(inputs)
 	if (locale === "hu") return hu_aria_open_link(inputs)
 	if (locale === "it") return it_aria_open_link(inputs)
+	if (locale === "lt") return lt_aria_open_link(inputs)
+	if (locale === "lv") return lv_aria_open_link(inputs)
 	if (locale === "nl") return nl_aria_open_link(inputs)
+	if (locale === "no") return no_aria_open_link(inputs)
 	if (locale === "pt") return pt_aria_open_link(inputs)
 	if (locale === "da") return da_aria_open_link(inputs)
 	if (locale === "sl") return sl_aria_open_link(inputs)

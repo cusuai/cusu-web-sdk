@@ -9,6 +9,10 @@ const en_status_operator = /** @type {(inputs: Status_OperatorInputs) => Localiz
 	return /** @type {LocalizedString} */ (`Operator`)
 };
 
+const bg_status_operator = /** @type {(inputs: Status_OperatorInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Оператор`)
+};
+
 const cs_status_operator = /** @type {(inputs: Status_OperatorInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Operátor`)
 };
@@ -23,6 +27,10 @@ const es_status_operator = /** @type {(inputs: Status_OperatorInputs) => Localiz
 
 const de_status_operator = /** @type {(inputs: Status_OperatorInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Mitarbeiter`)
+};
+
+const et_status_operator = /** @type {(inputs: Status_OperatorInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Operaator`)
 };
 
 const fr_status_operator = /** @type {(inputs: Status_OperatorInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_status_operator = /** @type {(inputs: Status_OperatorInputs) => Localiz
 	return /** @type {LocalizedString} */ (`Operatore`)
 };
 
+const lt_status_operator = /** @type {(inputs: Status_OperatorInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Operatorius`)
+};
+
+const lv_status_operator = /** @type {(inputs: Status_OperatorInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Operators`)
+};
+
 const nl_status_operator = /** @type {(inputs: Status_OperatorInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Medewerker`)
+};
+
+const no_status_operator = /** @type {(inputs: Status_OperatorInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Operatør`)
 };
 
 const pt_status_operator = /** @type {(inputs: Status_OperatorInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_status_operator = /** @type {(inputs: Status_OperatorInputs) => Localiz
 * | "Operator" |
 *
 * @param {Status_OperatorInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const status_operator = /** @type {((inputs?: Status_OperatorInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_OperatorInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const status_operator = /** @type {((inputs?: Status_OperatorInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_OperatorInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_status_operator(inputs)
 	if (locale === "cs") return cs_status_operator(inputs)
 	if (locale === "sk") return sk_status_operator(inputs)
 	if (locale === "es") return es_status_operator(inputs)
 	if (locale === "de") return de_status_operator(inputs)
+	if (locale === "et") return et_status_operator(inputs)
 	if (locale === "fr") return fr_status_operator(inputs)
 	if (locale === "pl") return pl_status_operator(inputs)
 	if (locale === "hu") return hu_status_operator(inputs)
 	if (locale === "it") return it_status_operator(inputs)
+	if (locale === "lt") return lt_status_operator(inputs)
+	if (locale === "lv") return lv_status_operator(inputs)
 	if (locale === "nl") return nl_status_operator(inputs)
+	if (locale === "no") return no_status_operator(inputs)
 	if (locale === "pt") return pt_status_operator(inputs)
 	if (locale === "da") return da_status_operator(inputs)
 	if (locale === "sl") return sl_status_operator(inputs)

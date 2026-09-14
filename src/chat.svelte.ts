@@ -5,7 +5,7 @@ import {
 	orbitTone as callOrbitTone,
 	callStatusLabel as callStatusLabelOf
 } from './call-status';
-import type { CusuConfig } from './config';
+import type { ResolvedCusuConfig } from './config';
 import type { ConversationSummary } from './history';
 import {
 	HISTORY_LIMIT,
@@ -120,7 +120,7 @@ function nowIso(): string {
 
 export class GroupChat {
 	constructor(
-		readonly config: CusuConfig,
+		readonly config: ResolvedCusuConfig,
 		readonly visitorId: string
 	) {
 		this.showLauncher = config.showLauncher !== false;
@@ -140,6 +140,8 @@ export class GroupChat {
 	inboxCovered = $state(false);
 	awaitedOperator = $state(false);
 	waitingMessage = $state('');
+	waitingUntil = $state('');
+	waitingTimezone = $state('');
 	status = $state<ThreadStatus>('waiting_customer');
 	recording = $state(false);
 	transcribing = $state(false);
@@ -296,6 +298,8 @@ export class GroupChat {
 		this.inboxCovered = false;
 		this.awaitedOperator = false;
 		this.waitingMessage = '';
+		this.waitingUntil = '';
+		this.waitingTimezone = '';
 		this.status = 'waiting_customer';
 		this.rated = false;
 		this.ratingBusy = false;
@@ -1506,7 +1510,9 @@ export class GroupChat {
 		}
 		if (event.type === 'inbox.waiting') {
 			if (this.transferred && !this.closed && !this.inboxCovered) {
-				this.waitingMessage = event.message;
+				this.waitingMessage = event.message ?? '';
+				this.waitingUntil = event.next_open_at ?? '';
+				this.waitingTimezone = event.timezone ?? '';
 			}
 			return;
 		}
@@ -1547,6 +1553,8 @@ export class GroupChat {
 			this.inboxCovered = false;
 			this.awaitedOperator = false;
 			this.waitingMessage = '';
+			this.waitingUntil = '';
+			this.waitingTimezone = '';
 			this.status = 'waiting_customer';
 			this.rated = false;
 			this.ratingBusy = false;
@@ -1652,6 +1660,8 @@ export class GroupChat {
 		if (!this.transferred || this.closed) {
 			this.awaitedOperator = false;
 			this.waitingMessage = '';
+			this.waitingUntil = '';
+			this.waitingTimezone = '';
 		}
 		if (!this.voiceMode) {
 			return;
@@ -1671,6 +1681,8 @@ export class GroupChat {
 		this.inboxCovered = covered;
 		if (covered) {
 			this.waitingMessage = '';
+			this.waitingUntil = '';
+			this.waitingTimezone = '';
 		}
 	}
 

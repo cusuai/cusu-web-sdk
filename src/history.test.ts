@@ -73,8 +73,8 @@ const summary = (
 
 describe('history keys and parsing', () => {
 	it('builds group-specific storage keys', () => {
-		expect(storageKey('support')).toBe('cusu:support:thread');
-		expect(historyKey('support')).toBe('cusu:support:thread-history');
+		expect(storageKey('grp_test')).toBe('cusu:grp_test:thread');
+		expect(historyKey('grp_test')).toBe('cusu:grp_test:thread-history');
 	});
 
 	it('recognizes valid summaries, including every legacy status', () => {

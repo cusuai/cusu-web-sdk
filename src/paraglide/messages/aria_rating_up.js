@@ -9,6 +9,10 @@ const en_aria_rating_up = /** @type {(inputs: Aria_Rating_UpInputs) => Localized
 	return /** @type {LocalizedString} */ (`Thumbs up`)
 };
 
+const bg_aria_rating_up = /** @type {(inputs: Aria_Rating_UpInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Харесва ми`)
+};
+
 const cs_aria_rating_up = /** @type {(inputs: Aria_Rating_UpInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Palec nahoru`)
 };
@@ -23,6 +27,10 @@ const es_aria_rating_up = /** @type {(inputs: Aria_Rating_UpInputs) => Localized
 
 const de_aria_rating_up = /** @type {(inputs: Aria_Rating_UpInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Daumen hoch`)
+};
+
+const et_aria_rating_up = /** @type {(inputs: Aria_Rating_UpInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Meeldib`)
 };
 
 const fr_aria_rating_up = /** @type {(inputs: Aria_Rating_UpInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_aria_rating_up = /** @type {(inputs: Aria_Rating_UpInputs) => Localized
 	return /** @type {LocalizedString} */ (`Pollice in su`)
 };
 
+const lt_aria_rating_up = /** @type {(inputs: Aria_Rating_UpInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Patinka`)
+};
+
+const lv_aria_rating_up = /** @type {(inputs: Aria_Rating_UpInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Patīk`)
+};
+
 const nl_aria_rating_up = /** @type {(inputs: Aria_Rating_UpInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Duim omhoog`)
+};
+
+const no_aria_rating_up = /** @type {(inputs: Aria_Rating_UpInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Tommel opp`)
 };
 
 const pt_aria_rating_up = /** @type {(inputs: Aria_Rating_UpInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_aria_rating_up = /** @type {(inputs: Aria_Rating_UpInputs) => Localized
 * | "Thumbs up" |
 *
 * @param {Aria_Rating_UpInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_rating_up = /** @type {((inputs?: Aria_Rating_UpInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_UpInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_rating_up = /** @type {((inputs?: Aria_Rating_UpInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_UpInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_aria_rating_up(inputs)
 	if (locale === "cs") return cs_aria_rating_up(inputs)
 	if (locale === "sk") return sk_aria_rating_up(inputs)
 	if (locale === "es") return es_aria_rating_up(inputs)
 	if (locale === "de") return de_aria_rating_up(inputs)
+	if (locale === "et") return et_aria_rating_up(inputs)
 	if (locale === "fr") return fr_aria_rating_up(inputs)
 	if (locale === "pl") return pl_aria_rating_up(inputs)
 	if (locale === "hu") return hu_aria_rating_up(inputs)
 	if (locale === "it") return it_aria_rating_up(inputs)
+	if (locale === "lt") return lt_aria_rating_up(inputs)
+	if (locale === "lv") return lv_aria_rating_up(inputs)
 	if (locale === "nl") return nl_aria_rating_up(inputs)
+	if (locale === "no") return no_aria_rating_up(inputs)
 	if (locale === "pt") return pt_aria_rating_up(inputs)
 	if (locale === "da") return da_aria_rating_up(inputs)
 	if (locale === "sl") return sl_aria_rating_up(inputs)

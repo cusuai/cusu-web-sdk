@@ -9,6 +9,10 @@ const en_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => L
 	return /** @type {LocalizedString} */ (`Download file`)
 };
 
+const bg_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Изтегляне на файла`)
+};
+
 const cs_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Stáhnout soubor`)
 };
@@ -23,6 +27,10 @@ const es_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => L
 
 const de_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Datei herunterladen`)
+};
+
+const et_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Laadi fail alla`)
 };
 
 const fr_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => L
 	return /** @type {LocalizedString} */ (`Scarica file`)
 };
 
+const lt_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Atsisiųsti failą`)
+};
+
+const lv_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Lejupielādēt failu`)
+};
+
 const nl_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Bestand downloaden`)
+};
+
+const no_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Last ned filen`)
 };
 
 const pt_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_aria_download_file = /** @type {(inputs: Aria_Download_FileInputs) => L
 * | "Download file" |
 *
 * @param {Aria_Download_FileInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_download_file = /** @type {((inputs?: Aria_Download_FileInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Download_FileInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_download_file = /** @type {((inputs?: Aria_Download_FileInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Download_FileInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_aria_download_file(inputs)
 	if (locale === "cs") return cs_aria_download_file(inputs)
 	if (locale === "sk") return sk_aria_download_file(inputs)
 	if (locale === "es") return es_aria_download_file(inputs)
 	if (locale === "de") return de_aria_download_file(inputs)
+	if (locale === "et") return et_aria_download_file(inputs)
 	if (locale === "fr") return fr_aria_download_file(inputs)
 	if (locale === "pl") return pl_aria_download_file(inputs)
 	if (locale === "hu") return hu_aria_download_file(inputs)
 	if (locale === "it") return it_aria_download_file(inputs)
+	if (locale === "lt") return lt_aria_download_file(inputs)
+	if (locale === "lv") return lv_aria_download_file(inputs)
 	if (locale === "nl") return nl_aria_download_file(inputs)
+	if (locale === "no") return no_aria_download_file(inputs)
 	if (locale === "pt") return pt_aria_download_file(inputs)
 	if (locale === "da") return da_aria_download_file(inputs)
 	if (locale === "sl") return sl_aria_download_file(inputs)

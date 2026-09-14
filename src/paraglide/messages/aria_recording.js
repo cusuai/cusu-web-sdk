@@ -9,6 +9,10 @@ const en_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => Localized
 	return /** @type {LocalizedString} */ (`Recording`)
 };
 
+const bg_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Записване`)
+};
+
 const cs_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Nahrávám`)
 };
@@ -23,6 +27,10 @@ const es_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => Localized
 
 const de_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Aufnahme läuft`)
+};
+
+const et_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Salvestamine`)
 };
 
 const fr_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => Localized
 	return /** @type {LocalizedString} */ (`Registrazione in corso`)
 };
 
+const lt_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Įrašoma`)
+};
+
+const lv_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Notiek ierakstīšana`)
+};
+
 const nl_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Opname bezig`)
+};
+
+const no_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Tar opp`)
 };
 
 const pt_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => Localized
 * | "Recording" |
 *
 * @param {Aria_RecordingInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_recording = /** @type {((inputs?: Aria_RecordingInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_RecordingInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_recording = /** @type {((inputs?: Aria_RecordingInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_RecordingInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_aria_recording(inputs)
 	if (locale === "cs") return cs_aria_recording(inputs)
 	if (locale === "sk") return sk_aria_recording(inputs)
 	if (locale === "es") return es_aria_recording(inputs)
 	if (locale === "de") return de_aria_recording(inputs)
+	if (locale === "et") return et_aria_recording(inputs)
 	if (locale === "fr") return fr_aria_recording(inputs)
 	if (locale === "pl") return pl_aria_recording(inputs)
 	if (locale === "hu") return hu_aria_recording(inputs)
 	if (locale === "it") return it_aria_recording(inputs)
+	if (locale === "lt") return lt_aria_recording(inputs)
+	if (locale === "lv") return lv_aria_recording(inputs)
 	if (locale === "nl") return nl_aria_recording(inputs)
+	if (locale === "no") return no_aria_recording(inputs)
 	if (locale === "pt") return pt_aria_recording(inputs)
 	if (locale === "da") return da_aria_recording(inputs)
 	if (locale === "sl") return sl_aria_recording(inputs)

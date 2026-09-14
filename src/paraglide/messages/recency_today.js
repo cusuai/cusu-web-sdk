@@ -9,6 +9,10 @@ const en_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`Today`)
 };
 
+const bg_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Днес`)
+};
+
 const cs_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Dnes`)
 };
@@ -23,6 +27,10 @@ const es_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedSt
 
 const de_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Heute`)
+};
+
+const et_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Täna`)
 };
 
 const fr_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`Oggi`)
 };
 
+const lt_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Šiandien`)
+};
+
+const lv_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Šodien`)
+};
+
 const nl_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Vandaag`)
+};
+
+const no_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`I dag`)
 };
 
 const pt_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedSt
 * | "Today" |
 *
 * @param {Recency_TodayInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const recency_today = /** @type {((inputs?: Recency_TodayInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Recency_TodayInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const recency_today = /** @type {((inputs?: Recency_TodayInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Recency_TodayInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_recency_today(inputs)
 	if (locale === "cs") return cs_recency_today(inputs)
 	if (locale === "sk") return sk_recency_today(inputs)
 	if (locale === "es") return es_recency_today(inputs)
 	if (locale === "de") return de_recency_today(inputs)
+	if (locale === "et") return et_recency_today(inputs)
 	if (locale === "fr") return fr_recency_today(inputs)
 	if (locale === "pl") return pl_recency_today(inputs)
 	if (locale === "hu") return hu_recency_today(inputs)
 	if (locale === "it") return it_recency_today(inputs)
+	if (locale === "lt") return lt_recency_today(inputs)
+	if (locale === "lv") return lv_recency_today(inputs)
 	if (locale === "nl") return nl_recency_today(inputs)
+	if (locale === "no") return no_recency_today(inputs)
 	if (locale === "pt") return pt_recency_today(inputs)
 	if (locale === "da") return da_recency_today(inputs)
 	if (locale === "sl") return sl_recency_today(inputs)

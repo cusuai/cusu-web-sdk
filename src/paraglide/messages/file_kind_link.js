@@ -9,6 +9,10 @@ const en_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => Localized
 	return /** @type {LocalizedString} */ (`Link`)
 };
 
+const bg_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Връзка`)
+};
+
 const cs_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Odkaz`)
 };
@@ -22,6 +26,10 @@ const es_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => Localized
 };
 
 const de_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Link`)
+};
+
+const et_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Link`)
 };
 
@@ -41,8 +49,20 @@ const it_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => Localized
 	return /** @type {LocalizedString} */ (`Link`)
 };
 
+const lt_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Nuoroda`)
+};
+
+const lv_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Saite`)
+};
+
 const nl_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Link`)
+};
+
+const no_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Lenke`)
 };
 
 const pt_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => Localized
 * | "Link" |
 *
 * @param {File_Kind_LinkInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const file_kind_link = /** @type {((inputs?: File_Kind_LinkInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<File_Kind_LinkInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const file_kind_link = /** @type {((inputs?: File_Kind_LinkInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<File_Kind_LinkInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_file_kind_link(inputs)
 	if (locale === "cs") return cs_file_kind_link(inputs)
 	if (locale === "sk") return sk_file_kind_link(inputs)
 	if (locale === "es") return es_file_kind_link(inputs)
 	if (locale === "de") return de_file_kind_link(inputs)
+	if (locale === "et") return et_file_kind_link(inputs)
 	if (locale === "fr") return fr_file_kind_link(inputs)
 	if (locale === "pl") return pl_file_kind_link(inputs)
 	if (locale === "hu") return hu_file_kind_link(inputs)
 	if (locale === "it") return it_file_kind_link(inputs)
+	if (locale === "lt") return lt_file_kind_link(inputs)
+	if (locale === "lv") return lv_file_kind_link(inputs)
 	if (locale === "nl") return nl_file_kind_link(inputs)
+	if (locale === "no") return no_file_kind_link(inputs)
 	if (locale === "pt") return pt_file_kind_link(inputs)
 	if (locale === "da") return da_file_kind_link(inputs)
 	if (locale === "sl") return sl_file_kind_link(inputs)

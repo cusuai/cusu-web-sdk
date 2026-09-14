@@ -9,6 +9,10 @@ const en_error_voice_unavailable = /** @type {(inputs: Error_Voice_UnavailableIn
 	return /** @type {LocalizedString} */ (`Voice calling is not available.`)
 };
 
+const bg_error_voice_unavailable = /** @type {(inputs: Error_Voice_UnavailableInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Гласовите разговори не са достъпни.`)
+};
+
 const cs_error_voice_unavailable = /** @type {(inputs: Error_Voice_UnavailableInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Hlasové volání není dostupné.`)
 };
@@ -23,6 +27,10 @@ const es_error_voice_unavailable = /** @type {(inputs: Error_Voice_UnavailableIn
 
 const de_error_voice_unavailable = /** @type {(inputs: Error_Voice_UnavailableInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Sprachanrufe sind nicht verfügbar.`)
+};
+
+const et_error_voice_unavailable = /** @type {(inputs: Error_Voice_UnavailableInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Häälkõned pole saadaval.`)
 };
 
 const fr_error_voice_unavailable = /** @type {(inputs: Error_Voice_UnavailableInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_error_voice_unavailable = /** @type {(inputs: Error_Voice_UnavailableIn
 	return /** @type {LocalizedString} */ (`Le chiamate vocali non sono disponibili.`)
 };
 
+const lt_error_voice_unavailable = /** @type {(inputs: Error_Voice_UnavailableInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Balso skambučiai nepasiekiami.`)
+};
+
+const lv_error_voice_unavailable = /** @type {(inputs: Error_Voice_UnavailableInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Balss zvani nav pieejami.`)
+};
+
 const nl_error_voice_unavailable = /** @type {(inputs: Error_Voice_UnavailableInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Spraakoproepen zijn niet beschikbaar.`)
+};
+
+const no_error_voice_unavailable = /** @type {(inputs: Error_Voice_UnavailableInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Taleanrop er ikke tilgjengelig.`)
 };
 
 const pt_error_voice_unavailable = /** @type {(inputs: Error_Voice_UnavailableInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_error_voice_unavailable = /** @type {(inputs: Error_Voice_UnavailableIn
 * | "Voice calling is not available." |
 *
 * @param {Error_Voice_UnavailableInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_voice_unavailable = /** @type {((inputs?: Error_Voice_UnavailableInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Voice_UnavailableInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_voice_unavailable = /** @type {((inputs?: Error_Voice_UnavailableInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Voice_UnavailableInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_error_voice_unavailable(inputs)
 	if (locale === "cs") return cs_error_voice_unavailable(inputs)
 	if (locale === "sk") return sk_error_voice_unavailable(inputs)
 	if (locale === "es") return es_error_voice_unavailable(inputs)
 	if (locale === "de") return de_error_voice_unavailable(inputs)
+	if (locale === "et") return et_error_voice_unavailable(inputs)
 	if (locale === "fr") return fr_error_voice_unavailable(inputs)
 	if (locale === "pl") return pl_error_voice_unavailable(inputs)
 	if (locale === "hu") return hu_error_voice_unavailable(inputs)
 	if (locale === "it") return it_error_voice_unavailable(inputs)
+	if (locale === "lt") return lt_error_voice_unavailable(inputs)
+	if (locale === "lv") return lv_error_voice_unavailable(inputs)
 	if (locale === "nl") return nl_error_voice_unavailable(inputs)
+	if (locale === "no") return no_error_voice_unavailable(inputs)
 	if (locale === "pt") return pt_error_voice_unavailable(inputs)
 	if (locale === "da") return da_error_voice_unavailable(inputs)
 	if (locale === "sl") return sl_error_voice_unavailable(inputs)

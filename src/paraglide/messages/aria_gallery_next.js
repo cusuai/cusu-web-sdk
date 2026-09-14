@@ -9,6 +9,10 @@ const en_aria_gallery_next = /** @type {(inputs: Aria_Gallery_NextInputs) => Loc
 	return /** @type {LocalizedString} */ (`Next image`)
 };
 
+const bg_aria_gallery_next = /** @type {(inputs: Aria_Gallery_NextInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Следващо изображение`)
+};
+
 const cs_aria_gallery_next = /** @type {(inputs: Aria_Gallery_NextInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Další obrázek`)
 };
@@ -23,6 +27,10 @@ const es_aria_gallery_next = /** @type {(inputs: Aria_Gallery_NextInputs) => Loc
 
 const de_aria_gallery_next = /** @type {(inputs: Aria_Gallery_NextInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Nächstes Bild`)
+};
+
+const et_aria_gallery_next = /** @type {(inputs: Aria_Gallery_NextInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Järgmine pilt`)
 };
 
 const fr_aria_gallery_next = /** @type {(inputs: Aria_Gallery_NextInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_aria_gallery_next = /** @type {(inputs: Aria_Gallery_NextInputs) => Loc
 	return /** @type {LocalizedString} */ (`Immagine successiva`)
 };
 
+const lt_aria_gallery_next = /** @type {(inputs: Aria_Gallery_NextInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Kitas vaizdas`)
+};
+
+const lv_aria_gallery_next = /** @type {(inputs: Aria_Gallery_NextInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Nākamais attēls`)
+};
+
 const nl_aria_gallery_next = /** @type {(inputs: Aria_Gallery_NextInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Volgende afbeelding`)
+};
+
+const no_aria_gallery_next = /** @type {(inputs: Aria_Gallery_NextInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Neste bilde`)
 };
 
 const pt_aria_gallery_next = /** @type {(inputs: Aria_Gallery_NextInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_aria_gallery_next = /** @type {(inputs: Aria_Gallery_NextInputs) => Loc
 * | "Next image" |
 *
 * @param {Aria_Gallery_NextInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_gallery_next = /** @type {((inputs?: Aria_Gallery_NextInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Gallery_NextInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_gallery_next = /** @type {((inputs?: Aria_Gallery_NextInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Gallery_NextInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_aria_gallery_next(inputs)
 	if (locale === "cs") return cs_aria_gallery_next(inputs)
 	if (locale === "sk") return sk_aria_gallery_next(inputs)
 	if (locale === "es") return es_aria_gallery_next(inputs)
 	if (locale === "de") return de_aria_gallery_next(inputs)
+	if (locale === "et") return et_aria_gallery_next(inputs)
 	if (locale === "fr") return fr_aria_gallery_next(inputs)
 	if (locale === "pl") return pl_aria_gallery_next(inputs)
 	if (locale === "hu") return hu_aria_gallery_next(inputs)
 	if (locale === "it") return it_aria_gallery_next(inputs)
+	if (locale === "lt") return lt_aria_gallery_next(inputs)
+	if (locale === "lv") return lv_aria_gallery_next(inputs)
 	if (locale === "nl") return nl_aria_gallery_next(inputs)
+	if (locale === "no") return no_aria_gallery_next(inputs)
 	if (locale === "pt") return pt_aria_gallery_next(inputs)
 	if (locale === "da") return da_aria_gallery_next(inputs)
 	if (locale === "sl") return sl_aria_gallery_next(inputs)

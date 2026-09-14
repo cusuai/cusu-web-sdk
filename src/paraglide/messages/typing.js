@@ -9,6 +9,10 @@ const en_typing = /** @type {(inputs: TypingInputs) => LocalizedString} */ () =>
 	return /** @type {LocalizedString} */ (`Typing…`)
 };
 
+const bg_typing = /** @type {(inputs: TypingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Пише…`)
+};
+
 const cs_typing = /** @type {(inputs: TypingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Píše…`)
 };
@@ -23,6 +27,10 @@ const es_typing = /** @type {(inputs: TypingInputs) => LocalizedString} */ () =>
 
 const de_typing = /** @type {(inputs: TypingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Schreibt…`)
+};
+
+const et_typing = /** @type {(inputs: TypingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Kirjutab…`)
 };
 
 const fr_typing = /** @type {(inputs: TypingInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_typing = /** @type {(inputs: TypingInputs) => LocalizedString} */ () =>
 	return /** @type {LocalizedString} */ (`Sta scrivendo…`)
 };
 
+const lt_typing = /** @type {(inputs: TypingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Rašo…`)
+};
+
+const lv_typing = /** @type {(inputs: TypingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Raksta…`)
+};
+
 const nl_typing = /** @type {(inputs: TypingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Aan het typen…`)
+};
+
+const no_typing = /** @type {(inputs: TypingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Skriver…`)
 };
 
 const pt_typing = /** @type {(inputs: TypingInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_typing = /** @type {(inputs: TypingInputs) => LocalizedString} */ () =>
 * | "Typing…" |
 *
 * @param {TypingInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const typing = /** @type {((inputs?: TypingInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<TypingInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const typing = /** @type {((inputs?: TypingInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<TypingInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_typing(inputs)
 	if (locale === "cs") return cs_typing(inputs)
 	if (locale === "sk") return sk_typing(inputs)
 	if (locale === "es") return es_typing(inputs)
 	if (locale === "de") return de_typing(inputs)
+	if (locale === "et") return et_typing(inputs)
 	if (locale === "fr") return fr_typing(inputs)
 	if (locale === "pl") return pl_typing(inputs)
 	if (locale === "hu") return hu_typing(inputs)
 	if (locale === "it") return it_typing(inputs)
+	if (locale === "lt") return lt_typing(inputs)
+	if (locale === "lv") return lv_typing(inputs)
 	if (locale === "nl") return nl_typing(inputs)
+	if (locale === "no") return no_typing(inputs)
 	if (locale === "pt") return pt_typing(inputs)
 	if (locale === "da") return da_typing(inputs)
 	if (locale === "sl") return sl_typing(inputs)

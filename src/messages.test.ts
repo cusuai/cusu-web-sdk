@@ -1,15 +1,20 @@
 import { describe, expect, it } from 'bun:test';
+import bg from '../messages/bg.json';
 import cs from '../messages/cs.json';
 import da from '../messages/da.json';
 import de from '../messages/de.json';
 import en from '../messages/en.json';
 import es from '../messages/es.json';
+import et from '../messages/et.json';
 import fi from '../messages/fi.json';
 import fr from '../messages/fr.json';
 import hr from '../messages/hr.json';
 import hu from '../messages/hu.json';
 import italian from '../messages/it.json';
+import lt from '../messages/lt.json';
+import lv from '../messages/lv.json';
 import nl from '../messages/nl.json';
+import no from '../messages/no.json';
 import pl from '../messages/pl.json';
 import pt from '../messages/pt.json';
 import ro from '../messages/ro.json';
@@ -244,21 +249,30 @@ const RATING_KEYS = [
 
 const LINK_KEYS = ['file_kind_link', 'aria_open_link'] as const;
 
-const HANDOFF_KEYS = ['conversation_waiting_operator', 'operator_connected'] as const;
+const HANDOFF_KEYS = [
+	'conversation_waiting_operator',
+	'conversation_waiting_until',
+	'operator_connected'
+] as const;
 
 describe('widget rating copy', () => {
 	it('has all supported locale keys', () => {
 		for (const key of RATING_KEYS) {
 			expect(en[key]).toBeTruthy();
+			expect(bg[key]).toBeTruthy();
 			expect(cs[key]).toBeTruthy();
 			expect(sk[key]).toBeTruthy();
 			expect(es[key]).toBeTruthy();
 			expect(de[key]).toBeTruthy();
+			expect(et[key]).toBeTruthy();
 			expect(fr[key]).toBeTruthy();
 			expect(pl[key]).toBeTruthy();
 			expect(hu[key]).toBeTruthy();
 			expect(italian[key]).toBeTruthy();
+			expect(lt[key]).toBeTruthy();
+			expect(lv[key]).toBeTruthy();
 			expect(nl[key]).toBeTruthy();
+			expect(no[key]).toBeTruthy();
 			expect(pt[key]).toBeTruthy();
 			expect(da[key]).toBeTruthy();
 			expect(sl[key]).toBeTruthy();
@@ -274,15 +288,20 @@ describe('widget link copy', () => {
 	it('has all supported locale keys', () => {
 		for (const key of LINK_KEYS) {
 			expect(en[key]).toBeTruthy();
+			expect(bg[key]).toBeTruthy();
 			expect(cs[key]).toBeTruthy();
 			expect(sk[key]).toBeTruthy();
 			expect(es[key]).toBeTruthy();
 			expect(de[key]).toBeTruthy();
+			expect(et[key]).toBeTruthy();
 			expect(fr[key]).toBeTruthy();
 			expect(pl[key]).toBeTruthy();
 			expect(hu[key]).toBeTruthy();
 			expect(italian[key]).toBeTruthy();
+			expect(lt[key]).toBeTruthy();
+			expect(lv[key]).toBeTruthy();
 			expect(nl[key]).toBeTruthy();
+			expect(no[key]).toBeTruthy();
 			expect(pt[key]).toBeTruthy();
 			expect(da[key]).toBeTruthy();
 			expect(sl[key]).toBeTruthy();
@@ -292,15 +311,20 @@ describe('widget link copy', () => {
 			expect(fi[key]).toBeTruthy();
 		}
 		expect(en.file_kind_link).toBe('Link');
+		expect(bg.file_kind_link).toBe('Връзка');
 		expect(cs.file_kind_link).toBe('Odkaz');
 		expect(sk.file_kind_link).toBe('Odkaz');
 		expect(es.file_kind_link).toBe('Enlace');
 		expect(de.file_kind_link).toBe('Link');
+		expect(et.file_kind_link).toBe('Link');
 		expect(fr.file_kind_link).toBe('Lien');
 		expect(pl.file_kind_link).toBe('Link');
 		expect(hu.file_kind_link).toBe('Hivatkozás');
 		expect(italian.file_kind_link).toBe('Link');
+		expect(lt.file_kind_link).toBe('Nuoroda');
+		expect(lv.file_kind_link).toBe('Saite');
 		expect(nl.file_kind_link).toBe('Link');
+		expect(no.file_kind_link).toBe('Lenke');
 		expect(pt.file_kind_link).toBe('Ligação');
 		expect(da.file_kind_link).toBe('Link');
 		expect(sl.file_kind_link).toBe('Povezava');
@@ -315,15 +339,20 @@ describe('widget operator waiting copy', () => {
 	it('has all supported locale keys', () => {
 		for (const key of HANDOFF_KEYS) {
 			expect(en[key]).toBeTruthy();
+			expect(bg[key]).toBeTruthy();
 			expect(cs[key]).toBeTruthy();
 			expect(sk[key]).toBeTruthy();
 			expect(es[key]).toBeTruthy();
 			expect(de[key]).toBeTruthy();
+			expect(et[key]).toBeTruthy();
 			expect(fr[key]).toBeTruthy();
 			expect(pl[key]).toBeTruthy();
 			expect(hu[key]).toBeTruthy();
 			expect(italian[key]).toBeTruthy();
+			expect(lt[key]).toBeTruthy();
+			expect(lv[key]).toBeTruthy();
 			expect(nl[key]).toBeTruthy();
+			expect(no[key]).toBeTruthy();
 			expect(pt[key]).toBeTruthy();
 			expect(da[key]).toBeTruthy();
 			expect(sl[key]).toBeTruthy();
@@ -335,60 +364,76 @@ describe('widget operator waiting copy', () => {
 		expect(cs.conversation_waiting_operator).toBe(
 			'Momentálně není připojený žádný operátor. Odpověď dostanete, jakmile se někdo připojí.'
 		);
+		expect(cs.conversation_waiting_until).toBe('Operátor bude na lince {when}.');
 		expect(cs.operator_connected).toBe('Operátor se připojil.');
 	});
 });
 
 describe('widget brand copy', () => {
 	it('has all supported locale keys', () => {
-		expect(en.brand_name).toBe('cusu.ai');
-		expect(cs.brand_name).toBe('cusu.ai');
-		expect(sk.brand_name).toBe('cusu.ai');
-		expect(es.brand_name).toBe('cusu.ai');
-		expect(de.brand_name).toBe('cusu.ai');
-		expect(fr.brand_name).toBe('cusu.ai');
-		expect(pl.brand_name).toBe('cusu.ai');
-		expect(hu.brand_name).toBe('cusu.ai');
-		expect(italian.brand_name).toBe('cusu.ai');
-		expect(nl.brand_name).toBe('cusu.ai');
-		expect(pt.brand_name).toBe('cusu.ai');
-		expect(da.brand_name).toBe('cusu.ai');
-		expect(sl.brand_name).toBe('cusu.ai');
-		expect(hr.brand_name).toBe('cusu.ai');
-		expect(ro.brand_name).toBe('cusu.ai');
-		expect(sv.brand_name).toBe('cusu.ai');
-		expect(fi.brand_name).toBe('cusu.ai');
-		expect(en.aria_brand_home).toBe('from cusu.ai');
-		expect(cs.aria_brand_home).toBe('od cusu.ai');
-		expect(sk.aria_brand_home).toBe('od cusu.ai');
-		expect(es.aria_brand_home).toBe('de cusu.ai');
-		expect(de.aria_brand_home).toBe('von cusu.ai');
-		expect(fr.aria_brand_home).toBe('par cusu.ai');
-		expect(pl.aria_brand_home).toBe('od cusu.ai');
-		expect(hu.aria_brand_home).toBe('a cusu.ai-tól');
-		expect(italian.aria_brand_home).toBe('di cusu.ai');
-		expect(nl.aria_brand_home).toBe('van cusu.ai');
-		expect(pt.aria_brand_home).toBe('da cusu.ai');
-		expect(da.aria_brand_home).toBe('fra cusu.ai');
-		expect(sl.aria_brand_home).toBe('od cusu.ai');
-		expect(hr.aria_brand_home).toBe('od cusu.ai');
-		expect(ro.aria_brand_home).toBe('de la cusu.ai');
-		expect(sv.aria_brand_home).toBe('från cusu.ai');
-		expect(fi.aria_brand_home).toBe('palvelun tarjoaa cusu.ai');
+		expect(en.brand_name).toBe('cusuai.com');
+		expect(bg.brand_name).toBe('cusuai.com');
+		expect(cs.brand_name).toBe('cusuai.com');
+		expect(sk.brand_name).toBe('cusuai.com');
+		expect(es.brand_name).toBe('cusuai.com');
+		expect(de.brand_name).toBe('cusuai.com');
+		expect(et.brand_name).toBe('cusuai.com');
+		expect(fr.brand_name).toBe('cusuai.com');
+		expect(pl.brand_name).toBe('cusuai.com');
+		expect(hu.brand_name).toBe('cusuai.com');
+		expect(italian.brand_name).toBe('cusuai.com');
+		expect(lt.brand_name).toBe('cusuai.com');
+		expect(lv.brand_name).toBe('cusuai.com');
+		expect(nl.brand_name).toBe('cusuai.com');
+		expect(no.brand_name).toBe('cusuai.com');
+		expect(pt.brand_name).toBe('cusuai.com');
+		expect(da.brand_name).toBe('cusuai.com');
+		expect(sl.brand_name).toBe('cusuai.com');
+		expect(hr.brand_name).toBe('cusuai.com');
+		expect(ro.brand_name).toBe('cusuai.com');
+		expect(sv.brand_name).toBe('cusuai.com');
+		expect(fi.brand_name).toBe('cusuai.com');
+		expect(en.aria_brand_home).toBe('from cusuai.com');
+		expect(bg.aria_brand_home).toBe('от cusuai.com');
+		expect(cs.aria_brand_home).toBe('od cusuai.com');
+		expect(sk.aria_brand_home).toBe('od cusuai.com');
+		expect(es.aria_brand_home).toBe('de cusuai.com');
+		expect(de.aria_brand_home).toBe('von cusuai.com');
+		expect(et.aria_brand_home).toBe('teenust pakub cusuai.com');
+		expect(fr.aria_brand_home).toBe('par cusuai.com');
+		expect(pl.aria_brand_home).toBe('od cusuai.com');
+		expect(hu.aria_brand_home).toBe('a cusuai.com-tól');
+		expect(italian.aria_brand_home).toBe('di cusuai.com');
+		expect(lt.aria_brand_home).toBe('teikia cusuai.com');
+		expect(lv.aria_brand_home).toBe('nodrošina cusuai.com');
+		expect(nl.aria_brand_home).toBe('van cusuai.com');
+		expect(no.aria_brand_home).toBe('fra cusuai.com');
+		expect(pt.aria_brand_home).toBe('da cusuai.com');
+		expect(da.aria_brand_home).toBe('fra cusuai.com');
+		expect(sl.aria_brand_home).toBe('od cusuai.com');
+		expect(hr.aria_brand_home).toBe('od cusuai.com');
+		expect(ro.aria_brand_home).toBe('de la cusuai.com');
+		expect(sv.aria_brand_home).toBe('från cusuai.com');
+		expect(fi.aria_brand_home).toBe('palvelun tarjoaa cusuai.com');
 	});
 });
 
 describe('widget locale catalogs', () => {
 	it('keeps every supported catalog complete against English', () => {
+		expect(Object.keys(bg).sort()).toEqual(Object.keys(en).sort());
 		expect(Object.keys(cs).sort()).toEqual(Object.keys(en).sort());
 		expect(Object.keys(sk).sort()).toEqual(Object.keys(en).sort());
 		expect(Object.keys(es).sort()).toEqual(Object.keys(en).sort());
 		expect(Object.keys(de).sort()).toEqual(Object.keys(en).sort());
+		expect(Object.keys(et).sort()).toEqual(Object.keys(en).sort());
 		expect(Object.keys(fr).sort()).toEqual(Object.keys(en).sort());
 		expect(Object.keys(pl).sort()).toEqual(Object.keys(en).sort());
 		expect(Object.keys(hu).sort()).toEqual(Object.keys(en).sort());
 		expect(Object.keys(italian).sort()).toEqual(Object.keys(en).sort());
+		expect(Object.keys(lt).sort()).toEqual(Object.keys(en).sort());
+		expect(Object.keys(lv).sort()).toEqual(Object.keys(en).sort());
 		expect(Object.keys(nl).sort()).toEqual(Object.keys(en).sort());
+		expect(Object.keys(no).sort()).toEqual(Object.keys(en).sort());
 		expect(Object.keys(pt).sort()).toEqual(Object.keys(en).sort());
 		expect(Object.keys(da).sort()).toEqual(Object.keys(en).sort());
 		expect(Object.keys(sl).sort()).toEqual(Object.keys(en).sort());

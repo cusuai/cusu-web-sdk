@@ -1,7 +1,7 @@
 import { mount, unmount } from 'svelte';
 import ChatWidget from './ChatWidget.svelte';
 import { GroupChat } from './chat.svelte';
-import type { CusuConfig } from './config';
+import { type CusuConfig, type ResolvedCusuConfig, resolveApiUrl } from './config';
 import { clearSession, parseRemoteHistory } from './history';
 import { resolveWidgetLocale } from './locale';
 import { setLocale } from './paraglide/runtime.js';
@@ -36,7 +36,7 @@ type IdentifyCall = { id: string; traits?: IdentifyTraits };
 let runtime: Runtime | null = null;
 let bootId = 0;
 let lastConfig: CusuConfig | null = null;
-let activeConfig: CusuConfig | null = null;
+let activeConfig: ResolvedCusuConfig | null = null;
 let queuedIdentify: IdentifyCall[] = [];
 
 export type CusuError = {
@@ -129,17 +129,14 @@ async function boot(config: CusuConfig, id: number): Promise<void> {
 		console.error('Cusu: group is required');
 		return;
 	}
-	if (!config.apiUrl.trim()) {
-		console.error('Cusu: apiUrl is required');
-		return;
-	}
 	const apiKey = config.apiKey.trim();
 	if (!apiKey) {
 		console.error('Cusu: apiKey is required');
 		return;
 	}
+	const apiUrl = resolveApiUrl(config.apiUrl);
 	try {
-		const response = await fetch(groupUrl(config.apiUrl, group), {
+		const response = await fetch(groupUrl(apiUrl, group), {
 			headers: { authorization: `Bearer ${apiKey}` }
 		});
 		if (id !== bootId) {
@@ -179,7 +176,7 @@ async function boot(config: CusuConfig, id: number): Promise<void> {
 		if (id !== bootId) {
 			return;
 		}
-		const ready = { ...config, group, apiKey };
+		const ready: ResolvedCusuConfig = { ...config, group, apiKey, apiUrl };
 		activeConfig = ready;
 		const locale = resolveWidgetLocale(init.language, ready.locale);
 		if (locale) {
@@ -206,7 +203,7 @@ async function boot(config: CusuConfig, id: number): Promise<void> {
 }
 
 function mountWidget(
-	config: CusuConfig,
+	config: ResolvedCusuConfig,
 	flags: {
 		voiceCall: boolean;
 		dictation: boolean;
@@ -252,7 +249,7 @@ function teardown(): void {
 	runtime = null;
 }
 
-function flushIdentify(config: CusuConfig): void {
+function flushIdentify(config: ResolvedCusuConfig): void {
 	const queued = queuedIdentify;
 	queuedIdentify = [];
 	for (const call of queued) {
@@ -260,7 +257,7 @@ function flushIdentify(config: CusuConfig): void {
 	}
 }
 
-async function postIdentify(config: CusuConfig, call: IdentifyCall): Promise<void> {
+async function postIdentify(config: ResolvedCusuConfig, call: IdentifyCall): Promise<void> {
 	const visitorId = ensureVisitorId();
 	if (!visitorId) {
 		return;

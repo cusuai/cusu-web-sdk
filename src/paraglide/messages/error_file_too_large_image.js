@@ -9,6 +9,10 @@ const en_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_I
 	return /** @type {LocalizedString} */ (`Images can be at most 8 MB.`)
 };
 
+const bg_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_ImageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Изображението може да бъде с размер до 8 MB.`)
+};
+
 const cs_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_ImageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Obrázek může mít nejvýš 8 MB.`)
 };
@@ -23,6 +27,10 @@ const es_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_I
 
 const de_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_ImageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Bilder dürfen höchstens 8 MB groß sein.`)
+};
+
+const et_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_ImageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Pildi suurus võib olla kuni 8 MB.`)
 };
 
 const fr_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_ImageInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_I
 	return /** @type {LocalizedString} */ (`Le immagini possono avere una dimensione massima di 8 MB.`)
 };
 
+const lt_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_ImageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Vaizdas gali būti ne didesnis nei 8 MB.`)
+};
+
+const lv_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_ImageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Attēla lielums nedrīkst pārsniegt 8 MB.`)
+};
+
 const nl_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_ImageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Afbeeldingen mogen maximaal 8 MB groot zijn.`)
+};
+
+const no_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_ImageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Bilder kan være opptil 8 MB.`)
 };
 
 const pt_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_ImageInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_I
 * | "Images can be at most 8 MB." |
 *
 * @param {Error_File_Too_Large_ImageInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_file_too_large_image = /** @type {((inputs?: Error_File_Too_Large_ImageInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_File_Too_Large_ImageInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_file_too_large_image = /** @type {((inputs?: Error_File_Too_Large_ImageInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_File_Too_Large_ImageInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_error_file_too_large_image(inputs)
 	if (locale === "cs") return cs_error_file_too_large_image(inputs)
 	if (locale === "sk") return sk_error_file_too_large_image(inputs)
 	if (locale === "es") return es_error_file_too_large_image(inputs)
 	if (locale === "de") return de_error_file_too_large_image(inputs)
+	if (locale === "et") return et_error_file_too_large_image(inputs)
 	if (locale === "fr") return fr_error_file_too_large_image(inputs)
 	if (locale === "pl") return pl_error_file_too_large_image(inputs)
 	if (locale === "hu") return hu_error_file_too_large_image(inputs)
 	if (locale === "it") return it_error_file_too_large_image(inputs)
+	if (locale === "lt") return lt_error_file_too_large_image(inputs)
+	if (locale === "lv") return lv_error_file_too_large_image(inputs)
 	if (locale === "nl") return nl_error_file_too_large_image(inputs)
+	if (locale === "no") return no_error_file_too_large_image(inputs)
 	if (locale === "pt") return pt_error_file_too_large_image(inputs)
 	if (locale === "da") return da_error_file_too_large_image(inputs)
 	if (locale === "sl") return sl_error_file_too_large_image(inputs)

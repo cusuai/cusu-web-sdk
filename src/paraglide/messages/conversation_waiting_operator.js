@@ -9,6 +9,10 @@ const en_conversation_waiting_operator = /** @type {(inputs: Conversation_Waitin
 	return /** @type {LocalizedString} */ (`No operator is connected right now. You'll get a reply as soon as someone connects.`)
 };
 
+const bg_conversation_waiting_operator = /** @type {(inputs: Conversation_Waiting_OperatorInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`В момента няма свързан оператор. Ще получите отговор веднага щом някой се свърже.`)
+};
+
 const cs_conversation_waiting_operator = /** @type {(inputs: Conversation_Waiting_OperatorInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Momentálně není připojený žádný operátor. Odpověď dostanete, jakmile se někdo připojí.`)
 };
@@ -23,6 +27,10 @@ const es_conversation_waiting_operator = /** @type {(inputs: Conversation_Waitin
 
 const de_conversation_waiting_operator = /** @type {(inputs: Conversation_Waiting_OperatorInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Gerade ist kein Mitarbeiter verbunden. Sie erhalten eine Antwort, sobald sich jemand verbindet.`)
+};
+
+const et_conversation_waiting_operator = /** @type {(inputs: Conversation_Waiting_OperatorInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Praegu pole ükski operaator ühendatud. Saate vastuse niipea, kui keegi liitub.`)
 };
 
 const fr_conversation_waiting_operator = /** @type {(inputs: Conversation_Waiting_OperatorInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_conversation_waiting_operator = /** @type {(inputs: Conversation_Waitin
 	return /** @type {LocalizedString} */ (`Al momento non c’è nessun operatore connesso. Riceverai una risposta non appena qualcuno si connetterà.`)
 };
 
+const lt_conversation_waiting_operator = /** @type {(inputs: Conversation_Waiting_OperatorInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Šiuo metu nėra prisijungusio operatoriaus. Atsakymą gausite, kai tik kas nors prisijungs.`)
+};
+
+const lv_conversation_waiting_operator = /** @type {(inputs: Conversation_Waiting_OperatorInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Pašlaik neviens operators nav pievienojies. Jūs saņemsiet atbildi, tiklīdz kāds pievienosies.`)
+};
+
 const nl_conversation_waiting_operator = /** @type {(inputs: Conversation_Waiting_OperatorInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Er is nu geen medewerker verbonden. Je krijgt antwoord zodra iemand verbinding maakt.`)
+};
+
+const no_conversation_waiting_operator = /** @type {(inputs: Conversation_Waiting_OperatorInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Ingen operatør er tilkoblet akkurat nå. Du får svar så snart noen kobler seg til.`)
 };
 
 const pt_conversation_waiting_operator = /** @type {(inputs: Conversation_Waiting_OperatorInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_conversation_waiting_operator = /** @type {(inputs: Conversation_Waitin
 * | "No operator is connected right now. You'll get a reply as soon as someone connects." |
 *
 * @param {Conversation_Waiting_OperatorInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const conversation_waiting_operator = /** @type {((inputs?: Conversation_Waiting_OperatorInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_Waiting_OperatorInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const conversation_waiting_operator = /** @type {((inputs?: Conversation_Waiting_OperatorInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_Waiting_OperatorInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_conversation_waiting_operator(inputs)
 	if (locale === "cs") return cs_conversation_waiting_operator(inputs)
 	if (locale === "sk") return sk_conversation_waiting_operator(inputs)
 	if (locale === "es") return es_conversation_waiting_operator(inputs)
 	if (locale === "de") return de_conversation_waiting_operator(inputs)
+	if (locale === "et") return et_conversation_waiting_operator(inputs)
 	if (locale === "fr") return fr_conversation_waiting_operator(inputs)
 	if (locale === "pl") return pl_conversation_waiting_operator(inputs)
 	if (locale === "hu") return hu_conversation_waiting_operator(inputs)
 	if (locale === "it") return it_conversation_waiting_operator(inputs)
+	if (locale === "lt") return lt_conversation_waiting_operator(inputs)
+	if (locale === "lv") return lv_conversation_waiting_operator(inputs)
 	if (locale === "nl") return nl_conversation_waiting_operator(inputs)
+	if (locale === "no") return no_conversation_waiting_operator(inputs)
 	if (locale === "pt") return pt_conversation_waiting_operator(inputs)
 	if (locale === "da") return da_conversation_waiting_operator(inputs)
 	if (locale === "sl") return sl_conversation_waiting_operator(inputs)

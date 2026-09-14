@@ -9,6 +9,10 @@ const en_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => Localiz
 	return /** @type {LocalizedString} */ (`Sizing, delivery, or just a gut check — ask away. We've got you.`)
 };
 
+const bg_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Размер, доставка или просто бърз съвет — попитайте смело. Ние сме насреща.`)
+};
+
 const cs_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Velikost, doručení, nebo jen pocit, že si nejsi jistý — klidně se zeptej. Jsme v tom s tebou.`)
 };
@@ -23,6 +27,10 @@ const es_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => Localiz
 
 const de_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Größe, Lieferung oder einfach eine kurze Rückfrage — fragen Sie uns. Wir helfen Ihnen gerne.`)
+};
+
+const et_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Suurus, tarne või lihtsalt kiire nõuanne — küsige julgelt. Oleme valmis aitama.`)
 };
 
 const fr_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => LocalizedString} */ () => {
@@ -41,8 +49,20 @@ const it_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => Localiz
 	return /** @type {LocalizedString} */ (`Taglia, consegna o un semplice consiglio — chiedi pure. Siamo qui per aiutarti.`)
 };
 
+const lt_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Dydis, pristatymas ar tiesiog greitas patarimas — drąsiai klauskite. Mes pasiruošę padėti.`)
+};
+
+const lv_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Izmērs, piegāde vai vienkārši ātrs padoms — droši jautājiet. Mēs esam gatavi palīdzēt.`)
+};
+
 const nl_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Maat, bezorging of gewoon even overleggen — vraag maar. We helpen je graag.`)
+};
+
+const no_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Størrelse, levering eller bare en rask vurdering — bare spør. Vi er klare til å hjelpe.`)
 };
 
 const pt_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => LocalizedString} */ () => {
@@ -79,20 +99,25 @@ const fi_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => Localiz
 * | "Sizing, delivery, or just a gut check — ask away. We've got you." |
 *
 * @param {Empty_Chat_BodyInputs} inputs
-* @param {{ locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const empty_chat_body = /** @type {((inputs?: Empty_Chat_BodyInputs, options?: { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Empty_Chat_BodyInputs, { locale?: "en" | "cs" | "sk" | "es" | "de" | "fr" | "pl" | "hu" | "it" | "nl" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const empty_chat_body = /** @type {((inputs?: Empty_Chat_BodyInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Empty_Chat_BodyInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
+	if (locale === "bg") return bg_empty_chat_body(inputs)
 	if (locale === "cs") return cs_empty_chat_body(inputs)
 	if (locale === "sk") return sk_empty_chat_body(inputs)
 	if (locale === "es") return es_empty_chat_body(inputs)
 	if (locale === "de") return de_empty_chat_body(inputs)
+	if (locale === "et") return et_empty_chat_body(inputs)
 	if (locale === "fr") return fr_empty_chat_body(inputs)
 	if (locale === "pl") return pl_empty_chat_body(inputs)
 	if (locale === "hu") return hu_empty_chat_body(inputs)
 	if (locale === "it") return it_empty_chat_body(inputs)
+	if (locale === "lt") return lt_empty_chat_body(inputs)
+	if (locale === "lv") return lv_empty_chat_body(inputs)
 	if (locale === "nl") return nl_empty_chat_body(inputs)
+	if (locale === "no") return no_empty_chat_body(inputs)
 	if (locale === "pt") return pt_empty_chat_body(inputs)
 	if (locale === "da") return da_empty_chat_body(inputs)
 	if (locale === "sl") return sl_empty_chat_body(inputs)
