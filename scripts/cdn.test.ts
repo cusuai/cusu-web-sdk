@@ -15,9 +15,9 @@ describe('widget CDN paths', () => {
 		);
 	});
 
-	it('builds a storage-mode purge url for one object', () => {
+	it('builds a storage-mode purge url for the version prefix', () => {
 		expect(objectPurgeUrl('https://api.app-prg1.zerops.io', 'svc', 'bucket', 'latest')).toBe(
-			'https://api.app-prg1.zerops.io/api/rest/public/service-stack/svc/purge-cdn/bucket/widget/latest/cusu.js$'
+			'https://api.app-prg1.zerops.io/api/rest/public/service-stack/svc/purge-cdn/bucket/widget/latest/*'
 		);
 	});
 });

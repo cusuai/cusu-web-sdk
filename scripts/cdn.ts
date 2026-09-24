@@ -52,8 +52,9 @@ export function readCdnPublishEnv(env: NodeJS.ProcessEnv): CdnPublishEnv {
 }
 
 /**
- * Storage-mode purge pattern. `$` marks one object and must stay literal —
- * Zerops rejects the path when it is percent-encoded.
+ * Storage-mode purge patterns. Zerops requires a trailing `*` or `$`.
+ * Prefer a directory wildcard — a single-object `$` can return success while
+ * the CDN edge keeps serving a HIT for tens of seconds (or longer).
  */
 export function objectPurgeUrl(
 	apiUrl: string,
@@ -61,6 +62,6 @@ export function objectPurgeUrl(
 	bucket: string,
 	version: string
 ): string {
-	const pattern = `${bucket}/${widgetObjectKey(version)}$`;
+	const pattern = `${bucket}/widget/${version}/*`;
 	return `${apiUrl}/api/rest/public/service-stack/${serviceId}/purge-cdn/${pattern}`;
 }
