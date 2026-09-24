@@ -1,0 +1,11 @@
+# Public script-tag bundle for @cusuai/web-sdk.
+# Separate from the private `storage` bucket (customer attachments).
+# One object storage service = one bucket. Import into the existing project:
+#   zcli project service-import zerops/widgetcdn.import.yml -P <project-id>
+# Then enable CDN on this service (GUI or PUT /service-stack/{id}/cdn).
+# Zerops CDN URL: https://storage.cdn.zerops.app/<bucket>/widget/<version>/cusu.js
+services:
+  - hostname: widgetcdn
+    type: objectstorage
+    objectStorageSize: 1
+    objectStoragePolicy: public-objects-read

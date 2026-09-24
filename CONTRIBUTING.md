@@ -62,7 +62,18 @@ That creates `@cusuai/web-sdk`. Then on npmjs.com open the package **Access** pa
 - Environment: leave empty
 - Allowed actions: `npm publish`
 
-Later versions: bump `package.json` + CHANGELOG, merge to `main`, tag `vX.Y.Z` (must match `package.json`), push the tag. [`.github/workflows/release.yml`](./.github/workflows/release.yml) publishes via OIDC. Do not store an `NPM_TOKEN`.
+Later versions: bump `package.json` + CHANGELOG, merge to `main`, tag `vX.Y.Z` (must match `package.json`), push the tag. [`.github/workflows/release.yml`](./.github/workflows/release.yml) uploads the script bundle, then publishes via OIDC. Do not store an `NPM_TOKEN`.
+
+The tag pipeline needs these GitHub Actions secrets (see [docs/widget-cdn.md](./docs/widget-cdn.md)):
+
+- `WIDGET_S3_ENDPOINT`
+- `WIDGET_S3_BUCKET`
+- `WIDGET_S3_ACCESS_KEY_ID`
+- `WIDGET_S3_SECRET_ACCESS_KEY`
+- `ZEROPS_API_TOKEN`
+- `ZEROPS_WIDGET_SERVICE_ID`
+
+The upload runs before `npm publish`. If it fails, fix the secret and re-run the workflow; the version is not on npm yet.
 
 ## PR checklist
 

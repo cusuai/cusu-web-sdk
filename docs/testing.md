@@ -3,13 +3,13 @@
 ## Runner
 
 ```bash
-bun test src                 # fast local loop (no coverage)
+bun test src scripts          # fast local loop (no coverage)
 bun run test:coverage        # text summary + coverage/lcov.info
 bun run test:coverage:check  # pure-module floors from lcov
 bun run ci                   # full gate (lint, types, coverage, build, audit)
 ```
 
-Uses [bun:test](https://bun.sh/docs/cli/test). Suites are colocalized as `src/*.test.ts`.
+Uses [bun:test](https://bun.sh/docs/cli/test). Suites are colocalized as `src/*.test.ts`. `scripts/cdn.test.ts` covers the CDN publisher and is excluded from the coverage floor (`scripts/**` in `bunfig.toml`).
 
 Configuration: [`bunfig.toml`](../bunfig.toml). Scanners around the same CI job: [security-ci.md](./security-ci.md).
 

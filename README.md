@@ -20,7 +20,7 @@ npm install @cusuai/web-sdk
 - Dictation via `/v1/transcribe` (Bearer public key)
 - `identify` for logged-in customers (optional HMAC signature from your backend)
 - Locales: English (`en`), Bulgarian (`bg`), Czech (`cs`), Slovak (`sk`), Spanish (`es`), German (`de`), Estonian (`et`), French (`fr`), Polish (`pl`), Hungarian (`hu`), Italian (`it`), Lithuanian (`lt`), Latvian (`lv`), Dutch (`nl`), Norwegian Bokmål (`no`), Portuguese (`pt`), Danish (`da`), Slovenian (`sl`), Croatian (`hr`), Romanian (`ro`), Swedish (`sv`), and Finnish (`fi`); chrome follows group language from boot, or page/`config.locale` when reply locale is `auto`
-- Published builds: **ES module** (`dist/index.js`) + **IIFE** (`dist/cusu.iife.js`, global `Cusu`)
+- Published builds: **ES module** (`dist/index.js`) + **IIFE** script tag on the Zerops CDN (`widget/<version>/cusu.js`, global `Cusu`)
 
 ---
 
@@ -84,12 +84,12 @@ import Cusu from '@cusuai/web-sdk';
 
 Types ship with the package (`dist/index.d.ts`).
 
-### Script tag (IIFE)
+### Script tag (Shopify, Shoptet, plain HTML)
 
-After install (or from your CDN of the published `dist/`):
+No package manager. Paste this before `</body>` in the theme (`theme.liquid` on Shopify). Pin the version — `latest` can stay cached for up to 30 days.
 
 ```html
-<script src="https://cdn.example.com/cusu.iife.js"></script>
+<script src="https://storage.cdn.zerops.app/4gfpg-widgetcdn/widget/0.2.0/cusu.js"></script>
 <script>
   Cusu.initialize({
     group: 'grp_…',
@@ -98,7 +98,7 @@ After install (or from your CDN of the published `dist/`):
 </script>
 ```
 
-The IIFE build exposes a global `Cusu` with the same API as the default export.
+The script exposes a global `Cusu` with the same API as the default export. The shop origin must be on the public key's allowed origins. Layout, cache, and how a release publishes the file: [docs/widget-cdn.md](./docs/widget-cdn.md).
 
 ---
 
@@ -181,73 +181,50 @@ Cusu.identify('user_123', {
 
 ### Signed identify (recommended in production)
 
-When the group has an identify secret (`isk_…`), unsigned `identify` is **rejected**. Sign on your **backend** only.
+When the group has an identify secret (`isk_…`), unsigned `identify` is **rejected**. Sign on your **backend** only — use [`@cusuai/node`](https://github.com/cusuai/cusu-node-sdk) `identifySign` (do not put `isk_…` in the browser).
 
-1. Read (or set) the first-party cookie `cusu_vid` — that value is the `visitorId`.
-2. Build the canonical string (empty optional fields are empty segments):
-
-```text
-v1\n{visitorId}\n{externalId}\n{signedAt}\n{name}\n{email}\n{phone}\n{gender}
+```bash
+npm install @cusuai/node
 ```
 
-3. `signature = hex(HMAC-SHA256(secret, canonical))` with `signedAt = Date.now()` (skew window ±5 minutes).
-4. Return traits + `signedAt` + `signature` to the browser; pass them into `Cusu.identify`.
+```ts
+import { identifySign } from '@cusuai/node';
 
-**Node.js example** (Express / any backend):
-
-```js
-import { createHmac } from 'node:crypto';
-
-function signIdentify(secret, { visitorId, externalId, signedAt, name, email, phone, gender }) {
-  const canonical = [
-    'v1',
-    visitorId,
-    externalId,
-    String(signedAt),
-    name ?? '',
-    email ?? '',
-    phone ?? '',
-    gender ?? ''
-  ].join('\n');
-  return createHmac('sha256', secret).update(canonical, 'utf8').digest('hex');
-}
-
-// POST /api/cusu-identify
+// POST /api/cusu-identify — body: { visitorId } from the browser (cusu_vid cookie).
+// Take externalId + traits from your authenticated session / DB.
 app.post('/api/cusu-identify', (req, res) => {
-  const externalId = String(req.body.externalId ?? '').trim();
-  const traits = req.body.traits ?? {};
-  const visitorId = req.cookies.cusu_vid ?? crypto.randomUUID();
-  res.cookie('cusu_vid', visitorId, { path: '/', maxAge: 400 * 24 * 60 * 60 * 1000, sameSite: 'lax' });
-
-  const signedAt = Date.now();
-  const signature = signIdentify(process.env.CUSU_IDENTIFY_SECRET, {
-    visitorId,
-    externalId,
-    signedAt,
-    name: traits.name,
-    email: traits.email,
-    phone: traits.phone,
-    gender: traits.gender
-  });
-
-  res.json({ ...traits, signedAt, signature });
+  const visitorId = String(req.body.visitorId ?? '').trim();
+  res.json(
+    identifySign({
+      isk: process.env.CUSU_IDENTIFY_SECRET!,
+      visitorId,
+      externalId: req.user.id,
+      traits: {
+        name: req.user.name,
+        email: req.user.email,
+        gender: req.user.gender
+      }
+    })
+  );
 });
 ```
 
 Browser:
 
 ```js
+const visitorId = document.cookie
+  .split('; ')
+  .find((row) => row.startsWith('cusu_vid='))
+  ?.split('=')[1];
+
 const identity = await fetch('/api/cusu-identify', {
   method: 'POST',
   headers: { 'content-type': 'application/json' },
   credentials: 'same-origin',
-  body: JSON.stringify({
-    externalId: 'user_123',
-    traits: { name: 'Jane Doe', email: 'jane@shop.test', gender: 'female' }
-  })
+  body: JSON.stringify({ visitorId })
 }).then((r) => r.json());
 
-Cusu.identify('user_123', identity);
+Cusu.identify(identity.externalId, identity);
 ```
 
 On **logout**, call `reset()` before the next `identify`. `destroy()` + `initialize()` is not enough: the same `cusu_vid` cookie and local conversation list would keep the previous customer's threads. After `identify`, the SDK replaces local history with that customer's threads from the server.
@@ -256,7 +233,7 @@ On **logout**, call `reset()` before the next `identify`. `destroy()` + `initial
 Cusu.reset();
 ```
 
-Full protocol notes: [docs/protocol.md](./docs/protocol.md). Integrator security checklist: [SECURITY.md](./SECURITY.md).
+Package docs: [cusuai/cusu-node-sdk](https://github.com/cusuai/cusu-node-sdk). Full protocol notes: [docs/protocol.md](./docs/protocol.md). Integrator security checklist: [SECURITY.md](./SECURITY.md).
 
 ---
 

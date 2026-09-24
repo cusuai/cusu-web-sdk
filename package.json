@@ -1,6 +1,6 @@
 {
 	"name": "@cusuai/web-sdk",
-	"version": "0.2.1",
+	"version": "0.3.0",
 	"description": "Framework-agnostic Cusu customer chat widget (Shadow DOM, ES + IIFE).",
 	"license": "MIT",
 	"type": "module",
@@ -44,13 +44,14 @@
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"lint": "biome check .",
 		"format": "biome check --write .",
-		"test": "bun test src",
+		"test": "bun test src scripts",
 		"test:coverage": "bun test --coverage --coverage-reporter=text --coverage-reporter=lcov src",
 		"test:coverage:check": "bun run scripts/check-coverage.ts --write-badge",
 		"audit": "bun audit --audit-level=moderate",
 		"ci": "bun run lint && bun run check && bun run test:coverage && bun run test:coverage:check && bun run build && bun run audit"
 	},
 	"devDependencies": {
+		"@aws-sdk/client-s3": "^3.1139.0",
 		"@biomejs/biome": "^2.5.12",
 		"@inlang/paraglide-js": "^2.25.0",
 		"@sveltejs/vite-plugin-svelte": "^7.1.2",

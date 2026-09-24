@@ -15,7 +15,8 @@ coveragePathIgnorePatterns = [
 	"src/visitor.ts",
 	"src/locale.ts",
 	"src/markdown.ts",
-	"src/config.ts"
+	"src/config.ts",
+	"scripts/**"
 ]
 # Remaining instrumented files (mostly pure helpers) must stay above this floor.
 coverageThreshold = { lines = 0.9, functions = 0.9 }

@@ -49,5 +49,17 @@ jobs:
       - name: CI gate
         run: bun run ci
 
+      # Upload before npm publish so a CDN failure can be re-run
+      # without a second publish of the same version.
+      - name: Upload script bundle
+        env:
+          WIDGET_S3_ENDPOINT: ${{ secrets.WIDGET_S3_ENDPOINT }}
+          WIDGET_S3_BUCKET: ${{ secrets.WIDGET_S3_BUCKET }}
+          WIDGET_S3_ACCESS_KEY_ID: ${{ secrets.WIDGET_S3_ACCESS_KEY_ID }}
+          WIDGET_S3_SECRET_ACCESS_KEY: ${{ secrets.WIDGET_S3_SECRET_ACCESS_KEY }}
+          ZEROPS_API_TOKEN: ${{ secrets.ZEROPS_API_TOKEN }}
+          ZEROPS_WIDGET_SERVICE_ID: ${{ secrets.ZEROPS_WIDGET_SERVICE_ID }}
+        run: bun scripts/publish-cdn.ts
+
       - name: Publish to npm
         run: npm publish
