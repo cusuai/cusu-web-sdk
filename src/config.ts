@@ -4,7 +4,7 @@ export type CusuConfig = {
 	apiKey: string;
 	/** Override API base URL. Defaults to https://api.cusuai.com. */
 	apiUrl?: string;
-	/** Fallback when boot does not return a group language the widget can render. */
+	/** Fallback UI locale when boot has no language, or when reply mode is auto. */
 	locale?:
 		| 'en'
 		| 'bg'

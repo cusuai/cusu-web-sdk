@@ -3,7 +3,7 @@ import ChatWidget from './ChatWidget.svelte';
 import { GroupChat } from './chat.svelte';
 import { type CusuConfig, type ResolvedCusuConfig, resolveApiUrl } from './config';
 import { clearSession, parseRemoteHistory } from './history';
-import { resolveWidgetLocale } from './locale';
+import { detectPageLanguage, resolveWidgetLocale } from './locale';
 import { setLocale } from './paraglide/runtime.js';
 import { groupUrl, identifyUrl } from './urls';
 import { ensureVisitorId, resetVisitorId } from './visitor';
@@ -172,13 +172,19 @@ async function boot(config: CusuConfig, id: number): Promise<void> {
 			voice_realtime?: boolean;
 			rating_scale?: string;
 			language?: string;
+			reply_locale?: string;
 		};
 		if (id !== bootId) {
 			return;
 		}
 		const ready: ResolvedCusuConfig = { ...config, group, apiKey, apiUrl };
 		activeConfig = ready;
-		const locale = resolveWidgetLocale(init.language, ready.locale);
+		const locale = resolveWidgetLocale({
+			groupLanguage: init.language,
+			replyLocale: init.reply_locale,
+			override: ready.locale,
+			pageLanguage: detectPageLanguage()
+		});
 		if (locale) {
 			setLocale(locale, { reload: false });
 		}

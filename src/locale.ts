@@ -1,7 +1,9 @@
 import { type Locale, toLocale } from './paraglide/runtime.js';
 
-export function resolveWidgetLocale(
-	groupLanguage: unknown,
+export type WidgetLocaleInput = {
+	groupLanguage?: unknown;
+	/** When `auto`, prefer page / override over the group language. */
+	replyLocale?: string;
 	override?:
 		| 'en'
 		| 'bg'
@@ -24,7 +26,52 @@ export function resolveWidgetLocale(
 		| 'hr'
 		| 'ro'
 		| 'sv'
-		| 'fi'
+		| 'fi';
+	/** e.g. `document.documentElement.lang` */
+	pageLanguage?: string;
+};
+
+function primaryLanguageTag(value: unknown): string | undefined {
+	if (typeof value !== 'string') {
+		return undefined;
+	}
+	const trimmed = value.trim();
+	if (!trimmed) {
+		return undefined;
+	}
+	return trimmed.split(/[-_]/)[0] || undefined;
+}
+
+export function resolveWidgetLocale(
+	groupLanguageOrInput: unknown,
+	override?: WidgetLocaleInput['override']
 ): Locale | undefined {
-	return toLocale(groupLanguage) ?? toLocale(override);
+	if (
+		groupLanguageOrInput &&
+		typeof groupLanguageOrInput === 'object' &&
+		('groupLanguage' in groupLanguageOrInput ||
+			'replyLocale' in groupLanguageOrInput ||
+			'override' in groupLanguageOrInput ||
+			'pageLanguage' in groupLanguageOrInput)
+	) {
+		const input = groupLanguageOrInput as WidgetLocaleInput;
+		const group = toLocale(primaryLanguageTag(input.groupLanguage) ?? input.groupLanguage);
+		const page = toLocale(primaryLanguageTag(input.pageLanguage) ?? input.pageLanguage);
+		const fallback = toLocale(input.override);
+		if (input.replyLocale === 'auto') {
+			return page ?? fallback ?? group;
+		}
+		return group ?? fallback;
+	}
+	return (
+		toLocale(primaryLanguageTag(groupLanguageOrInput) ?? groupLanguageOrInput) ?? toLocale(override)
+	);
+}
+
+export function detectPageLanguage(
+	doc: { documentElement: { lang: string } } | null | undefined = typeof document !== 'undefined'
+		? document
+		: undefined
+): string | undefined {
+	return primaryLanguageTag(doc?.documentElement?.lang);
 }
