@@ -81,6 +81,14 @@ const hr_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => Local
 	return /** @type {LocalizedString} */ (`Mikrofon nije bilo moguće pokrenuti.`)
 };
 
+const sr_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Mikrofon nije moguće pokrenuti.`)
+};
+
+const mk_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Микрофонот не може да се вклучи.`)
+};
+
 const ro_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Microfonul nu a putut fi pornit.`)
 };
@@ -99,10 +107,10 @@ const fi_error_mic_failed = /** @type {(inputs: Error_Mic_FailedInputs) => Local
 * | "Could not start the microphone." |
 *
 * @param {Error_Mic_FailedInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_mic_failed = /** @type {((inputs?: Error_Mic_FailedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Mic_FailedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_mic_failed = /** @type {((inputs?: Error_Mic_FailedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Mic_FailedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_error_mic_failed(inputs)
 	if (locale === "cs") return cs_error_mic_failed(inputs)
@@ -122,6 +130,8 @@ export const error_mic_failed = /** @type {((inputs?: Error_Mic_FailedInputs, op
 	if (locale === "da") return da_error_mic_failed(inputs)
 	if (locale === "sl") return sl_error_mic_failed(inputs)
 	if (locale === "hr") return hr_error_mic_failed(inputs)
+	if (locale === "sr") return sr_error_mic_failed(inputs)
+	if (locale === "mk") return mk_error_mic_failed(inputs)
 	if (locale === "ro") return ro_error_mic_failed(inputs)
 	if (locale === "sv") return sv_error_mic_failed(inputs)
 	if (locale === "fi") return fi_error_mic_failed(inputs)

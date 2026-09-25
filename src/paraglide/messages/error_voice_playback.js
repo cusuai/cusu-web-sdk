@@ -81,6 +81,14 @@ const hr_error_voice_playback = /** @type {(inputs: Error_Voice_PlaybackInputs) 
 	return /** @type {LocalizedString} */ (`Glas nije bilo moguće reproducirati.`)
 };
 
+const sr_error_voice_playback = /** @type {(inputs: Error_Voice_PlaybackInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Nije moguće reprodukovati zvuk.`)
+};
+
+const mk_error_voice_playback = /** @type {(inputs: Error_Voice_PlaybackInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Звукот не може да се репродуцира.`)
+};
+
 const ro_error_voice_playback = /** @type {(inputs: Error_Voice_PlaybackInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Vocea nu a putut fi redată.`)
 };
@@ -99,10 +107,10 @@ const fi_error_voice_playback = /** @type {(inputs: Error_Voice_PlaybackInputs) 
 * | "Could not play voice." |
 *
 * @param {Error_Voice_PlaybackInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_voice_playback = /** @type {((inputs?: Error_Voice_PlaybackInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Voice_PlaybackInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_voice_playback = /** @type {((inputs?: Error_Voice_PlaybackInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Voice_PlaybackInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_error_voice_playback(inputs)
 	if (locale === "cs") return cs_error_voice_playback(inputs)
@@ -122,6 +130,8 @@ export const error_voice_playback = /** @type {((inputs?: Error_Voice_PlaybackIn
 	if (locale === "da") return da_error_voice_playback(inputs)
 	if (locale === "sl") return sl_error_voice_playback(inputs)
 	if (locale === "hr") return hr_error_voice_playback(inputs)
+	if (locale === "sr") return sr_error_voice_playback(inputs)
+	if (locale === "mk") return mk_error_voice_playback(inputs)
 	if (locale === "ro") return ro_error_voice_playback(inputs)
 	if (locale === "sv") return sv_error_voice_playback(inputs)
 	if (locale === "fi") return fi_error_voice_playback(inputs)

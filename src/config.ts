@@ -25,6 +25,8 @@ export type CusuConfig = {
 		| 'da'
 		| 'sl'
 		| 'hr'
+		| 'sr'
+		| 'mk'
 		| 'ro'
 		| 'sv'
 		| 'fi';

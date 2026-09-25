@@ -81,6 +81,14 @@ const hr_error_recording_short = /** @type {(inputs: Error_Recording_ShortInputs
 	return /** @type {LocalizedString} */ (`Snimka je prekratka.`)
 };
 
+const sr_error_recording_short = /** @type {(inputs: Error_Recording_ShortInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Snimak je prekratak.`)
+};
+
+const mk_error_recording_short = /** @type {(inputs: Error_Recording_ShortInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Снимката е прекратка.`)
+};
+
 const ro_error_recording_short = /** @type {(inputs: Error_Recording_ShortInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Înregistrarea este prea scurtă.`)
 };
@@ -99,10 +107,10 @@ const fi_error_recording_short = /** @type {(inputs: Error_Recording_ShortInputs
 * | "Recording is too short." |
 *
 * @param {Error_Recording_ShortInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_recording_short = /** @type {((inputs?: Error_Recording_ShortInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Recording_ShortInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_recording_short = /** @type {((inputs?: Error_Recording_ShortInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Recording_ShortInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_error_recording_short(inputs)
 	if (locale === "cs") return cs_error_recording_short(inputs)
@@ -122,6 +130,8 @@ export const error_recording_short = /** @type {((inputs?: Error_Recording_Short
 	if (locale === "da") return da_error_recording_short(inputs)
 	if (locale === "sl") return sl_error_recording_short(inputs)
 	if (locale === "hr") return hr_error_recording_short(inputs)
+	if (locale === "sr") return sr_error_recording_short(inputs)
+	if (locale === "mk") return mk_error_recording_short(inputs)
 	if (locale === "ro") return ro_error_recording_short(inputs)
 	if (locale === "sv") return sv_error_recording_short(inputs)
 	if (locale === "fi") return fi_error_recording_short(inputs)

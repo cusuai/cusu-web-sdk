@@ -14,7 +14,7 @@ const bg_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => Localiz
 };
 
 const cs_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Velikost, doručení, nebo jen pocit, že si nejsi jistý — klidně se zeptej. Jsme v tom s tebou.`)
+	return /** @type {LocalizedString} */ (`Velikost, doručení nebo jen rychlá rada — klidně se zeptej.`)
 };
 
 const sk_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => LocalizedString} */ () => {
@@ -81,6 +81,14 @@ const hr_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => Localiz
 	return /** @type {LocalizedString} */ (`Veličina, dostava ili samo brza provjera — slobodno pitajte. Tu smo da vam pomognemo.`)
 };
 
+const sr_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Veličina, dostava ili samo brza provera — slobodno pitajte.`)
+};
+
+const mk_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Големина, испорака или само брза проверка — слободно прашајте.`)
+};
+
 const ro_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Mărime, livrare sau doar o verificare rapidă — întrebați-ne. Suntem aici să vă ajutăm.`)
 };
@@ -99,10 +107,10 @@ const fi_empty_chat_body = /** @type {(inputs: Empty_Chat_BodyInputs) => Localiz
 * | "Sizing, delivery, or just a gut check — ask away. We've got you." |
 *
 * @param {Empty_Chat_BodyInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const empty_chat_body = /** @type {((inputs?: Empty_Chat_BodyInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Empty_Chat_BodyInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const empty_chat_body = /** @type {((inputs?: Empty_Chat_BodyInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Empty_Chat_BodyInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_empty_chat_body(inputs)
 	if (locale === "cs") return cs_empty_chat_body(inputs)
@@ -122,6 +130,8 @@ export const empty_chat_body = /** @type {((inputs?: Empty_Chat_BodyInputs, opti
 	if (locale === "da") return da_empty_chat_body(inputs)
 	if (locale === "sl") return sl_empty_chat_body(inputs)
 	if (locale === "hr") return hr_empty_chat_body(inputs)
+	if (locale === "sr") return sr_empty_chat_body(inputs)
+	if (locale === "mk") return mk_empty_chat_body(inputs)
 	if (locale === "ro") return ro_empty_chat_body(inputs)
 	if (locale === "sv") return sv_empty_chat_body(inputs)
 	if (locale === "fi") return fi_empty_chat_body(inputs)

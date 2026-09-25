@@ -81,6 +81,14 @@ const hr_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`Danas`)
 };
 
+const sr_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Danas`)
+};
+
+const mk_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Денес`)
+};
+
 const ro_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Astăzi`)
 };
@@ -99,10 +107,10 @@ const fi_recency_today = /** @type {(inputs: Recency_TodayInputs) => LocalizedSt
 * | "Today" |
 *
 * @param {Recency_TodayInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const recency_today = /** @type {((inputs?: Recency_TodayInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Recency_TodayInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const recency_today = /** @type {((inputs?: Recency_TodayInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Recency_TodayInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_recency_today(inputs)
 	if (locale === "cs") return cs_recency_today(inputs)
@@ -122,6 +130,8 @@ export const recency_today = /** @type {((inputs?: Recency_TodayInputs, options?
 	if (locale === "da") return da_recency_today(inputs)
 	if (locale === "sl") return sl_recency_today(inputs)
 	if (locale === "hr") return hr_recency_today(inputs)
+	if (locale === "sr") return sr_recency_today(inputs)
+	if (locale === "mk") return mk_recency_today(inputs)
 	if (locale === "ro") return ro_recency_today(inputs)
 	if (locale === "sv") return sv_recency_today(inputs)
 	if (locale === "fi") return fi_recency_today(inputs)

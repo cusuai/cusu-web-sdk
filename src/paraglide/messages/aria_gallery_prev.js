@@ -81,6 +81,14 @@ const hr_aria_gallery_prev = /** @type {(inputs: Aria_Gallery_PrevInputs) => Loc
 	return /** @type {LocalizedString} */ (`Prethodna slika`)
 };
 
+const sr_aria_gallery_prev = /** @type {(inputs: Aria_Gallery_PrevInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Prethodna slika`)
+};
+
+const mk_aria_gallery_prev = /** @type {(inputs: Aria_Gallery_PrevInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Претходна слика`)
+};
+
 const ro_aria_gallery_prev = /** @type {(inputs: Aria_Gallery_PrevInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Imaginea anterioară`)
 };
@@ -99,10 +107,10 @@ const fi_aria_gallery_prev = /** @type {(inputs: Aria_Gallery_PrevInputs) => Loc
 * | "Previous image" |
 *
 * @param {Aria_Gallery_PrevInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_gallery_prev = /** @type {((inputs?: Aria_Gallery_PrevInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Gallery_PrevInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_gallery_prev = /** @type {((inputs?: Aria_Gallery_PrevInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Gallery_PrevInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_aria_gallery_prev(inputs)
 	if (locale === "cs") return cs_aria_gallery_prev(inputs)
@@ -122,6 +130,8 @@ export const aria_gallery_prev = /** @type {((inputs?: Aria_Gallery_PrevInputs, 
 	if (locale === "da") return da_aria_gallery_prev(inputs)
 	if (locale === "sl") return sl_aria_gallery_prev(inputs)
 	if (locale === "hr") return hr_aria_gallery_prev(inputs)
+	if (locale === "sr") return sr_aria_gallery_prev(inputs)
+	if (locale === "mk") return mk_aria_gallery_prev(inputs)
 	if (locale === "ro") return ro_aria_gallery_prev(inputs)
 	if (locale === "sv") return sv_aria_gallery_prev(inputs)
 	if (locale === "fi") return fi_aria_gallery_prev(inputs)

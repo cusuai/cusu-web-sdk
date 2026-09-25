@@ -19,7 +19,7 @@ npm install @cusuai/web-sdk
 - Optional **Realtime voice** calls (WebRTC; server-minted session)
 - Dictation via `/v1/transcribe` (Bearer public key)
 - `identify` for logged-in customers (optional HMAC signature from your backend)
-- Locales: English (`en`), Bulgarian (`bg`), Czech (`cs`), Slovak (`sk`), Spanish (`es`), German (`de`), Estonian (`et`), French (`fr`), Polish (`pl`), Hungarian (`hu`), Italian (`it`), Lithuanian (`lt`), Latvian (`lv`), Dutch (`nl`), Norwegian Bokmål (`no`), Portuguese (`pt`), Danish (`da`), Slovenian (`sl`), Croatian (`hr`), Romanian (`ro`), Swedish (`sv`), and Finnish (`fi`); chrome follows group language from boot, or page/`config.locale` when reply locale is `auto`
+- Locales: English (`en`), Bulgarian (`bg`), Czech (`cs`), Slovak (`sk`), Spanish (`es`), German (`de`), Estonian (`et`), French (`fr`), Polish (`pl`), Hungarian (`hu`), Italian (`it`), Lithuanian (`lt`), Latvian (`lv`), Dutch (`nl`), Norwegian Bokmål (`no`), Portuguese (`pt`), Danish (`da`), Slovenian (`sl`), Croatian (`hr`), Serbian (`sr`), Macedonian (`mk`), Romanian (`ro`), Swedish (`sv`), and Finnish (`fi`); chrome follows group language from boot, or page/`config.locale` when reply locale is `auto`
 - Published builds: **ES module** (`dist/index.js`) + **IIFE** script tag on the Zerops CDN (`widget/<version>/cusu.js`, global `Cusu`)
 
 ---
@@ -111,7 +111,7 @@ The script exposes a global `Cusu` with the same API as the default export. The 
 | `group` | `string` | yes | Stable group id (`grp_…`) from your Cusu install |
 | `apiKey` | `string` | yes | Public API key (`pk_…`) |
 | `apiUrl` | `string` | no | API base URL. Defaults to `https://api.cusuai.com` |
-| `locale` | `'en' \| 'bg' \| 'cs' \| 'sk' \| 'es' \| 'de' \| 'et' \| 'fr' \| 'pl' \| 'hu' \| 'it' \| 'lt' \| 'lv' \| 'nl' \| 'no' \| 'pt' \| 'da' \| 'sl' \| 'hr' \| 'ro' \| 'sv' \| 'fi'` | no | Preferred UI locale when boot `reply_locale` is `auto`; otherwise fallback if boot language is missing/unsupported |
+| `locale` | `'en' \| 'bg' \| 'cs' \| 'sk' \| 'es' \| 'de' \| 'et' \| 'fr' \| 'pl' \| 'hu' \| 'it' \| 'lt' \| 'lv' \| 'nl' \| 'no' \| 'pt' \| 'da' \| 'sl' \| 'hr' \| 'sr' \| 'mk' \| 'ro' \| 'sv' \| 'fi'` | no | Preferred UI locale when boot `reply_locale` is `auto`; otherwise fallback if boot language is missing/unsupported |
 | `showLauncher` | `boolean` | no | Floating FAB; default `true` |
 
 Calling `initialize` again tears down the previous instance and boots a new one.

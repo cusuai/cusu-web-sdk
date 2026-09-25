@@ -81,6 +81,14 @@ const hr_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => Loc
 	return /** @type {LocalizedString} */ (`Zadovoljni`)
 };
 
+const sr_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Zadovoljni`)
+};
+
+const mk_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Задоволни`)
+};
+
 const ro_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Mulțumit`)
 };
@@ -99,10 +107,10 @@ const fi_aria_rating_happy = /** @type {(inputs: Aria_Rating_HappyInputs) => Loc
 * | "Happy" |
 *
 * @param {Aria_Rating_HappyInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_rating_happy = /** @type {((inputs?: Aria_Rating_HappyInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_HappyInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_rating_happy = /** @type {((inputs?: Aria_Rating_HappyInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_HappyInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_aria_rating_happy(inputs)
 	if (locale === "cs") return cs_aria_rating_happy(inputs)
@@ -122,6 +130,8 @@ export const aria_rating_happy = /** @type {((inputs?: Aria_Rating_HappyInputs, 
 	if (locale === "da") return da_aria_rating_happy(inputs)
 	if (locale === "sl") return sl_aria_rating_happy(inputs)
 	if (locale === "hr") return hr_aria_rating_happy(inputs)
+	if (locale === "sr") return sr_aria_rating_happy(inputs)
+	if (locale === "mk") return mk_aria_rating_happy(inputs)
 	if (locale === "ro") return ro_aria_rating_happy(inputs)
 	if (locale === "sv") return sv_aria_rating_happy(inputs)
 	if (locale === "fi") return fi_aria_rating_happy(inputs)

@@ -14,7 +14,7 @@ const bg_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => L
 };
 
 const cs_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => LocalizedString} */ () => {
-	return /** @type {LocalizedString} */ (`Žádná konverzace ještě neproběhla — pojď se zeptat. Jsme v tom s tebou.`)
+	return /** @type {LocalizedString} */ (`Žádná konverzace ještě neproběhla — klidně se zeptej.`)
 };
 
 const sk_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => LocalizedString} */ () => {
@@ -81,6 +81,14 @@ const hr_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => L
 	return /** @type {LocalizedString} */ (`Još nema razgovora — slobodno pitajte. Tu smo da vam pomognemo.`)
 };
 
+const sr_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Još nema razgovora — slobodno pitajte.`)
+};
+
+const mk_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Сè уште нема разговори — слободно прашајте.`)
+};
+
 const ro_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Nu există încă conversații — adresați o întrebare. Suntem aici să vă ajutăm.`)
 };
@@ -99,10 +107,10 @@ const fi_empty_history_body = /** @type {(inputs: Empty_History_BodyInputs) => L
 * | "No conversations yet — go ahead and ask. We've got you." |
 *
 * @param {Empty_History_BodyInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const empty_history_body = /** @type {((inputs?: Empty_History_BodyInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Empty_History_BodyInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const empty_history_body = /** @type {((inputs?: Empty_History_BodyInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Empty_History_BodyInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_empty_history_body(inputs)
 	if (locale === "cs") return cs_empty_history_body(inputs)
@@ -122,6 +130,8 @@ export const empty_history_body = /** @type {((inputs?: Empty_History_BodyInputs
 	if (locale === "da") return da_empty_history_body(inputs)
 	if (locale === "sl") return sl_empty_history_body(inputs)
 	if (locale === "hr") return hr_empty_history_body(inputs)
+	if (locale === "sr") return sr_empty_history_body(inputs)
+	if (locale === "mk") return mk_empty_history_body(inputs)
 	if (locale === "ro") return ro_empty_history_body(inputs)
 	if (locale === "sv") return sv_empty_history_body(inputs)
 	if (locale === "fi") return fi_empty_history_body(inputs)

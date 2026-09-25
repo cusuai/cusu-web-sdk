@@ -81,6 +81,14 @@ const hr_error_upload_failed = /** @type {(inputs: Error_Upload_FailedInputs) =>
 	return /** @type {LocalizedString} */ (`Datoteku nije bilo moguće prenijeti.`)
 };
 
+const sr_error_upload_failed = /** @type {(inputs: Error_Upload_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Datoteku nije moguće otpremiti.`)
+};
+
+const mk_error_upload_failed = /** @type {(inputs: Error_Upload_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Датотеката не може да се прикачи.`)
+};
+
 const ro_error_upload_failed = /** @type {(inputs: Error_Upload_FailedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Fișierul nu a putut fi încărcat.`)
 };
@@ -99,10 +107,10 @@ const fi_error_upload_failed = /** @type {(inputs: Error_Upload_FailedInputs) =>
 * | "Could not upload the file." |
 *
 * @param {Error_Upload_FailedInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_upload_failed = /** @type {((inputs?: Error_Upload_FailedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Upload_FailedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_upload_failed = /** @type {((inputs?: Error_Upload_FailedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Upload_FailedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_error_upload_failed(inputs)
 	if (locale === "cs") return cs_error_upload_failed(inputs)
@@ -122,6 +130,8 @@ export const error_upload_failed = /** @type {((inputs?: Error_Upload_FailedInpu
 	if (locale === "da") return da_error_upload_failed(inputs)
 	if (locale === "sl") return sl_error_upload_failed(inputs)
 	if (locale === "hr") return hr_error_upload_failed(inputs)
+	if (locale === "sr") return sr_error_upload_failed(inputs)
+	if (locale === "mk") return mk_error_upload_failed(inputs)
 	if (locale === "ro") return ro_error_upload_failed(inputs)
 	if (locale === "sv") return sv_error_upload_failed(inputs)
 	if (locale === "fi") return fi_error_upload_failed(inputs)

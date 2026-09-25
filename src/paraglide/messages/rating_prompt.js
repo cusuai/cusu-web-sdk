@@ -81,6 +81,14 @@ const hr_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`Kako smo se pokazali?`)
 };
 
+const sr_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Kako smo se pokazali?`)
+};
+
+const mk_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Како се покажавме?`)
+};
+
 const ro_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Cum ne-am descurcat?`)
 };
@@ -99,10 +107,10 @@ const fi_rating_prompt = /** @type {(inputs: Rating_PromptInputs) => LocalizedSt
 * | "How did we do?" |
 *
 * @param {Rating_PromptInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const rating_prompt = /** @type {((inputs?: Rating_PromptInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Rating_PromptInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const rating_prompt = /** @type {((inputs?: Rating_PromptInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Rating_PromptInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_rating_prompt(inputs)
 	if (locale === "cs") return cs_rating_prompt(inputs)
@@ -122,6 +130,8 @@ export const rating_prompt = /** @type {((inputs?: Rating_PromptInputs, options?
 	if (locale === "da") return da_rating_prompt(inputs)
 	if (locale === "sl") return sl_rating_prompt(inputs)
 	if (locale === "hr") return hr_rating_prompt(inputs)
+	if (locale === "sr") return sr_rating_prompt(inputs)
+	if (locale === "mk") return mk_rating_prompt(inputs)
 	if (locale === "ro") return ro_rating_prompt(inputs)
 	if (locale === "sv") return sv_rating_prompt(inputs)
 	if (locale === "fi") return fi_rating_prompt(inputs)

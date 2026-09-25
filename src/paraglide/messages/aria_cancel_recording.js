@@ -81,6 +81,14 @@ const hr_aria_cancel_recording = /** @type {(inputs: Aria_Cancel_RecordingInputs
 	return /** @type {LocalizedString} */ (`Otkaži snimanje`)
 };
 
+const sr_aria_cancel_recording = /** @type {(inputs: Aria_Cancel_RecordingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Otkažite snimanje`)
+};
+
+const mk_aria_cancel_recording = /** @type {(inputs: Aria_Cancel_RecordingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Откажете го снимањето`)
+};
+
 const ro_aria_cancel_recording = /** @type {(inputs: Aria_Cancel_RecordingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Anulează înregistrarea`)
 };
@@ -99,10 +107,10 @@ const fi_aria_cancel_recording = /** @type {(inputs: Aria_Cancel_RecordingInputs
 * | "Cancel recording" |
 *
 * @param {Aria_Cancel_RecordingInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_cancel_recording = /** @type {((inputs?: Aria_Cancel_RecordingInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Cancel_RecordingInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_cancel_recording = /** @type {((inputs?: Aria_Cancel_RecordingInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Cancel_RecordingInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_aria_cancel_recording(inputs)
 	if (locale === "cs") return cs_aria_cancel_recording(inputs)
@@ -122,6 +130,8 @@ export const aria_cancel_recording = /** @type {((inputs?: Aria_Cancel_Recording
 	if (locale === "da") return da_aria_cancel_recording(inputs)
 	if (locale === "sl") return sl_aria_cancel_recording(inputs)
 	if (locale === "hr") return hr_aria_cancel_recording(inputs)
+	if (locale === "sr") return sr_aria_cancel_recording(inputs)
+	if (locale === "mk") return mk_aria_cancel_recording(inputs)
 	if (locale === "ro") return ro_aria_cancel_recording(inputs)
 	if (locale === "sv") return sv_aria_cancel_recording(inputs)
 	if (locale === "fi") return fi_aria_cancel_recording(inputs)

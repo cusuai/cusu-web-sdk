@@ -81,6 +81,14 @@ const hr_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => L
 	return /** @type {LocalizedString} */ (`Prepisano`)
 };
 
+const sr_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transkribovano`)
+};
+
+const mk_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Транскрибирано`)
+};
+
 const ro_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Transcris`)
 };
@@ -99,10 +107,10 @@ const fi_status_transcribed = /** @type {(inputs: Status_TranscribedInputs) => L
 * | "Transcribed" |
 *
 * @param {Status_TranscribedInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const status_transcribed = /** @type {((inputs?: Status_TranscribedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_TranscribedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const status_transcribed = /** @type {((inputs?: Status_TranscribedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_TranscribedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_status_transcribed(inputs)
 	if (locale === "cs") return cs_status_transcribed(inputs)
@@ -122,6 +130,8 @@ export const status_transcribed = /** @type {((inputs?: Status_TranscribedInputs
 	if (locale === "da") return da_status_transcribed(inputs)
 	if (locale === "sl") return sl_status_transcribed(inputs)
 	if (locale === "hr") return hr_status_transcribed(inputs)
+	if (locale === "sr") return sr_status_transcribed(inputs)
+	if (locale === "mk") return mk_status_transcribed(inputs)
 	if (locale === "ro") return ro_status_transcribed(inputs)
 	if (locale === "sv") return sv_status_transcribed(inputs)
 	if (locale === "fi") return fi_status_transcribed(inputs)

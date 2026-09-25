@@ -81,6 +81,14 @@ const hr_status_closed = /** @type {(inputs: Status_ClosedInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`Zatvoren`)
 };
 
+const sr_status_closed = /** @type {(inputs: Status_ClosedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Zatvoren`)
+};
+
+const mk_status_closed = /** @type {(inputs: Status_ClosedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Затворен`)
+};
+
 const ro_status_closed = /** @type {(inputs: Status_ClosedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Închisă`)
 };
@@ -99,10 +107,10 @@ const fi_status_closed = /** @type {(inputs: Status_ClosedInputs) => LocalizedSt
 * | "Closed" |
 *
 * @param {Status_ClosedInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const status_closed = /** @type {((inputs?: Status_ClosedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_ClosedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const status_closed = /** @type {((inputs?: Status_ClosedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_ClosedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_status_closed(inputs)
 	if (locale === "cs") return cs_status_closed(inputs)
@@ -122,6 +130,8 @@ export const status_closed = /** @type {((inputs?: Status_ClosedInputs, options?
 	if (locale === "da") return da_status_closed(inputs)
 	if (locale === "sl") return sl_status_closed(inputs)
 	if (locale === "hr") return hr_status_closed(inputs)
+	if (locale === "sr") return sr_status_closed(inputs)
+	if (locale === "mk") return mk_status_closed(inputs)
 	if (locale === "ro") return ro_status_closed(inputs)
 	if (locale === "sv") return sv_status_closed(inputs)
 	if (locale === "fi") return fi_status_closed(inputs)

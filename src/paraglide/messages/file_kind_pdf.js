@@ -81,6 +81,14 @@ const hr_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`PDF`)
 };
 
+const sr_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`PDF`)
+};
+
+const mk_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`PDF`)
+};
+
 const ro_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`PDF`)
 };
@@ -99,10 +107,10 @@ const fi_file_kind_pdf = /** @type {(inputs: File_Kind_PdfInputs) => LocalizedSt
 * | "PDF" |
 *
 * @param {File_Kind_PdfInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const file_kind_pdf = /** @type {((inputs?: File_Kind_PdfInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<File_Kind_PdfInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const file_kind_pdf = /** @type {((inputs?: File_Kind_PdfInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<File_Kind_PdfInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_file_kind_pdf(inputs)
 	if (locale === "cs") return cs_file_kind_pdf(inputs)
@@ -122,6 +130,8 @@ export const file_kind_pdf = /** @type {((inputs?: File_Kind_PdfInputs, options?
 	if (locale === "da") return da_file_kind_pdf(inputs)
 	if (locale === "sl") return sl_file_kind_pdf(inputs)
 	if (locale === "hr") return hr_file_kind_pdf(inputs)
+	if (locale === "sr") return sr_file_kind_pdf(inputs)
+	if (locale === "mk") return mk_file_kind_pdf(inputs)
 	if (locale === "ro") return ro_file_kind_pdf(inputs)
 	if (locale === "sv") return sv_file_kind_pdf(inputs)
 	if (locale === "fi") return fi_file_kind_pdf(inputs)

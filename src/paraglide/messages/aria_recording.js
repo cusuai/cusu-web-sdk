@@ -81,6 +81,14 @@ const hr_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => Localized
 	return /** @type {LocalizedString} */ (`Snimanje`)
 };
 
+const sr_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Snimanje`)
+};
+
+const mk_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Снимање`)
+};
+
 const ro_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Înregistrare`)
 };
@@ -99,10 +107,10 @@ const fi_aria_recording = /** @type {(inputs: Aria_RecordingInputs) => Localized
 * | "Recording" |
 *
 * @param {Aria_RecordingInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_recording = /** @type {((inputs?: Aria_RecordingInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_RecordingInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_recording = /** @type {((inputs?: Aria_RecordingInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_RecordingInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_aria_recording(inputs)
 	if (locale === "cs") return cs_aria_recording(inputs)
@@ -122,6 +130,8 @@ export const aria_recording = /** @type {((inputs?: Aria_RecordingInputs, option
 	if (locale === "da") return da_aria_recording(inputs)
 	if (locale === "sl") return sl_aria_recording(inputs)
 	if (locale === "hr") return hr_aria_recording(inputs)
+	if (locale === "sr") return sr_aria_recording(inputs)
+	if (locale === "mk") return mk_aria_recording(inputs)
 	if (locale === "ro") return ro_aria_recording(inputs)
 	if (locale === "sv") return sv_aria_recording(inputs)
 	if (locale === "fi") return fi_aria_recording(inputs)

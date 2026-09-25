@@ -81,6 +81,14 @@ const hr_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) =>
 	return /** @type {LocalizedString} */ (`Poruka…`)
 };
 
+const sr_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Poruka…`)
+};
+
+const mk_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Порака…`)
+};
+
 const ro_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Mesaj…`)
 };
@@ -99,10 +107,10 @@ const fi_placeholder_message = /** @type {(inputs: Placeholder_MessageInputs) =>
 * | "Message…" |
 *
 * @param {Placeholder_MessageInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const placeholder_message = /** @type {((inputs?: Placeholder_MessageInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Placeholder_MessageInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const placeholder_message = /** @type {((inputs?: Placeholder_MessageInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Placeholder_MessageInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_placeholder_message(inputs)
 	if (locale === "cs") return cs_placeholder_message(inputs)
@@ -122,6 +130,8 @@ export const placeholder_message = /** @type {((inputs?: Placeholder_MessageInpu
 	if (locale === "da") return da_placeholder_message(inputs)
 	if (locale === "sl") return sl_placeholder_message(inputs)
 	if (locale === "hr") return hr_placeholder_message(inputs)
+	if (locale === "sr") return sr_placeholder_message(inputs)
+	if (locale === "mk") return mk_placeholder_message(inputs)
 	if (locale === "ro") return ro_placeholder_message(inputs)
 	if (locale === "sv") return sv_placeholder_message(inputs)
 	if (locale === "fi") return fi_placeholder_message(inputs)

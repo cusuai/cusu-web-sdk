@@ -81,6 +81,14 @@ const hr_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) 
 	return /** @type {LocalizedString} */ (`Otvaram stranicu…`)
 };
 
+const sr_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Otvaram stranicu…`)
+};
+
+const mk_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Отворам страница…`)
+};
+
 const ro_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Deschid o pagină…`)
 };
@@ -99,10 +107,10 @@ const fi_activity_browse_page = /** @type {(inputs: Activity_Browse_PageInputs) 
 * | "Opening a page…" |
 *
 * @param {Activity_Browse_PageInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const activity_browse_page = /** @type {((inputs?: Activity_Browse_PageInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Activity_Browse_PageInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const activity_browse_page = /** @type {((inputs?: Activity_Browse_PageInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Activity_Browse_PageInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_activity_browse_page(inputs)
 	if (locale === "cs") return cs_activity_browse_page(inputs)
@@ -122,6 +130,8 @@ export const activity_browse_page = /** @type {((inputs?: Activity_Browse_PageIn
 	if (locale === "da") return da_activity_browse_page(inputs)
 	if (locale === "sl") return sl_activity_browse_page(inputs)
 	if (locale === "hr") return hr_activity_browse_page(inputs)
+	if (locale === "sr") return sr_activity_browse_page(inputs)
+	if (locale === "mk") return mk_activity_browse_page(inputs)
 	if (locale === "ro") return ro_activity_browse_page(inputs)
 	if (locale === "sv") return sv_activity_browse_page(inputs)
 	if (locale === "fi") return fi_activity_browse_page(inputs)

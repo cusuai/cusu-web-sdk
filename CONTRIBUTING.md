@@ -30,7 +30,10 @@ gitleaks detect --source . --verbose --redact
 
 ## i18n (Paraglide)
 
-- Edit `messages/en.json` and `messages/cs.json`
+- Edit the source catalogs in `messages/`. New user-facing strings must be
+  translated in every locale listed in `project.inlang/settings.json`.
+- When adding a locale, create a complete `messages/{locale}.json` catalog and
+  add the locale to the public config types and README.
 - Vite plugin recompiles `src/paraglide/` on build; you can also run:
   `bunx @inlang/paraglide-js compile --project ./project.inlang --outdir ./src/paraglide`
 - Commit generated `src/paraglide/` output
@@ -78,7 +81,7 @@ The upload runs before `npm publish`. If it fails, fix the secret and re-run the
 ## PR checklist
 
 - [ ] `bun run ci` passes locally
-- [ ] New user-facing strings have `en` + `cs` messages
+- [ ] New user-facing strings are present in every supported locale
 - [ ] Public API / wire changes documented in README or `docs/protocol.md`
 - [ ] CHANGELOG updated for user-visible changes
 - [ ] No secrets in the diff (Gitleaks will fail the PR if you slip)

@@ -81,6 +81,14 @@ const hr_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInpu
 	return /** @type {LocalizedString} */ (`Ukloni privitak`)
 };
 
+const sr_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Uklonite prilog`)
+};
+
+const mk_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Отстранете го прилогот`)
+};
+
 const ro_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Elimină atașamentul`)
 };
@@ -99,10 +107,10 @@ const fi_aria_remove_attachment = /** @type {(inputs: Aria_Remove_AttachmentInpu
 * | "Remove attachment" |
 *
 * @param {Aria_Remove_AttachmentInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_remove_attachment = /** @type {((inputs?: Aria_Remove_AttachmentInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Remove_AttachmentInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_remove_attachment = /** @type {((inputs?: Aria_Remove_AttachmentInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Remove_AttachmentInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_aria_remove_attachment(inputs)
 	if (locale === "cs") return cs_aria_remove_attachment(inputs)
@@ -122,6 +130,8 @@ export const aria_remove_attachment = /** @type {((inputs?: Aria_Remove_Attachme
 	if (locale === "da") return da_aria_remove_attachment(inputs)
 	if (locale === "sl") return sl_aria_remove_attachment(inputs)
 	if (locale === "hr") return hr_aria_remove_attachment(inputs)
+	if (locale === "sr") return sr_aria_remove_attachment(inputs)
+	if (locale === "mk") return mk_aria_remove_attachment(inputs)
 	if (locale === "ro") return ro_aria_remove_attachment(inputs)
 	if (locale === "sv") return sv_aria_remove_attachment(inputs)
 	if (locale === "fi") return fi_aria_remove_attachment(inputs)

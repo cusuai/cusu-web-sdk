@@ -81,6 +81,14 @@ const hr_aria_rating_ok = /** @type {(inputs: Aria_Rating_OkInputs) => Localized
 	return /** @type {LocalizedString} */ (`U redu`)
 };
 
+const sr_aria_rating_ok = /** @type {(inputs: Aria_Rating_OkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`U redu`)
+};
+
+const mk_aria_rating_ok = /** @type {(inputs: Aria_Rating_OkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Во ред`)
+};
+
 const ro_aria_rating_ok = /** @type {(inputs: Aria_Rating_OkInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Acceptabil`)
 };
@@ -99,10 +107,10 @@ const fi_aria_rating_ok = /** @type {(inputs: Aria_Rating_OkInputs) => Localized
 * | "Okay" |
 *
 * @param {Aria_Rating_OkInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_rating_ok = /** @type {((inputs?: Aria_Rating_OkInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_OkInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_rating_ok = /** @type {((inputs?: Aria_Rating_OkInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_OkInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_aria_rating_ok(inputs)
 	if (locale === "cs") return cs_aria_rating_ok(inputs)
@@ -122,6 +130,8 @@ export const aria_rating_ok = /** @type {((inputs?: Aria_Rating_OkInputs, option
 	if (locale === "da") return da_aria_rating_ok(inputs)
 	if (locale === "sl") return sl_aria_rating_ok(inputs)
 	if (locale === "hr") return hr_aria_rating_ok(inputs)
+	if (locale === "sr") return sr_aria_rating_ok(inputs)
+	if (locale === "mk") return mk_aria_rating_ok(inputs)
 	if (locale === "ro") return ro_aria_rating_ok(inputs)
 	if (locale === "sv") return sv_aria_rating_ok(inputs)
 	if (locale === "fi") return fi_aria_rating_ok(inputs)

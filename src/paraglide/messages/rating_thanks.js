@@ -81,6 +81,14 @@ const hr_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`Hvala vam na ocjeni.`)
 };
 
+const sr_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Hvala vam na oceni.`)
+};
+
+const mk_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Ви благодариме за оценката.`)
+};
+
 const ro_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Vă mulțumim pentru evaluare.`)
 };
@@ -99,10 +107,10 @@ const fi_rating_thanks = /** @type {(inputs: Rating_ThanksInputs) => LocalizedSt
 * | "Thanks for the rating." |
 *
 * @param {Rating_ThanksInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const rating_thanks = /** @type {((inputs?: Rating_ThanksInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Rating_ThanksInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const rating_thanks = /** @type {((inputs?: Rating_ThanksInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Rating_ThanksInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_rating_thanks(inputs)
 	if (locale === "cs") return cs_rating_thanks(inputs)
@@ -122,6 +130,8 @@ export const rating_thanks = /** @type {((inputs?: Rating_ThanksInputs, options?
 	if (locale === "da") return da_rating_thanks(inputs)
 	if (locale === "sl") return sl_rating_thanks(inputs)
 	if (locale === "hr") return hr_rating_thanks(inputs)
+	if (locale === "sr") return sr_rating_thanks(inputs)
+	if (locale === "mk") return mk_rating_thanks(inputs)
 	if (locale === "ro") return ro_rating_thanks(inputs)
 	if (locale === "sv") return sv_rating_thanks(inputs)
 	if (locale === "fi") return fi_rating_thanks(inputs)

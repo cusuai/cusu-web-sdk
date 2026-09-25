@@ -81,6 +81,14 @@ const hr_error_mic_denied = /** @type {(inputs: Error_Mic_DeniedInputs) => Local
 	return /** @type {LocalizedString} */ (`Dopustite pristup mikrofonu.`)
 };
 
+const sr_error_mic_denied = /** @type {(inputs: Error_Mic_DeniedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Dozvolite pristup mikrofonu.`)
+};
+
+const mk_error_mic_denied = /** @type {(inputs: Error_Mic_DeniedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Дозволете пристап до микрофонот.`)
+};
+
 const ro_error_mic_denied = /** @type {(inputs: Error_Mic_DeniedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Permiteți accesul la microfon.`)
 };
@@ -99,10 +107,10 @@ const fi_error_mic_denied = /** @type {(inputs: Error_Mic_DeniedInputs) => Local
 * | "Allow microphone access." |
 *
 * @param {Error_Mic_DeniedInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_mic_denied = /** @type {((inputs?: Error_Mic_DeniedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Mic_DeniedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_mic_denied = /** @type {((inputs?: Error_Mic_DeniedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Mic_DeniedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_error_mic_denied(inputs)
 	if (locale === "cs") return cs_error_mic_denied(inputs)
@@ -122,6 +130,8 @@ export const error_mic_denied = /** @type {((inputs?: Error_Mic_DeniedInputs, op
 	if (locale === "da") return da_error_mic_denied(inputs)
 	if (locale === "sl") return sl_error_mic_denied(inputs)
 	if (locale === "hr") return hr_error_mic_denied(inputs)
+	if (locale === "sr") return sr_error_mic_denied(inputs)
+	if (locale === "mk") return mk_error_mic_denied(inputs)
 	if (locale === "ro") return ro_error_mic_denied(inputs)
 	if (locale === "sv") return sv_error_mic_denied(inputs)
 	if (locale === "fi") return fi_error_mic_denied(inputs)

@@ -81,6 +81,14 @@ const hr_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => Loc
 	return /** @type {LocalizedString} */ (`Prepisujem ono što ste rekli…`)
 };
 
+const sr_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transkribujem ono što ste rekli…`)
+};
+
+const mk_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Го транскрибирам кажаното…`)
+};
+
 const ro_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Transcriu ceea ce ați spus…`)
 };
@@ -99,10 +107,10 @@ const fi_call_transcribing = /** @type {(inputs: Call_TranscribingInputs) => Loc
 * | "Transcribing what you said…" |
 *
 * @param {Call_TranscribingInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const call_transcribing = /** @type {((inputs?: Call_TranscribingInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Call_TranscribingInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const call_transcribing = /** @type {((inputs?: Call_TranscribingInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Call_TranscribingInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_call_transcribing(inputs)
 	if (locale === "cs") return cs_call_transcribing(inputs)
@@ -122,6 +130,8 @@ export const call_transcribing = /** @type {((inputs?: Call_TranscribingInputs, 
 	if (locale === "da") return da_call_transcribing(inputs)
 	if (locale === "sl") return sl_call_transcribing(inputs)
 	if (locale === "hr") return hr_call_transcribing(inputs)
+	if (locale === "sr") return sr_call_transcribing(inputs)
+	if (locale === "mk") return mk_call_transcribing(inputs)
 	if (locale === "ro") return ro_call_transcribing(inputs)
 	if (locale === "sv") return sv_call_transcribing(inputs)
 	if (locale === "fi") return fi_call_transcribing(inputs)

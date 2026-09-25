@@ -81,6 +81,14 @@ const hr_aria_rating_down = /** @type {(inputs: Aria_Rating_DownInputs) => Local
 	return /** @type {LocalizedString} */ (`Palac dolje`)
 };
 
+const sr_aria_rating_down = /** @type {(inputs: Aria_Rating_DownInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Palac dole`)
+};
+
+const mk_aria_rating_down = /** @type {(inputs: Aria_Rating_DownInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Палец надолу`)
+};
+
 const ro_aria_rating_down = /** @type {(inputs: Aria_Rating_DownInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Degetul mare în jos`)
 };
@@ -99,10 +107,10 @@ const fi_aria_rating_down = /** @type {(inputs: Aria_Rating_DownInputs) => Local
 * | "Thumbs down" |
 *
 * @param {Aria_Rating_DownInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_rating_down = /** @type {((inputs?: Aria_Rating_DownInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_DownInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_rating_down = /** @type {((inputs?: Aria_Rating_DownInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_DownInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_aria_rating_down(inputs)
 	if (locale === "cs") return cs_aria_rating_down(inputs)
@@ -122,6 +130,8 @@ export const aria_rating_down = /** @type {((inputs?: Aria_Rating_DownInputs, op
 	if (locale === "da") return da_aria_rating_down(inputs)
 	if (locale === "sl") return sl_aria_rating_down(inputs)
 	if (locale === "hr") return hr_aria_rating_down(inputs)
+	if (locale === "sr") return sr_aria_rating_down(inputs)
+	if (locale === "mk") return mk_aria_rating_down(inputs)
 	if (locale === "ro") return ro_aria_rating_down(inputs)
 	if (locale === "sv") return sv_aria_rating_down(inputs)
 	if (locale === "fi") return fi_aria_rating_down(inputs)

@@ -81,6 +81,14 @@ const hr_activity_call_api = /** @type {(inputs: Activity_Call_ApiInputs) => Loc
 	return /** @type {LocalizedString} */ (`Dohvaćam vaše podatke…`)
 };
 
+const sr_activity_call_api = /** @type {(inputs: Activity_Call_ApiInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Proveravam vaše podatke…`)
+};
+
+const mk_activity_call_api = /** @type {(inputs: Activity_Call_ApiInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Ги проверувам вашите податоци…`)
+};
+
 const ro_activity_call_api = /** @type {(inputs: Activity_Call_ApiInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Caut datele dumneavoastră…`)
 };
@@ -99,10 +107,10 @@ const fi_activity_call_api = /** @type {(inputs: Activity_Call_ApiInputs) => Loc
 * | "Looking up your data…" |
 *
 * @param {Activity_Call_ApiInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const activity_call_api = /** @type {((inputs?: Activity_Call_ApiInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Activity_Call_ApiInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const activity_call_api = /** @type {((inputs?: Activity_Call_ApiInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Activity_Call_ApiInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_activity_call_api(inputs)
 	if (locale === "cs") return cs_activity_call_api(inputs)
@@ -122,6 +130,8 @@ export const activity_call_api = /** @type {((inputs?: Activity_Call_ApiInputs, 
 	if (locale === "da") return da_activity_call_api(inputs)
 	if (locale === "sl") return sl_activity_call_api(inputs)
 	if (locale === "hr") return hr_activity_call_api(inputs)
+	if (locale === "sr") return sr_activity_call_api(inputs)
+	if (locale === "mk") return mk_activity_call_api(inputs)
 	if (locale === "ro") return ro_activity_call_api(inputs)
 	if (locale === "sv") return sv_activity_call_api(inputs)
 	if (locale === "fi") return fi_activity_call_api(inputs)

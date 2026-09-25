@@ -81,6 +81,14 @@ const hr_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedStri
 	return /** @type {LocalizedString} */ (`Poruka`)
 };
 
+const sr_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Poruka`)
+};
+
+const mk_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Порака`)
+};
+
 const ro_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Mesaj`)
 };
@@ -99,10 +107,10 @@ const fi_aria_message = /** @type {(inputs: Aria_MessageInputs) => LocalizedStri
 * | "Message" |
 *
 * @param {Aria_MessageInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_message = /** @type {((inputs?: Aria_MessageInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_MessageInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_message = /** @type {((inputs?: Aria_MessageInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_MessageInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_aria_message(inputs)
 	if (locale === "cs") return cs_aria_message(inputs)
@@ -122,6 +130,8 @@ export const aria_message = /** @type {((inputs?: Aria_MessageInputs, options?: 
 	if (locale === "da") return da_aria_message(inputs)
 	if (locale === "sl") return sl_aria_message(inputs)
 	if (locale === "hr") return hr_aria_message(inputs)
+	if (locale === "sr") return sr_aria_message(inputs)
+	if (locale === "mk") return mk_aria_message(inputs)
 	if (locale === "ro") return ro_aria_message(inputs)
 	if (locale === "sv") return sv_aria_message(inputs)
 	if (locale === "fi") return fi_aria_message(inputs)

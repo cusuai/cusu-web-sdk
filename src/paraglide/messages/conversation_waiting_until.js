@@ -81,6 +81,14 @@ const hr_conversation_waiting_until = /** @type {(inputs: Conversation_Waiting_U
 	return /** @type {LocalizedString} */ (`Nijedan operater nije dostupan do ${i?.when}.`)
 };
 
+const sr_conversation_waiting_until = /** @type {(inputs: Conversation_Waiting_UntilInputs) => LocalizedString} */ (i) => {
+	return /** @type {LocalizedString} */ (`Nijedan operater nije dostupan do ${i?.when}.`)
+};
+
+const mk_conversation_waiting_until = /** @type {(inputs: Conversation_Waiting_UntilInputs) => LocalizedString} */ (i) => {
+	return /** @type {LocalizedString} */ (`Нема достапен оператор до ${i?.when}.`)
+};
+
 const ro_conversation_waiting_until = /** @type {(inputs: Conversation_Waiting_UntilInputs) => LocalizedString} */ (i) => {
 	return /** @type {LocalizedString} */ (`Niciun operator nu este disponibil până ${i?.when}.`)
 };
@@ -99,10 +107,10 @@ const fi_conversation_waiting_until = /** @type {(inputs: Conversation_Waiting_U
 * | "No operator is available until {when}." |
 *
 * @param {Conversation_Waiting_UntilInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const conversation_waiting_until = /** @type {((inputs: Conversation_Waiting_UntilInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_Waiting_UntilInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs, options = {}) => {
+export const conversation_waiting_until = /** @type {((inputs: Conversation_Waiting_UntilInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_Waiting_UntilInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_conversation_waiting_until(inputs)
 	if (locale === "cs") return cs_conversation_waiting_until(inputs)
@@ -122,6 +130,8 @@ export const conversation_waiting_until = /** @type {((inputs: Conversation_Wait
 	if (locale === "da") return da_conversation_waiting_until(inputs)
 	if (locale === "sl") return sl_conversation_waiting_until(inputs)
 	if (locale === "hr") return hr_conversation_waiting_until(inputs)
+	if (locale === "sr") return sr_conversation_waiting_until(inputs)
+	if (locale === "mk") return mk_conversation_waiting_until(inputs)
 	if (locale === "ro") return ro_conversation_waiting_until(inputs)
 	if (locale === "sv") return sv_conversation_waiting_until(inputs)
 	if (locale === "fi") return fi_conversation_waiting_until(inputs)

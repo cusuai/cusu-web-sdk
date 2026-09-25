@@ -81,6 +81,14 @@ const hr_placeholder_transcribing = /** @type {(inputs: Placeholder_Transcribing
 	return /** @type {LocalizedString} */ (`Prepisivanje…`)
 };
 
+const sr_placeholder_transcribing = /** @type {(inputs: Placeholder_TranscribingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Transkribovanje…`)
+};
+
+const mk_placeholder_transcribing = /** @type {(inputs: Placeholder_TranscribingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Се транскрибира…`)
+};
+
 const ro_placeholder_transcribing = /** @type {(inputs: Placeholder_TranscribingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Se transcrie…`)
 };
@@ -99,10 +107,10 @@ const fi_placeholder_transcribing = /** @type {(inputs: Placeholder_Transcribing
 * | "Transcribing…" |
 *
 * @param {Placeholder_TranscribingInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const placeholder_transcribing = /** @type {((inputs?: Placeholder_TranscribingInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Placeholder_TranscribingInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const placeholder_transcribing = /** @type {((inputs?: Placeholder_TranscribingInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Placeholder_TranscribingInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_placeholder_transcribing(inputs)
 	if (locale === "cs") return cs_placeholder_transcribing(inputs)
@@ -122,6 +130,8 @@ export const placeholder_transcribing = /** @type {((inputs?: Placeholder_Transc
 	if (locale === "da") return da_placeholder_transcribing(inputs)
 	if (locale === "sl") return sl_placeholder_transcribing(inputs)
 	if (locale === "hr") return hr_placeholder_transcribing(inputs)
+	if (locale === "sr") return sr_placeholder_transcribing(inputs)
+	if (locale === "mk") return mk_placeholder_transcribing(inputs)
 	if (locale === "ro") return ro_placeholder_transcribing(inputs)
 	if (locale === "sv") return sv_placeholder_transcribing(inputs)
 	if (locale === "fi") return fi_placeholder_transcribing(inputs)

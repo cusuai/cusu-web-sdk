@@ -81,6 +81,14 @@ const hr_call_listening = /** @type {(inputs: Call_ListeningInputs) => Localized
 	return /** @type {LocalizedString} */ (`Slušam — možete govoriti`)
 };
 
+const sr_call_listening = /** @type {(inputs: Call_ListeningInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Slušam — možete da govorite`)
+};
+
+const mk_call_listening = /** @type {(inputs: Call_ListeningInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Слушам — можете да зборувате`)
+};
+
 const ro_call_listening = /** @type {(inputs: Call_ListeningInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Vă ascult — puteți vorbi`)
 };
@@ -99,10 +107,10 @@ const fi_call_listening = /** @type {(inputs: Call_ListeningInputs) => Localized
 * | "Listening — you can speak" |
 *
 * @param {Call_ListeningInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const call_listening = /** @type {((inputs?: Call_ListeningInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Call_ListeningInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const call_listening = /** @type {((inputs?: Call_ListeningInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Call_ListeningInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_call_listening(inputs)
 	if (locale === "cs") return cs_call_listening(inputs)
@@ -122,6 +130,8 @@ export const call_listening = /** @type {((inputs?: Call_ListeningInputs, option
 	if (locale === "da") return da_call_listening(inputs)
 	if (locale === "sl") return sl_call_listening(inputs)
 	if (locale === "hr") return hr_call_listening(inputs)
+	if (locale === "sr") return sr_call_listening(inputs)
+	if (locale === "mk") return mk_call_listening(inputs)
 	if (locale === "ro") return ro_call_listening(inputs)
 	if (locale === "sv") return sv_call_listening(inputs)
 	if (locale === "fi") return fi_call_listening(inputs)

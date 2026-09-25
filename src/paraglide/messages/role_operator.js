@@ -81,6 +81,14 @@ const hr_role_operator = /** @type {(inputs: Role_OperatorInputs) => LocalizedSt
 	return /** @type {LocalizedString} */ (`Operater`)
 };
 
+const sr_role_operator = /** @type {(inputs: Role_OperatorInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Operater`)
+};
+
+const mk_role_operator = /** @type {(inputs: Role_OperatorInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Оператор`)
+};
+
 const ro_role_operator = /** @type {(inputs: Role_OperatorInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Operator`)
 };
@@ -99,10 +107,10 @@ const fi_role_operator = /** @type {(inputs: Role_OperatorInputs) => LocalizedSt
 * | "Operator" |
 *
 * @param {Role_OperatorInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const role_operator = /** @type {((inputs?: Role_OperatorInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Role_OperatorInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const role_operator = /** @type {((inputs?: Role_OperatorInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Role_OperatorInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_role_operator(inputs)
 	if (locale === "cs") return cs_role_operator(inputs)
@@ -122,6 +130,8 @@ export const role_operator = /** @type {((inputs?: Role_OperatorInputs, options?
 	if (locale === "da") return da_role_operator(inputs)
 	if (locale === "sl") return sl_role_operator(inputs)
 	if (locale === "hr") return hr_role_operator(inputs)
+	if (locale === "sr") return sr_role_operator(inputs)
+	if (locale === "mk") return mk_role_operator(inputs)
 	if (locale === "ro") return ro_role_operator(inputs)
 	if (locale === "sv") return sv_role_operator(inputs)
 	if (locale === "fi") return fi_role_operator(inputs)

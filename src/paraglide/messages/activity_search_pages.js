@@ -81,6 +81,14 @@ const hr_activity_search_pages = /** @type {(inputs: Activity_Search_PagesInputs
 	return /** @type {LocalizedString} */ (`Pretražujem web-stranicu…`)
 };
 
+const sr_activity_search_pages = /** @type {(inputs: Activity_Search_PagesInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Pretražujem veb-sajt…`)
+};
+
+const mk_activity_search_pages = /** @type {(inputs: Activity_Search_PagesInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Ја пребарувам веб-страницата…`)
+};
+
 const ro_activity_search_pages = /** @type {(inputs: Activity_Search_PagesInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Caut pe site…`)
 };
@@ -99,10 +107,10 @@ const fi_activity_search_pages = /** @type {(inputs: Activity_Search_PagesInputs
 * | "Searching the website…" |
 *
 * @param {Activity_Search_PagesInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const activity_search_pages = /** @type {((inputs?: Activity_Search_PagesInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Activity_Search_PagesInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const activity_search_pages = /** @type {((inputs?: Activity_Search_PagesInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Activity_Search_PagesInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_activity_search_pages(inputs)
 	if (locale === "cs") return cs_activity_search_pages(inputs)
@@ -122,6 +130,8 @@ export const activity_search_pages = /** @type {((inputs?: Activity_Search_Pages
 	if (locale === "da") return da_activity_search_pages(inputs)
 	if (locale === "sl") return sl_activity_search_pages(inputs)
 	if (locale === "hr") return hr_activity_search_pages(inputs)
+	if (locale === "sr") return sr_activity_search_pages(inputs)
+	if (locale === "mk") return mk_activity_search_pages(inputs)
 	if (locale === "ro") return ro_activity_search_pages(inputs)
 	if (locale === "sv") return sv_activity_search_pages(inputs)
 	if (locale === "fi") return fi_activity_search_pages(inputs)

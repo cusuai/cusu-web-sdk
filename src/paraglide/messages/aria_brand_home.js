@@ -81,6 +81,14 @@ const hr_aria_brand_home = /** @type {(inputs: Aria_Brand_HomeInputs) => Localiz
 	return /** @type {LocalizedString} */ (`od cusuai.com`)
 };
 
+const sr_aria_brand_home = /** @type {(inputs: Aria_Brand_HomeInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Posetite sajt cusuai.com`)
+};
+
+const mk_aria_brand_home = /** @type {(inputs: Aria_Brand_HomeInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Посетете ја страницата cusuai.com`)
+};
+
 const ro_aria_brand_home = /** @type {(inputs: Aria_Brand_HomeInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`de la cusuai.com`)
 };
@@ -99,10 +107,10 @@ const fi_aria_brand_home = /** @type {(inputs: Aria_Brand_HomeInputs) => Localiz
 * | "from cusuai.com" |
 *
 * @param {Aria_Brand_HomeInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_brand_home = /** @type {((inputs?: Aria_Brand_HomeInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Brand_HomeInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_brand_home = /** @type {((inputs?: Aria_Brand_HomeInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Brand_HomeInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_aria_brand_home(inputs)
 	if (locale === "cs") return cs_aria_brand_home(inputs)
@@ -122,6 +130,8 @@ export const aria_brand_home = /** @type {((inputs?: Aria_Brand_HomeInputs, opti
 	if (locale === "da") return da_aria_brand_home(inputs)
 	if (locale === "sl") return sl_aria_brand_home(inputs)
 	if (locale === "hr") return hr_aria_brand_home(inputs)
+	if (locale === "sr") return sr_aria_brand_home(inputs)
+	if (locale === "mk") return mk_aria_brand_home(inputs)
 	if (locale === "ro") return ro_aria_brand_home(inputs)
 	if (locale === "sv") return sv_aria_brand_home(inputs)
 	if (locale === "fi") return fi_aria_brand_home(inputs)

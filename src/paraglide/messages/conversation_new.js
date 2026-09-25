@@ -81,6 +81,14 @@ const hr_conversation_new = /** @type {(inputs: Conversation_NewInputs) => Local
 	return /** @type {LocalizedString} */ (`Novi razgovor`)
 };
 
+const sr_conversation_new = /** @type {(inputs: Conversation_NewInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Novi razgovor`)
+};
+
+const mk_conversation_new = /** @type {(inputs: Conversation_NewInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Нов разговор`)
+};
+
 const ro_conversation_new = /** @type {(inputs: Conversation_NewInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Conversație nouă`)
 };
@@ -99,10 +107,10 @@ const fi_conversation_new = /** @type {(inputs: Conversation_NewInputs) => Local
 * | "New conversation" |
 *
 * @param {Conversation_NewInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const conversation_new = /** @type {((inputs?: Conversation_NewInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_NewInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const conversation_new = /** @type {((inputs?: Conversation_NewInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_NewInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_conversation_new(inputs)
 	if (locale === "cs") return cs_conversation_new(inputs)
@@ -122,6 +130,8 @@ export const conversation_new = /** @type {((inputs?: Conversation_NewInputs, op
 	if (locale === "da") return da_conversation_new(inputs)
 	if (locale === "sl") return sl_conversation_new(inputs)
 	if (locale === "hr") return hr_conversation_new(inputs)
+	if (locale === "sr") return sr_conversation_new(inputs)
+	if (locale === "mk") return mk_conversation_new(inputs)
 	if (locale === "ro") return ro_conversation_new(inputs)
 	if (locale === "sv") return sv_conversation_new(inputs)
 	if (locale === "fi") return fi_conversation_new(inputs)

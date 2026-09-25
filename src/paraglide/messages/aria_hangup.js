@@ -81,6 +81,14 @@ const hr_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString
 	return /** @type {LocalizedString} */ (`Prekini poziv`)
 };
 
+const sr_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Prekinite poziv`)
+};
+
+const mk_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Прекинете го повикот`)
+};
+
 const ro_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Încheie apelul`)
 };
@@ -99,10 +107,10 @@ const fi_aria_hangup = /** @type {(inputs: Aria_HangupInputs) => LocalizedString
 * | "Hang up" |
 *
 * @param {Aria_HangupInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_hangup = /** @type {((inputs?: Aria_HangupInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_HangupInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_hangup = /** @type {((inputs?: Aria_HangupInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_HangupInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_aria_hangup(inputs)
 	if (locale === "cs") return cs_aria_hangup(inputs)
@@ -122,6 +130,8 @@ export const aria_hangup = /** @type {((inputs?: Aria_HangupInputs, options?: { 
 	if (locale === "da") return da_aria_hangup(inputs)
 	if (locale === "sl") return sl_aria_hangup(inputs)
 	if (locale === "hr") return hr_aria_hangup(inputs)
+	if (locale === "sr") return sr_aria_hangup(inputs)
+	if (locale === "mk") return mk_aria_hangup(inputs)
 	if (locale === "ro") return ro_aria_hangup(inputs)
 	if (locale === "sv") return sv_aria_hangup(inputs)
 	if (locale === "fi") return fi_aria_hangup(inputs)

@@ -81,6 +81,14 @@ const hr_aria_open_chat = /** @type {(inputs: Aria_Open_ChatInputs) => Localized
 	return /** @type {LocalizedString} */ (`Otvori chat`)
 };
 
+const sr_aria_open_chat = /** @type {(inputs: Aria_Open_ChatInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Otvorite razgovor`)
+};
+
+const mk_aria_open_chat = /** @type {(inputs: Aria_Open_ChatInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Отворете го разговорот`)
+};
+
 const ro_aria_open_chat = /** @type {(inputs: Aria_Open_ChatInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Deschide chatul`)
 };
@@ -99,10 +107,10 @@ const fi_aria_open_chat = /** @type {(inputs: Aria_Open_ChatInputs) => Localized
 * | "Open chat" |
 *
 * @param {Aria_Open_ChatInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_open_chat = /** @type {((inputs?: Aria_Open_ChatInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Open_ChatInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_open_chat = /** @type {((inputs?: Aria_Open_ChatInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Open_ChatInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_aria_open_chat(inputs)
 	if (locale === "cs") return cs_aria_open_chat(inputs)
@@ -122,6 +130,8 @@ export const aria_open_chat = /** @type {((inputs?: Aria_Open_ChatInputs, option
 	if (locale === "da") return da_aria_open_chat(inputs)
 	if (locale === "sl") return sl_aria_open_chat(inputs)
 	if (locale === "hr") return hr_aria_open_chat(inputs)
+	if (locale === "sr") return sr_aria_open_chat(inputs)
+	if (locale === "mk") return mk_aria_open_chat(inputs)
 	if (locale === "ro") return ro_aria_open_chat(inputs)
 	if (locale === "sv") return sv_aria_open_chat(inputs)
 	if (locale === "fi") return fi_aria_open_chat(inputs)

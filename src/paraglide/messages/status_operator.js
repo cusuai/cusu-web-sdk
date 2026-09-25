@@ -81,6 +81,14 @@ const hr_status_operator = /** @type {(inputs: Status_OperatorInputs) => Localiz
 	return /** @type {LocalizedString} */ (`Operater`)
 };
 
+const sr_status_operator = /** @type {(inputs: Status_OperatorInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Operater`)
+};
+
+const mk_status_operator = /** @type {(inputs: Status_OperatorInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Оператор`)
+};
+
 const ro_status_operator = /** @type {(inputs: Status_OperatorInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Operator`)
 };
@@ -99,10 +107,10 @@ const fi_status_operator = /** @type {(inputs: Status_OperatorInputs) => Localiz
 * | "Operator" |
 *
 * @param {Status_OperatorInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const status_operator = /** @type {((inputs?: Status_OperatorInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_OperatorInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const status_operator = /** @type {((inputs?: Status_OperatorInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_OperatorInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_status_operator(inputs)
 	if (locale === "cs") return cs_status_operator(inputs)
@@ -122,6 +130,8 @@ export const status_operator = /** @type {((inputs?: Status_OperatorInputs, opti
 	if (locale === "da") return da_status_operator(inputs)
 	if (locale === "sl") return sl_status_operator(inputs)
 	if (locale === "hr") return hr_status_operator(inputs)
+	if (locale === "sr") return sr_status_operator(inputs)
+	if (locale === "mk") return mk_status_operator(inputs)
 	if (locale === "ro") return ro_status_operator(inputs)
 	if (locale === "sv") return sv_status_operator(inputs)
 	if (locale === "fi") return fi_status_operator(inputs)

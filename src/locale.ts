@@ -24,6 +24,8 @@ export type WidgetLocaleInput = {
 		| 'da'
 		| 'sl'
 		| 'hr'
+		| 'sr'
+		| 'mk'
 		| 'ro'
 		| 'sv'
 		| 'fi';

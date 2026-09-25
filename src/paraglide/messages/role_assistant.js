@@ -81,6 +81,14 @@ const hr_role_assistant = /** @type {(inputs: Role_AssistantInputs) => Localized
 	return /** @type {LocalizedString} */ (`AI asistent`)
 };
 
+const sr_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`AI asistent`)
+};
+
+const mk_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`ВИ-асистент`)
+};
+
 const ro_role_assistant = /** @type {(inputs: Role_AssistantInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Asistent AI`)
 };
@@ -99,10 +107,10 @@ const fi_role_assistant = /** @type {(inputs: Role_AssistantInputs) => Localized
 * | "AI Assistant" |
 *
 * @param {Role_AssistantInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const role_assistant = /** @type {((inputs?: Role_AssistantInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Role_AssistantInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const role_assistant = /** @type {((inputs?: Role_AssistantInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Role_AssistantInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_role_assistant(inputs)
 	if (locale === "cs") return cs_role_assistant(inputs)
@@ -122,6 +130,8 @@ export const role_assistant = /** @type {((inputs?: Role_AssistantInputs, option
 	if (locale === "da") return da_role_assistant(inputs)
 	if (locale === "sl") return sl_role_assistant(inputs)
 	if (locale === "hr") return hr_role_assistant(inputs)
+	if (locale === "sr") return sr_role_assistant(inputs)
+	if (locale === "mk") return mk_role_assistant(inputs)
 	if (locale === "ro") return ro_role_assistant(inputs)
 	if (locale === "sv") return sv_role_assistant(inputs)
 	if (locale === "fi") return fi_role_assistant(inputs)

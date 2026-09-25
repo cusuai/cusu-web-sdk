@@ -13,7 +13,7 @@ const dts = `export type CusuConfig = {
 	group: string;
 	apiKey: string;
 	apiUrl?: string;
-	locale?: 'en' | 'bg' | 'cs' | 'sk' | 'es' | 'de' | 'et' | 'fr' | 'pl' | 'hu' | 'it' | 'lt' | 'lv' | 'nl' | 'no' | 'pt' | 'da' | 'sl' | 'hr' | 'ro' | 'sv' | 'fi';
+	locale?: 'en' | 'bg' | 'cs' | 'sk' | 'es' | 'de' | 'et' | 'fr' | 'pl' | 'hu' | 'it' | 'lt' | 'lv' | 'nl' | 'no' | 'pt' | 'da' | 'sl' | 'hr' | 'sr' | 'mk' | 'ro' | 'sv' | 'fi';
 	showLauncher?: boolean;
 };
 

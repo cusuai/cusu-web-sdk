@@ -81,6 +81,14 @@ const hr_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => Localized
 	return /** @type {LocalizedString} */ (`Poveznica`)
 };
 
+const sr_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Veza`)
+};
+
+const mk_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Врска`)
+};
+
 const ro_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Link`)
 };
@@ -99,10 +107,10 @@ const fi_file_kind_link = /** @type {(inputs: File_Kind_LinkInputs) => Localized
 * | "Link" |
 *
 * @param {File_Kind_LinkInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const file_kind_link = /** @type {((inputs?: File_Kind_LinkInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<File_Kind_LinkInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const file_kind_link = /** @type {((inputs?: File_Kind_LinkInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<File_Kind_LinkInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_file_kind_link(inputs)
 	if (locale === "cs") return cs_file_kind_link(inputs)
@@ -122,6 +130,8 @@ export const file_kind_link = /** @type {((inputs?: File_Kind_LinkInputs, option
 	if (locale === "da") return da_file_kind_link(inputs)
 	if (locale === "sl") return sl_file_kind_link(inputs)
 	if (locale === "hr") return hr_file_kind_link(inputs)
+	if (locale === "sr") return sr_file_kind_link(inputs)
+	if (locale === "mk") return mk_file_kind_link(inputs)
 	if (locale === "ro") return ro_file_kind_link(inputs)
 	if (locale === "sv") return sv_file_kind_link(inputs)
 	if (locale === "fi") return fi_file_kind_link(inputs)

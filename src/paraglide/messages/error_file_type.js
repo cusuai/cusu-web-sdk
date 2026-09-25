@@ -81,6 +81,14 @@ const hr_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => Localiz
 	return /** @type {LocalizedString} */ (`Dopuštene su samo slike (JPEG, PNG, GIF, WebP) i PDF datoteke.`)
 };
 
+const sr_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Dozvoljene su samo slike (JPEG, PNG, GIF, WebP) i PDF datoteke.`)
+};
+
+const mk_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Дозволени се само слики (JPEG, PNG, GIF, WebP) и PDF датотеки.`)
+};
+
 const ro_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Sunt permise doar imagini (JPEG, PNG, GIF, WebP) și fișiere PDF.`)
 };
@@ -99,10 +107,10 @@ const fi_error_file_type = /** @type {(inputs: Error_File_TypeInputs) => Localiz
 * | "Only images (JPEG, PNG, GIF, WebP) and PDFs are allowed." |
 *
 * @param {Error_File_TypeInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_file_type = /** @type {((inputs?: Error_File_TypeInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_File_TypeInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_file_type = /** @type {((inputs?: Error_File_TypeInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_File_TypeInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_error_file_type(inputs)
 	if (locale === "cs") return cs_error_file_type(inputs)
@@ -122,6 +130,8 @@ export const error_file_type = /** @type {((inputs?: Error_File_TypeInputs, opti
 	if (locale === "da") return da_error_file_type(inputs)
 	if (locale === "sl") return sl_error_file_type(inputs)
 	if (locale === "hr") return hr_error_file_type(inputs)
+	if (locale === "sr") return sr_error_file_type(inputs)
+	if (locale === "mk") return mk_error_file_type(inputs)
 	if (locale === "ro") return ro_error_file_type(inputs)
 	if (locale === "sv") return sv_error_file_type(inputs)
 	if (locale === "fi") return fi_error_file_type(inputs)

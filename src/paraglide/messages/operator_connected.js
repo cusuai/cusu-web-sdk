@@ -81,6 +81,14 @@ const hr_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => L
 	return /** @type {LocalizedString} */ (`Operater se povezao.`)
 };
 
+const sr_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Operater se uključio.`)
+};
+
+const mk_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Операторот се вклучи.`)
+};
+
 const ro_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Un operator s-a conectat.`)
 };
@@ -99,10 +107,10 @@ const fi_operator_connected = /** @type {(inputs: Operator_ConnectedInputs) => L
 * | "An operator connected." |
 *
 * @param {Operator_ConnectedInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const operator_connected = /** @type {((inputs?: Operator_ConnectedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Operator_ConnectedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const operator_connected = /** @type {((inputs?: Operator_ConnectedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Operator_ConnectedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_operator_connected(inputs)
 	if (locale === "cs") return cs_operator_connected(inputs)
@@ -122,6 +130,8 @@ export const operator_connected = /** @type {((inputs?: Operator_ConnectedInputs
 	if (locale === "da") return da_operator_connected(inputs)
 	if (locale === "sl") return sl_operator_connected(inputs)
 	if (locale === "hr") return hr_operator_connected(inputs)
+	if (locale === "sr") return sr_operator_connected(inputs)
+	if (locale === "mk") return mk_operator_connected(inputs)
 	if (locale === "ro") return ro_operator_connected(inputs)
 	if (locale === "sv") return sv_operator_connected(inputs)
 	if (locale === "fi") return fi_operator_connected(inputs)

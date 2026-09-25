@@ -1,6 +1,6 @@
 {
 	"name": "@cusuai/web-sdk",
-	"version": "0.3.2",
+	"version": "0.3.3",
 	"description": "Framework-agnostic Cusu customer chat widget (Shadow DOM, ES + IIFE).",
 	"license": "MIT",
 	"type": "module",

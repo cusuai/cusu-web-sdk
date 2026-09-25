@@ -81,6 +81,14 @@ const hr_activity_attach_link = /** @type {(inputs: Activity_Attach_LinkInputs) 
 	return /** @type {LocalizedString} */ (`Dodajem poveznicu…`)
 };
 
+const sr_activity_attach_link = /** @type {(inputs: Activity_Attach_LinkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Dodajem vezu…`)
+};
+
+const mk_activity_attach_link = /** @type {(inputs: Activity_Attach_LinkInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Додавам врска…`)
+};
+
 const ro_activity_attach_link = /** @type {(inputs: Activity_Attach_LinkInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Atașez un link…`)
 };
@@ -99,10 +107,10 @@ const fi_activity_attach_link = /** @type {(inputs: Activity_Attach_LinkInputs) 
 * | "Attaching a link…" |
 *
 * @param {Activity_Attach_LinkInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const activity_attach_link = /** @type {((inputs?: Activity_Attach_LinkInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Activity_Attach_LinkInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const activity_attach_link = /** @type {((inputs?: Activity_Attach_LinkInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Activity_Attach_LinkInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_activity_attach_link(inputs)
 	if (locale === "cs") return cs_activity_attach_link(inputs)
@@ -122,6 +130,8 @@ export const activity_attach_link = /** @type {((inputs?: Activity_Attach_LinkIn
 	if (locale === "da") return da_activity_attach_link(inputs)
 	if (locale === "sl") return sl_activity_attach_link(inputs)
 	if (locale === "hr") return hr_activity_attach_link(inputs)
+	if (locale === "sr") return sr_activity_attach_link(inputs)
+	if (locale === "mk") return mk_activity_attach_link(inputs)
 	if (locale === "ro") return ro_activity_attach_link(inputs)
 	if (locale === "sv") return sv_activity_attach_link(inputs)
 	if (locale === "fi") return fi_activity_attach_link(inputs)

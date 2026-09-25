@@ -81,6 +81,14 @@ const hr_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedStri
 	return /** @type {LocalizedString} */ (`Ovaj tjedan`)
 };
 
+const sr_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Ove nedelje`)
+};
+
+const mk_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Оваа недела`)
+};
+
 const ro_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Săptămâna aceasta`)
 };
@@ -99,10 +107,10 @@ const fi_recency_week = /** @type {(inputs: Recency_WeekInputs) => LocalizedStri
 * | "This week" |
 *
 * @param {Recency_WeekInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const recency_week = /** @type {((inputs?: Recency_WeekInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Recency_WeekInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const recency_week = /** @type {((inputs?: Recency_WeekInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Recency_WeekInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_recency_week(inputs)
 	if (locale === "cs") return cs_recency_week(inputs)
@@ -122,6 +130,8 @@ export const recency_week = /** @type {((inputs?: Recency_WeekInputs, options?: 
 	if (locale === "da") return da_recency_week(inputs)
 	if (locale === "sl") return sl_recency_week(inputs)
 	if (locale === "hr") return hr_recency_week(inputs)
+	if (locale === "sr") return sr_recency_week(inputs)
+	if (locale === "mk") return mk_recency_week(inputs)
 	if (locale === "ro") return ro_recency_week(inputs)
 	if (locale === "sv") return sv_recency_week(inputs)
 	if (locale === "fi") return fi_recency_week(inputs)

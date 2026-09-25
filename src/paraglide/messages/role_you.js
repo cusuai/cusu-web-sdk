@@ -81,6 +81,14 @@ const hr_role_you = /** @type {(inputs: Role_YouInputs) => LocalizedString} */ (
 	return /** @type {LocalizedString} */ (`Vi`)
 };
 
+const sr_role_you = /** @type {(inputs: Role_YouInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Vi`)
+};
+
+const mk_role_you = /** @type {(inputs: Role_YouInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Вие`)
+};
+
 const ro_role_you = /** @type {(inputs: Role_YouInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Dumneavoastră`)
 };
@@ -99,10 +107,10 @@ const fi_role_you = /** @type {(inputs: Role_YouInputs) => LocalizedString} */ (
 * | "You" |
 *
 * @param {Role_YouInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const role_you = /** @type {((inputs?: Role_YouInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Role_YouInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const role_you = /** @type {((inputs?: Role_YouInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Role_YouInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_role_you(inputs)
 	if (locale === "cs") return cs_role_you(inputs)
@@ -122,6 +130,8 @@ export const role_you = /** @type {((inputs?: Role_YouInputs, options?: { locale
 	if (locale === "da") return da_role_you(inputs)
 	if (locale === "sl") return sl_role_you(inputs)
 	if (locale === "hr") return hr_role_you(inputs)
+	if (locale === "sr") return sr_role_you(inputs)
+	if (locale === "mk") return mk_role_you(inputs)
 	if (locale === "ro") return ro_role_you(inputs)
 	if (locale === "sv") return sv_role_you(inputs)
 	if (locale === "fi") return fi_role_you(inputs)

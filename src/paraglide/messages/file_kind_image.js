@@ -81,6 +81,14 @@ const hr_file_kind_image = /** @type {(inputs: File_Kind_ImageInputs) => Localiz
 	return /** @type {LocalizedString} */ (`Slika`)
 };
 
+const sr_file_kind_image = /** @type {(inputs: File_Kind_ImageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Slika`)
+};
+
+const mk_file_kind_image = /** @type {(inputs: File_Kind_ImageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Слика`)
+};
+
 const ro_file_kind_image = /** @type {(inputs: File_Kind_ImageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Imagine`)
 };
@@ -99,10 +107,10 @@ const fi_file_kind_image = /** @type {(inputs: File_Kind_ImageInputs) => Localiz
 * | "Image" |
 *
 * @param {File_Kind_ImageInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const file_kind_image = /** @type {((inputs?: File_Kind_ImageInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<File_Kind_ImageInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const file_kind_image = /** @type {((inputs?: File_Kind_ImageInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<File_Kind_ImageInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_file_kind_image(inputs)
 	if (locale === "cs") return cs_file_kind_image(inputs)
@@ -122,6 +130,8 @@ export const file_kind_image = /** @type {((inputs?: File_Kind_ImageInputs, opti
 	if (locale === "da") return da_file_kind_image(inputs)
 	if (locale === "sl") return sl_file_kind_image(inputs)
 	if (locale === "hr") return hr_file_kind_image(inputs)
+	if (locale === "sr") return sr_file_kind_image(inputs)
+	if (locale === "mk") return mk_file_kind_image(inputs)
 	if (locale === "ro") return ro_file_kind_image(inputs)
 	if (locale === "sv") return sv_file_kind_image(inputs)
 	if (locale === "fi") return fi_file_kind_image(inputs)

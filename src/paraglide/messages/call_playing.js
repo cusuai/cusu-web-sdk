@@ -81,6 +81,14 @@ const hr_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedStri
 	return /** @type {LocalizedString} */ (`Asistent odgovara`)
 };
 
+const sr_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Asistent odgovara`)
+};
+
+const mk_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Асистентот одговара`)
+};
+
 const ro_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Asistentul răspunde`)
 };
@@ -99,10 +107,10 @@ const fi_call_playing = /** @type {(inputs: Call_PlayingInputs) => LocalizedStri
 * | "Assistant is answering" |
 *
 * @param {Call_PlayingInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const call_playing = /** @type {((inputs?: Call_PlayingInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Call_PlayingInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const call_playing = /** @type {((inputs?: Call_PlayingInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Call_PlayingInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_call_playing(inputs)
 	if (locale === "cs") return cs_call_playing(inputs)
@@ -122,6 +130,8 @@ export const call_playing = /** @type {((inputs?: Call_PlayingInputs, options?: 
 	if (locale === "da") return da_call_playing(inputs)
 	if (locale === "sl") return sl_call_playing(inputs)
 	if (locale === "hr") return hr_call_playing(inputs)
+	if (locale === "sr") return sr_call_playing(inputs)
+	if (locale === "mk") return mk_call_playing(inputs)
 	if (locale === "ro") return ro_call_playing(inputs)
 	if (locale === "sv") return sv_call_playing(inputs)
 	if (locale === "fi") return fi_call_playing(inputs)

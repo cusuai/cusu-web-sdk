@@ -81,6 +81,14 @@ const hr_status_current = /** @type {(inputs: Status_CurrentInputs) => Localized
 	return /** @type {LocalizedString} */ (`trenutačan`)
 };
 
+const sr_status_current = /** @type {(inputs: Status_CurrentInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`trenutni`)
+};
+
+const mk_status_current = /** @type {(inputs: Status_CurrentInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`тековен`)
+};
+
 const ro_status_current = /** @type {(inputs: Status_CurrentInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`curentă`)
 };
@@ -99,10 +107,10 @@ const fi_status_current = /** @type {(inputs: Status_CurrentInputs) => Localized
 * | "current" |
 *
 * @param {Status_CurrentInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const status_current = /** @type {((inputs?: Status_CurrentInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_CurrentInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const status_current = /** @type {((inputs?: Status_CurrentInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_CurrentInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_status_current(inputs)
 	if (locale === "cs") return cs_status_current(inputs)
@@ -122,6 +130,8 @@ export const status_current = /** @type {((inputs?: Status_CurrentInputs, option
 	if (locale === "da") return da_status_current(inputs)
 	if (locale === "sl") return sl_status_current(inputs)
 	if (locale === "hr") return hr_status_current(inputs)
+	if (locale === "sr") return sr_status_current(inputs)
+	if (locale === "mk") return mk_status_current(inputs)
 	if (locale === "ro") return ro_status_current(inputs)
 	if (locale === "sv") return sv_status_current(inputs)
 	if (locale === "fi") return fi_status_current(inputs)

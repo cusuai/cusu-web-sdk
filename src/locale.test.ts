@@ -12,6 +12,8 @@ describe('resolveWidgetLocale', () => {
 		expect(resolveWidgetLocale(undefined, 'cs')).toBe('cs');
 		expect(resolveWidgetLocale('', 'en')).toBe('en');
 		expect(resolveWidgetLocale({ groupLanguage: undefined, override: 'bg' })).toBe('bg');
+		expect(resolveWidgetLocale({ groupLanguage: undefined, override: 'sr' })).toBe('sr');
+		expect(resolveWidgetLocale({ groupLanguage: undefined, override: 'mk' })).toBe('mk');
 	});
 
 	it('in auto mode prefers page language, then override, then group', () => {
@@ -54,6 +56,11 @@ describe('resolveWidgetLocale', () => {
 				pageLanguage: 'en'
 			})
 		).toBe('cs');
+	});
+
+	it('uses Serbian and Macedonian group languages', () => {
+		expect(resolveWidgetLocale({ groupLanguage: 'sr-RS' })).toBe('sr');
+		expect(resolveWidgetLocale({ groupLanguage: 'mk-MK' })).toBe('mk');
 	});
 });
 

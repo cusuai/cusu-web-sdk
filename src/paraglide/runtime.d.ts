@@ -494,7 +494,7 @@ export const baseLocale: "en";
  *     throw new Error('Locale is not available');
  *   }
  */
-export const locales: readonly ["en", "bg", "cs", "sk", "es", "de", "et", "fr", "pl", "hu", "it", "lt", "lv", "nl", "no", "pt", "da", "sl", "hr", "ro", "sv", "fi"];
+export const locales: readonly ["en", "bg", "cs", "sk", "es", "de", "et", "fr", "pl", "hu", "it", "lt", "lv", "nl", "no", "pt", "da", "sl", "hr", "sr", "mk", "ro", "sv", "fi"];
 /** @type {string} */
 export const cookieName: string;
 /** @type {number} */

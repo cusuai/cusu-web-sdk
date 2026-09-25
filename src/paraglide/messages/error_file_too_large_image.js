@@ -81,6 +81,14 @@ const hr_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_I
 	return /** @type {LocalizedString} */ (`Slike mogu imati najviše 8 MB.`)
 };
 
+const sr_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_ImageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Slike mogu da imaju najviše 8 MB.`)
+};
+
+const mk_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_ImageInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Максималната големина на сликата е 8 MB.`)
+};
+
 const ro_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_ImageInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Imaginile pot avea cel mult 8 MB.`)
 };
@@ -99,10 +107,10 @@ const fi_error_file_too_large_image = /** @type {(inputs: Error_File_Too_Large_I
 * | "Images can be at most 8 MB." |
 *
 * @param {Error_File_Too_Large_ImageInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_file_too_large_image = /** @type {((inputs?: Error_File_Too_Large_ImageInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_File_Too_Large_ImageInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_file_too_large_image = /** @type {((inputs?: Error_File_Too_Large_ImageInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_File_Too_Large_ImageInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_error_file_too_large_image(inputs)
 	if (locale === "cs") return cs_error_file_too_large_image(inputs)
@@ -122,6 +130,8 @@ export const error_file_too_large_image = /** @type {((inputs?: Error_File_Too_L
 	if (locale === "da") return da_error_file_too_large_image(inputs)
 	if (locale === "sl") return sl_error_file_too_large_image(inputs)
 	if (locale === "hr") return hr_error_file_too_large_image(inputs)
+	if (locale === "sr") return sr_error_file_too_large_image(inputs)
+	if (locale === "mk") return mk_error_file_too_large_image(inputs)
 	if (locale === "ro") return ro_error_file_too_large_image(inputs)
 	if (locale === "sv") return sv_error_file_too_large_image(inputs)
 	if (locale === "fi") return fi_error_file_too_large_image(inputs)

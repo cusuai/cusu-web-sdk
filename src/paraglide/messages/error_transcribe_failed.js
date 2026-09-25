@@ -81,6 +81,14 @@ const hr_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedIn
 	return /** @type {LocalizedString} */ (`Prepisivanje nije uspjelo.`)
 };
 
+const sr_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Prepisivanje nije uspelo.`)
+};
+
+const mk_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Транскрипцијата не успеа.`)
+};
+
 const ro_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Transcrierea a eșuat.`)
 };
@@ -99,10 +107,10 @@ const fi_error_transcribe_failed = /** @type {(inputs: Error_Transcribe_FailedIn
 * | "Transcription failed." |
 *
 * @param {Error_Transcribe_FailedInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_transcribe_failed = /** @type {((inputs?: Error_Transcribe_FailedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Transcribe_FailedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_transcribe_failed = /** @type {((inputs?: Error_Transcribe_FailedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Transcribe_FailedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_error_transcribe_failed(inputs)
 	if (locale === "cs") return cs_error_transcribe_failed(inputs)
@@ -122,6 +130,8 @@ export const error_transcribe_failed = /** @type {((inputs?: Error_Transcribe_Fa
 	if (locale === "da") return da_error_transcribe_failed(inputs)
 	if (locale === "sl") return sl_error_transcribe_failed(inputs)
 	if (locale === "hr") return hr_error_transcribe_failed(inputs)
+	if (locale === "sr") return sr_error_transcribe_failed(inputs)
+	if (locale === "mk") return mk_error_transcribe_failed(inputs)
 	if (locale === "ro") return ro_error_transcribe_failed(inputs)
 	if (locale === "sv") return sv_error_transcribe_failed(inputs)
 	if (locale === "fi") return fi_error_transcribe_failed(inputs)

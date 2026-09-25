@@ -81,6 +81,14 @@ const hr_conversation_transferred = /** @type {(inputs: Conversation_Transferred
 	return /** @type {LocalizedString} */ (`Razgovor je predan operateru.`)
 };
 
+const sr_conversation_transferred = /** @type {(inputs: Conversation_TransferredInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Razgovor je prosleđen operateru.`)
+};
+
+const mk_conversation_transferred = /** @type {(inputs: Conversation_TransferredInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Разговорот е префрлен кај оператор.`)
+};
+
 const ro_conversation_transferred = /** @type {(inputs: Conversation_TransferredInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Conversația a fost transferată unui operator.`)
 };
@@ -99,10 +107,10 @@ const fi_conversation_transferred = /** @type {(inputs: Conversation_Transferred
 * | "The conversation was handed over to an operator." |
 *
 * @param {Conversation_TransferredInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const conversation_transferred = /** @type {((inputs?: Conversation_TransferredInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_TransferredInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const conversation_transferred = /** @type {((inputs?: Conversation_TransferredInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_TransferredInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_conversation_transferred(inputs)
 	if (locale === "cs") return cs_conversation_transferred(inputs)
@@ -122,6 +130,8 @@ export const conversation_transferred = /** @type {((inputs?: Conversation_Trans
 	if (locale === "da") return da_conversation_transferred(inputs)
 	if (locale === "sl") return sl_conversation_transferred(inputs)
 	if (locale === "hr") return hr_conversation_transferred(inputs)
+	if (locale === "sr") return sr_conversation_transferred(inputs)
+	if (locale === "mk") return mk_conversation_transferred(inputs)
 	if (locale === "ro") return ro_conversation_transferred(inputs)
 	if (locale === "sv") return sv_conversation_transferred(inputs)
 	if (locale === "fi") return fi_conversation_transferred(inputs)

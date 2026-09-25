@@ -81,6 +81,14 @@ const hr_conversation_closed = /** @type {(inputs: Conversation_ClosedInputs) =>
 	return /** @type {LocalizedString} */ (`Ovaj je razgovor zatvoren.`)
 };
 
+const sr_conversation_closed = /** @type {(inputs: Conversation_ClosedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Ovaj razgovor je zatvoren.`)
+};
+
+const mk_conversation_closed = /** @type {(inputs: Conversation_ClosedInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Овој разговор е затворен.`)
+};
+
 const ro_conversation_closed = /** @type {(inputs: Conversation_ClosedInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Această conversație este închisă.`)
 };
@@ -99,10 +107,10 @@ const fi_conversation_closed = /** @type {(inputs: Conversation_ClosedInputs) =>
 * | "This conversation is closed." |
 *
 * @param {Conversation_ClosedInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const conversation_closed = /** @type {((inputs?: Conversation_ClosedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_ClosedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const conversation_closed = /** @type {((inputs?: Conversation_ClosedInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Conversation_ClosedInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_conversation_closed(inputs)
 	if (locale === "cs") return cs_conversation_closed(inputs)
@@ -122,6 +130,8 @@ export const conversation_closed = /** @type {((inputs?: Conversation_ClosedInpu
 	if (locale === "da") return da_conversation_closed(inputs)
 	if (locale === "sl") return sl_conversation_closed(inputs)
 	if (locale === "hr") return hr_conversation_closed(inputs)
+	if (locale === "sr") return sr_conversation_closed(inputs)
+	if (locale === "mk") return mk_conversation_closed(inputs)
 	if (locale === "ro") return ro_conversation_closed(inputs)
 	if (locale === "sv") return sv_conversation_closed(inputs)
 	if (locale === "fi") return fi_conversation_closed(inputs)

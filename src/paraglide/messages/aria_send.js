@@ -81,6 +81,14 @@ const hr_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */
 	return /** @type {LocalizedString} */ (`Pošalji`)
 };
 
+const sr_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Pošaljite`)
+};
+
+const mk_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Испратете`)
+};
+
 const ro_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Trimite`)
 };
@@ -99,10 +107,10 @@ const fi_aria_send = /** @type {(inputs: Aria_SendInputs) => LocalizedString} */
 * | "Send" |
 *
 * @param {Aria_SendInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_send = /** @type {((inputs?: Aria_SendInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_SendInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const aria_send = /** @type {((inputs?: Aria_SendInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_SendInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_aria_send(inputs)
 	if (locale === "cs") return cs_aria_send(inputs)
@@ -122,6 +130,8 @@ export const aria_send = /** @type {((inputs?: Aria_SendInputs, options?: { loca
 	if (locale === "da") return da_aria_send(inputs)
 	if (locale === "sl") return sl_aria_send(inputs)
 	if (locale === "hr") return hr_aria_send(inputs)
+	if (locale === "sr") return sr_aria_send(inputs)
+	if (locale === "mk") return mk_aria_send(inputs)
 	if (locale === "ro") return ro_aria_send(inputs)
 	if (locale === "sv") return sv_aria_send(inputs)
 	if (locale === "fi") return fi_aria_send(inputs)

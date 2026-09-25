@@ -81,6 +81,14 @@ const hr_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) 
 	return /** @type {LocalizedString} */ (`Uz poruku možete priložiti najviše 5 datoteka.`)
 };
 
+const sr_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Uz poruku možete da priložite najviše 5 datoteka.`)
+};
+
+const mk_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Може да прикачите најмногу 5 датотеки во една порака.`)
+};
+
 const ro_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Puteți atașa până la 5 fișiere per mesaj.`)
 };
@@ -99,10 +107,10 @@ const fi_error_too_many_files = /** @type {(inputs: Error_Too_Many_FilesInputs) 
 * | "You can attach up to 5 files per message." |
 *
 * @param {Error_Too_Many_FilesInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_too_many_files = /** @type {((inputs?: Error_Too_Many_FilesInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Too_Many_FilesInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_too_many_files = /** @type {((inputs?: Error_Too_Many_FilesInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_Too_Many_FilesInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_error_too_many_files(inputs)
 	if (locale === "cs") return cs_error_too_many_files(inputs)
@@ -122,6 +130,8 @@ export const error_too_many_files = /** @type {((inputs?: Error_Too_Many_FilesIn
 	if (locale === "da") return da_error_too_many_files(inputs)
 	if (locale === "sl") return sl_error_too_many_files(inputs)
 	if (locale === "hr") return hr_error_too_many_files(inputs)
+	if (locale === "sr") return sr_error_too_many_files(inputs)
+	if (locale === "mk") return mk_error_too_many_files(inputs)
 	if (locale === "ro") return ro_error_too_many_files(inputs)
 	if (locale === "sv") return sv_error_too_many_files(inputs)
 	if (locale === "fi") return fi_error_too_many_files(inputs)

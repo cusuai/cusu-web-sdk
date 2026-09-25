@@ -81,6 +81,14 @@ const hr_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_Pdf
 	return /** @type {LocalizedString} */ (`PDF datoteke mogu imati najviše 16 MB.`)
 };
 
+const sr_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_PdfInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`PDF datoteke mogu da imaju najviše 16 MB.`)
+};
+
+const mk_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_PdfInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`Максималната големина на PDF-датотеката е 16 MB.`)
+};
+
 const ro_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_PdfInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Fișierele PDF pot avea cel mult 16 MB.`)
 };
@@ -99,10 +107,10 @@ const fi_error_file_too_large_pdf = /** @type {(inputs: Error_File_Too_Large_Pdf
 * | "PDFs can be at most 16 MB." |
 *
 * @param {Error_File_Too_Large_PdfInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const error_file_too_large_pdf = /** @type {((inputs?: Error_File_Too_Large_PdfInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_File_Too_Large_PdfInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const error_file_too_large_pdf = /** @type {((inputs?: Error_File_Too_Large_PdfInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Error_File_Too_Large_PdfInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_error_file_too_large_pdf(inputs)
 	if (locale === "cs") return cs_error_file_too_large_pdf(inputs)
@@ -122,6 +130,8 @@ export const error_file_too_large_pdf = /** @type {((inputs?: Error_File_Too_Lar
 	if (locale === "da") return da_error_file_too_large_pdf(inputs)
 	if (locale === "sl") return sl_error_file_too_large_pdf(inputs)
 	if (locale === "hr") return hr_error_file_too_large_pdf(inputs)
+	if (locale === "sr") return sr_error_file_too_large_pdf(inputs)
+	if (locale === "mk") return mk_error_file_too_large_pdf(inputs)
 	if (locale === "ro") return ro_error_file_too_large_pdf(inputs)
 	if (locale === "sv") return sv_error_file_too_large_pdf(inputs)
 	if (locale === "fi") return fi_error_file_too_large_pdf(inputs)

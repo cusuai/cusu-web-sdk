@@ -81,6 +81,14 @@ const hr_status_assistant = /** @type {(inputs: Status_AssistantInputs) => Local
 	return /** @type {LocalizedString} */ (`AI asistent`)
 };
 
+const sr_status_assistant = /** @type {(inputs: Status_AssistantInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`AI asistent`)
+};
+
+const mk_status_assistant = /** @type {(inputs: Status_AssistantInputs) => LocalizedString} */ () => {
+	return /** @type {LocalizedString} */ (`ВИ-асистент`)
+};
+
 const ro_status_assistant = /** @type {(inputs: Status_AssistantInputs) => LocalizedString} */ () => {
 	return /** @type {LocalizedString} */ (`Asistent AI`)
 };
@@ -99,10 +107,10 @@ const fi_status_assistant = /** @type {(inputs: Status_AssistantInputs) => Local
 * | "AI Assistant" |
 *
 * @param {Status_AssistantInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const status_assistant = /** @type {((inputs?: Status_AssistantInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_AssistantInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
+export const status_assistant = /** @type {((inputs?: Status_AssistantInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Status_AssistantInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs = {}, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_status_assistant(inputs)
 	if (locale === "cs") return cs_status_assistant(inputs)
@@ -122,6 +130,8 @@ export const status_assistant = /** @type {((inputs?: Status_AssistantInputs, op
 	if (locale === "da") return da_status_assistant(inputs)
 	if (locale === "sl") return sl_status_assistant(inputs)
 	if (locale === "hr") return hr_status_assistant(inputs)
+	if (locale === "sr") return sr_status_assistant(inputs)
+	if (locale === "mk") return mk_status_assistant(inputs)
 	if (locale === "ro") return ro_status_assistant(inputs)
 	if (locale === "sv") return sv_status_assistant(inputs)
 	if (locale === "fi") return fi_status_assistant(inputs)

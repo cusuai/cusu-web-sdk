@@ -81,6 +81,14 @@ const hr_aria_rating_star = /** @type {(inputs: Aria_Rating_StarInputs) => Local
 	return /** @type {LocalizedString} */ (`Ocijenite s ${i?.star} od 5 zvjezdica`)
 };
 
+const sr_aria_rating_star = /** @type {(inputs: Aria_Rating_StarInputs) => LocalizedString} */ (i) => {
+	return /** @type {LocalizedString} */ (`Izaberite ocenu ${i?.star} od 5`)
+};
+
+const mk_aria_rating_star = /** @type {(inputs: Aria_Rating_StarInputs) => LocalizedString} */ (i) => {
+	return /** @type {LocalizedString} */ (`Изберете оцена ${i?.star} од 5`)
+};
+
 const ro_aria_rating_star = /** @type {(inputs: Aria_Rating_StarInputs) => LocalizedString} */ (i) => {
 	return /** @type {LocalizedString} */ (`Evaluați cu ${i?.star} din 5 stele`)
 };
@@ -99,10 +107,10 @@ const fi_aria_rating_star = /** @type {(inputs: Aria_Rating_StarInputs) => Local
 * | "Rate {star} out of 5" |
 *
 * @param {Aria_Rating_StarInputs} inputs
-* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }} options
+* @param {{ locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }} options
 * @returns {LocalizedString}
 */
-export const aria_rating_star = /** @type {((inputs: Aria_Rating_StarInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_StarInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "ro" | "sv" | "fi" }, {}>} */ ((inputs, options = {}) => {
+export const aria_rating_star = /** @type {((inputs: Aria_Rating_StarInputs, options?: { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }) => LocalizedString) & import('../runtime.js').MessageMetadata<Aria_Rating_StarInputs, { locale?: "en" | "bg" | "cs" | "sk" | "es" | "de" | "et" | "fr" | "pl" | "hu" | "it" | "lt" | "lv" | "nl" | "no" | "pt" | "da" | "sl" | "hr" | "sr" | "mk" | "ro" | "sv" | "fi" }, {}>} */ ((inputs, options = {}) => {
 	const locale = experimentalStaticLocale ?? options.locale ?? getLocale()
 	if (locale === "bg") return bg_aria_rating_star(inputs)
 	if (locale === "cs") return cs_aria_rating_star(inputs)
@@ -122,6 +130,8 @@ export const aria_rating_star = /** @type {((inputs: Aria_Rating_StarInputs, opt
 	if (locale === "da") return da_aria_rating_star(inputs)
 	if (locale === "sl") return sl_aria_rating_star(inputs)
 	if (locale === "hr") return hr_aria_rating_star(inputs)
+	if (locale === "sr") return sr_aria_rating_star(inputs)
+	if (locale === "mk") return mk_aria_rating_star(inputs)
 	if (locale === "ro") return ro_aria_rating_star(inputs)
 	if (locale === "sv") return sv_aria_rating_star(inputs)
 	if (locale === "fi") return fi_aria_rating_star(inputs)
