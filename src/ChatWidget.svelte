@@ -700,84 +700,90 @@ const CUSU_HOME = 'https://cusuai.com';
 					{/if}
 				</div>
 				{#if chat.closed}
-					<div
-						class="mx-3 mb-3 rounded-3xl border border-border bg-muted/50 px-4 py-3 text-center text-sm text-muted-foreground"
-					>
-						{#if chat.status === 'resolved'}
-							{#if chat.rated}
-								<p>{m.rating_thanks()}</p>
-							{:else}
-								<p>{m.rating_prompt()}</p>
-								<div class="mt-2 flex items-center justify-center gap-1">
-									{#if chat.ratingScale === 'thumbs'}
+					{#if chat.status === 'resolved' && chat.rated}
+						<div
+							class="mx-3 mb-3 rounded-3xl border border-border bg-muted/50 px-4 py-3 text-center text-sm text-muted-foreground"
+						>
+							<p>{m.rating_thanks()}</p>
+						</div>
+					{:else if chat.status === 'resolved' && chat.ratingScale !== 'off'}
+						<div
+							class="mx-3 mb-3 rounded-3xl border border-border bg-muted/50 px-4 py-3 text-center text-sm text-muted-foreground"
+						>
+							<p>{m.rating_prompt()}</p>
+							<div class="mt-2 flex items-center justify-center gap-1">
+								{#if chat.ratingScale === 'thumbs'}
+									<button
+										type="button"
+										class={ratingBtn}
+										disabled={chat.ratingBusy}
+										aria-label={m.aria_rating_down()}
+										onclick={() => chat.rate(0)}
+									>
+										👎
+									</button>
+									<button
+										type="button"
+										class={ratingBtn}
+										disabled={chat.ratingBusy}
+										aria-label={m.aria_rating_up()}
+										onclick={() => chat.rate(1)}
+									>
+										👍
+									</button>
+								{:else if chat.ratingScale === 'faces_3'}
+									<button
+										type="button"
+										class={ratingBtn}
+										disabled={chat.ratingBusy}
+										aria-label={m.aria_rating_sad()}
+										onclick={() => chat.rate(1)}
+									>
+										😞
+									</button>
+									<button
+										type="button"
+										class={ratingBtn}
+										disabled={chat.ratingBusy}
+										aria-label={m.aria_rating_ok()}
+										onclick={() => chat.rate(2)}
+									>
+										😐
+									</button>
+									<button
+										type="button"
+										class={ratingBtn}
+										disabled={chat.ratingBusy}
+										aria-label={m.aria_rating_happy()}
+										onclick={() => chat.rate(3)}
+									>
+										😊
+									</button>
+								{:else}
+									{#each [1, 2, 3, 4, 5] as star (star)}
 										<button
 											type="button"
 											class={ratingBtn}
 											disabled={chat.ratingBusy}
-											aria-label={m.aria_rating_down()}
-											onclick={() => chat.rate(0)}
+											aria-label={m.aria_rating_star({ star })}
+											onclick={() => chat.rate(star)}
 										>
-											👎
+											★
 										</button>
-										<button
-											type="button"
-											class={ratingBtn}
-											disabled={chat.ratingBusy}
-											aria-label={m.aria_rating_up()}
-											onclick={() => chat.rate(1)}
-										>
-											👍
-										</button>
-									{:else if chat.ratingScale === 'faces_3'}
-										<button
-											type="button"
-											class={ratingBtn}
-											disabled={chat.ratingBusy}
-											aria-label={m.aria_rating_sad()}
-											onclick={() => chat.rate(1)}
-										>
-											😞
-										</button>
-										<button
-											type="button"
-											class={ratingBtn}
-											disabled={chat.ratingBusy}
-											aria-label={m.aria_rating_ok()}
-											onclick={() => chat.rate(2)}
-										>
-											😐
-										</button>
-										<button
-											type="button"
-											class={ratingBtn}
-											disabled={chat.ratingBusy}
-											aria-label={m.aria_rating_happy()}
-											onclick={() => chat.rate(3)}
-										>
-											😊
-										</button>
-									{:else}
-										{#each [1, 2, 3, 4, 5] as star (star)}
-											<button
-												type="button"
-												class={ratingBtn}
-												disabled={chat.ratingBusy}
-												aria-label={m.aria_rating_star({ star })}
-												onclick={() => chat.rate(star)}
-											>
-												★
-											</button>
-										{/each}
-									{/if}
-								</div>
-								{#if chat.error}
-									<p class="mt-2 text-xs text-destructive">{chat.error}</p>
+									{/each}
 								{/if}
+							</div>
+							{#if chat.error}
+								<p class="mt-2 text-xs text-destructive">{chat.error}</p>
 							{/if}
-						{:else}
+						</div>
+					{:else if chat.status !== 'resolved'}
+						<div
+							class="mx-3 mb-3 rounded-3xl border border-border bg-muted/50 px-4 py-3 text-center text-sm text-muted-foreground"
+						>
 							<p>{m.conversation_closed()}</p>
-						{/if}
-					</div>
+						</div>
+					{/if}
 				{:else}
 					<form
 						class={[

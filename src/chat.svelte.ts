@@ -452,6 +452,7 @@ export class GroupChat {
 
 	rate(value: number): void {
 		if (
+			this.ratingScale === 'off' ||
 			this.status !== 'resolved' ||
 			this.rated ||
 			this.ratingBusy ||

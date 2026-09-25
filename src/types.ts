@@ -98,7 +98,7 @@ export type SupportThread = {
 	rated?: boolean;
 };
 
-export type RatingScale = 'stars_5' | 'thumbs' | 'faces_3';
+export type RatingScale = 'off' | 'stars_5' | 'thumbs' | 'faces_3';
 
 export type ChatEvent =
 	| { type: 'ping' }

@@ -5,6 +5,7 @@ import { type CusuConfig, type ResolvedCusuConfig, resolveApiUrl } from './confi
 import { clearSession, parseRemoteHistory } from './history';
 import { detectPageLanguage, resolveWidgetLocale } from './locale';
 import { setLocale } from './paraglide/runtime.js';
+import type { RatingScale } from './types';
 import { groupUrl, identifyUrl } from './urls';
 import { ensureVisitorId, resetVisitorId } from './visitor';
 import widgetCss from './widget.css?inline';
@@ -193,7 +194,9 @@ async function boot(config: CusuConfig, id: number): Promise<void> {
 			dictation: init.dictation !== false,
 			voiceRealtime: init.voice_realtime === true,
 			ratingScale:
-				init.rating_scale === 'thumbs' || init.rating_scale === 'faces_3'
+				init.rating_scale === 'off' ||
+				init.rating_scale === 'thumbs' ||
+				init.rating_scale === 'faces_3'
 					? init.rating_scale
 					: 'stars_5'
 		});
@@ -214,7 +217,7 @@ function mountWidget(
 		voiceCall: boolean;
 		dictation: boolean;
 		voiceRealtime: boolean;
-		ratingScale: 'stars_5' | 'thumbs' | 'faces_3';
+		ratingScale: RatingScale;
 	} = {
 		voiceCall: true,
 		dictation: true,
