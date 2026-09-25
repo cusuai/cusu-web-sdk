@@ -1,10 +1,12 @@
 import { mount, unmount } from 'svelte';
+import { widgetAuthHeaders } from './api-headers';
 import ChatWidget from './ChatWidget.svelte';
 import { GroupChat } from './chat.svelte';
 import { type CusuConfig, type ResolvedCusuConfig, resolveApiUrl } from './config';
 import { clearSession, parseRemoteHistory } from './history';
 import { detectPageLanguage, resolveWidgetLocale } from './locale';
 import { setLocale } from './paraglide/runtime.js';
+import { applyWidgetTheme, parseWidgetTheme, type WidgetTheme } from './theme';
 import type { RatingScale } from './types';
 import { groupUrl, identifyUrl } from './urls';
 import { ensureVisitorId, resetVisitorId } from './visitor';
@@ -30,6 +32,7 @@ type Runtime = {
 	chat: GroupChat;
 	app: object;
 	host: HTMLElement;
+	disposeTheme?: () => void;
 };
 
 type IdentifyCall = { id: string; traits?: IdentifyTraits };
@@ -138,7 +141,7 @@ async function boot(config: CusuConfig, id: number): Promise<void> {
 	const apiUrl = resolveApiUrl(config.apiUrl);
 	try {
 		const response = await fetch(groupUrl(apiUrl, group), {
-			headers: { authorization: `Bearer ${apiKey}` }
+			headers: widgetAuthHeaders(apiKey, { accept: 'application/json' })
 		});
 		if (id !== bootId) {
 			return;
@@ -174,6 +177,7 @@ async function boot(config: CusuConfig, id: number): Promise<void> {
 			rating_scale?: string;
 			language?: string;
 			reply_locale?: string;
+			theme?: string;
 		};
 		if (id !== bootId) {
 			return;
@@ -198,7 +202,8 @@ async function boot(config: CusuConfig, id: number): Promise<void> {
 				init.rating_scale === 'thumbs' ||
 				init.rating_scale === 'faces_3'
 					? init.rating_scale
-					: 'stars_5'
+					: 'stars_5',
+			theme: parseWidgetTheme(init.theme)
 		});
 		flushIdentify(ready);
 		return;
@@ -218,17 +223,20 @@ function mountWidget(
 		dictation: boolean;
 		voiceRealtime: boolean;
 		ratingScale: RatingScale;
+		theme: WidgetTheme;
 	} = {
 		voiceCall: true,
 		dictation: true,
 		voiceRealtime: false,
-		ratingScale: 'stars_5'
+		ratingScale: 'stars_5',
+		theme: 'auto'
 	}
 ): void {
 	teardown();
 	const host = document.createElement('div');
 	host.id = HOST_ID;
 	host.style.zIndex = '2147483646';
+	const disposeTheme = applyWidgetTheme(host, flags.theme);
 	const shadow = host.attachShadow({ mode: 'open' });
 	const style = document.createElement('style');
 	style.textContent = widgetCss;
@@ -245,13 +253,14 @@ function mountWidget(
 		target,
 		props: { chat }
 	});
-	runtime = { chat, app, host };
+	runtime = { chat, app, host, disposeTheme };
 }
 
 function teardown(): void {
 	if (!runtime) {
 		return;
 	}
+	runtime.disposeTheme?.();
 	runtime.chat.disconnect();
 	void unmount(runtime.app, { outro: false });
 	runtime.host.remove();
@@ -283,11 +292,10 @@ async function postIdentify(config: ResolvedCusuConfig, call: IdentifyCall): Pro
 	try {
 		const response = await fetch(identifyUrl(config.apiUrl, config.group), {
 			method: 'POST',
-			headers: {
+			headers: widgetAuthHeaders(config.apiKey, {
 				accept: 'application/json',
-				'content-type': 'application/json',
-				authorization: `Bearer ${config.apiKey}`
-			},
+				'content-type': 'application/json'
+			}),
 			body: JSON.stringify({
 				visitorId,
 				externalId: call.id,

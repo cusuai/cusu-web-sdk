@@ -1,7 +1,12 @@
+import { readFileSync } from 'node:fs';
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
+
+const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')) as {
+	version: string;
+};
 
 const dts = `export type CusuConfig = {
 	/** Stable group id (\`grp_…\`), not a human slug. */
@@ -49,6 +54,9 @@ export default Cusu;
 `;
 
 export default defineConfig({
+	define: {
+		__CUSU_SDK_VERSION__: JSON.stringify(pkg.version)
+	},
 	plugins: [
 		paraglideVitePlugin({
 			project: './project.inlang',

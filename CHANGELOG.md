@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-09-25
+
+### Added
+- Boot `theme` (`light` | `dark` | `auto`) applied on the shadow host, including `:host(.dark)` tokens and `prefers-color-scheme` for `auto`
+- `X-Cusu-Sdk-Version` on widget API requests (boot, identify, realtime session, transcribe)
+
 ## [0.3.1] - 2026-09-25
 
 ### Added

@@ -1,3 +1,4 @@
+import { widgetAuthHeaders } from './api-headers';
 import {
 	agentActivityLabel,
 	canSend as callCanSend,
@@ -796,11 +797,10 @@ export class GroupChat {
 	async #mintRealtimeSession(): Promise<{ clientSecret: string; grant?: string }> {
 		const response = await fetch(realtimeSessionUrl(this.config.apiUrl, this.config.group), {
 			method: 'POST',
-			headers: {
+			headers: widgetAuthHeaders(this.config.apiKey, {
 				accept: 'application/json',
-				'content-type': 'application/json',
-				authorization: `Bearer ${this.config.apiKey}`
-			},
+				'content-type': 'application/json'
+			}),
 			body: JSON.stringify({
 				visitorId: this.visitorId,
 				...(this.currentId ? { threadId: this.currentId } : {})
@@ -1279,9 +1279,7 @@ export class GroupChat {
 		form.append('context', 'thread');
 		const response = await fetch(transcribeUrl(this.config.apiUrl), {
 			method: 'POST',
-			headers: {
-				authorization: `Bearer ${this.config.apiKey}`
-			},
+			headers: widgetAuthHeaders(this.config.apiKey),
 			body: form
 		});
 		const payload = (await response.json().catch(() => ({}))) as {
