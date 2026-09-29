@@ -7,13 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.3.4] - 2026-09-29
+## [0.3.5] - 2026-09-29
 
 ### Added
 - Outbound message delivery state: shimmer while sending, failed hint with retry
 
 ### Fixed
 - iOS Safari no longer zooms the chat composer on focus (mobile input uses 16px)
+- Biome formatting that blocked the 0.3.4 publish
+
+## [0.3.4] - 2026-09-29
+
+Yanked — release CI failed on Biome format; use 0.3.5.
 
 ## [0.3.3] - 2026-09-25
 

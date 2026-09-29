@@ -979,36 +979,36 @@ const CUSU_HOME = 'https://cusuai.com';
 />
 
 <style>
+.sending-shimmer {
+	background-image: linear-gradient(
+		90deg,
+		rgb(255 255 255 / 55%) 0%,
+		rgb(255 255 255 / 95%) 42%,
+		rgb(255 255 255 / 55%) 82%
+	);
+	background-size: 220% 100%;
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	animation: sending-shimmer 1.8s ease-in-out infinite;
+}
+
+@keyframes sending-shimmer {
+	0% {
+		background-position: 110% 50%;
+	}
+	100% {
+		background-position: -30% 50%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
 	.sending-shimmer {
-		background-image: linear-gradient(
-			90deg,
-			rgb(255 255 255 / 55%) 0%,
-			rgb(255 255 255 / 95%) 42%,
-			rgb(255 255 255 / 55%) 82%
-		);
-		background-size: 220% 100%;
-		-webkit-background-clip: text;
-		background-clip: text;
-		color: transparent;
-		animation: sending-shimmer 1.8s ease-in-out infinite;
+		animation: none;
+		color: rgb(255 255 255 / 70%);
+		background: none;
+		-webkit-background-clip: unset;
+		background-clip: unset;
 	}
-
-	@keyframes sending-shimmer {
-		0% {
-			background-position: 110% 50%;
-		}
-		100% {
-			background-position: -30% 50%;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.sending-shimmer {
-			animation: none;
-			color: rgb(255 255 255 / 70%);
-			background: none;
-			-webkit-background-clip: unset;
-			background-clip: unset;
-		}
-	}
+}
 </style>

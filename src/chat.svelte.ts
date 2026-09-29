@@ -462,7 +462,7 @@ export class GroupChat {
 			return;
 		}
 		const message = this.messages.find((item) => item.id === id);
-		if (!message || message.role !== 'customer' || message.sendStatus !== 'failed') {
+		if (message?.role !== 'customer' || message.sendStatus !== 'failed') {
 			return;
 		}
 		this.error = '';
@@ -1742,9 +1742,7 @@ export class GroupChat {
 					.reverse()
 					.find(
 						(server) =>
-							server.role === 'customer' &&
-							server.text === local.text &&
-							!claimed.has(server.id)
+							server.role === 'customer' && server.text === local.text && !claimed.has(server.id)
 					);
 				if (match) {
 					claimed.add(match.id);
