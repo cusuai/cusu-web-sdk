@@ -85,5 +85,7 @@
 	"call_hearing": "Ma kuulen teid",
 	"call_thinking": "Mõtlen",
 	"call_playing": "Assistent vastab",
-	"call_listening": "Kuulan — võite rääkida"
+	"call_listening": "Kuulan — võite rääkida",
+	"error_send_failed": "Sõnumit ei õnnestunud saata.",
+	"action_retry_send": "Proovi uuesti"
 }

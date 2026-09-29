@@ -85,5 +85,7 @@
 	"call_hearing": "Ik kan je horen",
 	"call_thinking": "Aan het nadenken",
 	"call_playing": "De assistent antwoordt",
-	"call_listening": "Ik luister — je kunt praten"
+	"call_listening": "Ik luister — je kunt praten",
+	"error_send_failed": "Bericht kon niet worden verzonden.",
+	"action_retry_send": "Opnieuw proberen"
 }

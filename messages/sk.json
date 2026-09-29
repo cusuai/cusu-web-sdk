@@ -85,5 +85,7 @@
 	"call_hearing": "Počujem vás",
 	"call_thinking": "Premýšľam",
 	"call_playing": "Asistent odpovedá",
-	"call_listening": "Počúvam — môžete hovoriť"
+	"call_listening": "Počúvam — môžete hovoriť",
+	"error_send_failed": "Správu sa nepodarilo odoslať.",
+	"action_retry_send": "Skúsiť znova"
 }

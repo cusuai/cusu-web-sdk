@@ -85,5 +85,7 @@
 	"call_hearing": "Słyszę Cię",
 	"call_thinking": "Myślę",
 	"call_playing": "Asystent odpowiada",
-	"call_listening": "Słucham — możesz mówić"
+	"call_listening": "Słucham — możesz mówić",
+	"error_send_failed": "Nie udało się wysłać wiadomości.",
+	"action_retry_send": "Spróbuj ponownie"
 }

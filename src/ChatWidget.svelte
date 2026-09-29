@@ -113,6 +113,7 @@ $effect(() => {
 	chat.messages.at(-1)?.text;
 	chat.messages.at(-1)?.transcribing;
 	chat.messages.at(-1)?.transcribed;
+	chat.messages.at(-1)?.sendStatus;
 	chat.agentActivity;
 	chat.voiceMode;
 	if (chat.view === 'chat') {
@@ -627,14 +628,22 @@ const CUSU_HOME = 'https://cusuai.com';
 									class={[
 										'rounded-[1.75rem] px-4 py-2.5',
 										images.length > 0 && 'mt-2',
-										mine ? 'bg-black text-white' : 'bg-muted'
+										mine ? 'bg-black text-white' : 'bg-muted',
+										message.sendStatus === 'failed' && 'opacity-70'
 									]}
 								>
 									{#if showTranscribing}
 										<p class="opacity-70">{m.placeholder_transcribing()}</p>
 									{:else if message.text}
 										{#if message.role === 'customer'}
-											<p class="whitespace-pre-wrap">{message.text}</p>
+											<p
+												class={[
+													'whitespace-pre-wrap',
+													message.sendStatus === 'sending' && 'sending-shimmer'
+												]}
+											>
+												{message.text}
+											</p>
 										{:else}
 											<Markdown source={message.text} />
 										{/if}
@@ -677,10 +686,26 @@ const CUSU_HOME = 'https://cusuai.com';
 								<p class={['mt-1 text-[11px] text-muted-foreground', mine && 'text-right']}>
 									{m.placeholder_transcribing()}
 								</p>
-							{:else if message.transcribed}
+							{:else if message.transcribed && message.sendStatus !== 'sending' && message.sendStatus !== 'failed'}
 								<p class={['mt-1 text-[11px] text-muted-foreground', mine && 'text-right']}>
 									{m.status_transcribed()}
 								</p>
+							{:else if message.sendStatus === 'failed'}
+								<div
+									class={[
+										'mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px]',
+										mine ? 'justify-end' : 'justify-start'
+									]}
+								>
+									<span class="text-destructive">{m.error_send_failed()}</span>
+									<button
+										type="button"
+										class="font-medium text-foreground underline-offset-2 hover:underline"
+										onclick={() => chat.retrySend(message.id)}
+									>
+										{m.action_retry_send()}
+									</button>
+								</div>
 							{/if}
 						</article>
 					{/each}
@@ -860,7 +885,7 @@ const CUSU_HOME = 'https://cusuai.com';
 								<textarea
 									bind:value={chat.draft}
 									rows="1"
-									class="block min-h-10 w-full resize-none overflow-y-auto bg-transparent px-4 pt-3 pr-28 pb-12 text-sm leading-5 outline-none placeholder:text-muted-foreground/40 disabled:opacity-50"
+									class="block min-h-10 w-full resize-none overflow-y-auto bg-transparent px-4 pt-3 pr-28 pb-12 text-base leading-5 outline-none placeholder:text-muted-foreground/40 disabled:opacity-50 sm:text-sm"
 									placeholder={chat.transcribing ? m.placeholder_transcribing() : m.placeholder_message()}
 									aria-label={m.aria_message()}
 									disabled={chat.transcribing}
@@ -952,3 +977,38 @@ const CUSU_HOME = 'https://cusuai.com';
 	prevLabel={m.aria_gallery_prev()}
 	nextLabel={m.aria_gallery_next()}
 />
+
+<style>
+	.sending-shimmer {
+		background-image: linear-gradient(
+			90deg,
+			rgb(255 255 255 / 55%) 0%,
+			rgb(255 255 255 / 95%) 42%,
+			rgb(255 255 255 / 55%) 82%
+		);
+		background-size: 220% 100%;
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		animation: sending-shimmer 1.8s ease-in-out infinite;
+	}
+
+	@keyframes sending-shimmer {
+		0% {
+			background-position: 110% 50%;
+		}
+		100% {
+			background-position: -30% 50%;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.sending-shimmer {
+			animation: none;
+			color: rgb(255 255 255 / 70%);
+			background: none;
+			-webkit-background-clip: unset;
+			background-clip: unset;
+		}
+	}
+</style>

@@ -85,5 +85,7 @@
 	"call_hearing": "Girdžiu jus",
 	"call_thinking": "Galvoju",
 	"call_playing": "Asistentas atsako",
-	"call_listening": "Klausau — galite kalbėti"
+	"call_listening": "Klausau — galite kalbėti",
+	"error_send_failed": "Nepavyko išsiųsti žinutės.",
+	"action_retry_send": "Bandyti dar kartą"
 }

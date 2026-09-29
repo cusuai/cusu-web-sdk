@@ -85,5 +85,7 @@
 	"call_hearing": "Jeg hører deg",
 	"call_thinking": "Tenker",
 	"call_playing": "Assistenten svarer",
-	"call_listening": "Lytter — du kan snakke"
+	"call_listening": "Lytter — du kan snakke",
+	"error_send_failed": "Kunne ikke sende meldingen.",
+	"action_retry_send": "Prøv igjen"
 }

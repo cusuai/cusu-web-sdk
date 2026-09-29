@@ -85,5 +85,7 @@
 	"call_hearing": "Vă aud",
 	"call_thinking": "Mă gândesc",
 	"call_playing": "Asistentul răspunde",
-	"call_listening": "Vă ascult — puteți vorbi"
+	"call_listening": "Vă ascult — puteți vorbi",
+	"error_send_failed": "Mesajul nu a putut fi trimis.",
+	"action_retry_send": "Încearcă din nou"
 }

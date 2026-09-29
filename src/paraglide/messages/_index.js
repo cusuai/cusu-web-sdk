@@ -1,5 +1,6 @@
 /* eslint-disable */
 /** @typedef {import('../runtime.js').LocalizedString} LocalizedString */
+export * from './action_retry_send.js'
 export * from './activity_attach_link.js'
 export * from './activity_browse_page.js'
 export * from './activity_call_api.js'
@@ -59,6 +60,7 @@ export * from './error_mic_denied.js'
 export * from './error_mic_failed.js'
 export * from './error_recording_short.js'
 export * from './error_reply_timeout.js'
+export * from './error_send_failed.js'
 export * from './error_speech_failed.js'
 export * from './error_too_many_files.js'
 export * from './error_transcribe_failed.js'

@@ -85,5 +85,7 @@
 	"call_hearing": "Hallom Önt",
 	"call_thinking": "Gondolkodom",
 	"call_playing": "Az asszisztens válaszol",
-	"call_listening": "Figyelek — beszélhet"
+	"call_listening": "Figyelek — beszélhet",
+	"error_send_failed": "Nem sikerült elküldeni az üzenetet.",
+	"action_retry_send": "Újra"
 }

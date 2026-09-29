@@ -85,5 +85,7 @@
 	"call_hearing": "Consigo ouvir-te",
 	"call_thinking": "A pensar",
 	"call_playing": "O assistente está a responder",
-	"call_listening": "Estou a ouvir — podes falar"
+	"call_listening": "Estou a ouvir — podes falar",
+	"error_send_failed": "Não foi possível enviar esta mensagem.",
+	"action_retry_send": "Tentar novamente"
 }

@@ -85,5 +85,7 @@
 	"call_hearing": "Jag hör dig",
 	"call_thinking": "Tänker",
 	"call_playing": "Assistenten svarar",
-	"call_listening": "Jag lyssnar — du kan prata"
+	"call_listening": "Jag lyssnar — du kan prata",
+	"error_send_failed": "Kunde inte skicka meddelandet.",
+	"action_retry_send": "Försök igen"
 }

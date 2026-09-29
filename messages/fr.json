@@ -85,5 +85,7 @@
 	"call_hearing": "Je vous entends",
 	"call_thinking": "Réflexion en cours",
 	"call_playing": "L’assistant répond",
-	"call_listening": "Je vous écoute — vous pouvez parler"
+	"call_listening": "Je vous écoute — vous pouvez parler",
+	"error_send_failed": "Impossible d'envoyer ce message.",
+	"action_retry_send": "Réessayer"
 }

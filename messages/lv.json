@@ -85,5 +85,7 @@
 	"call_hearing": "Es jūs dzirdu",
 	"call_thinking": "Domāju",
 	"call_playing": "Asistents atbild",
-	"call_listening": "Klausos — varat runāt"
+	"call_listening": "Klausos — varat runāt",
+	"error_send_failed": "Neizdevās nosūtīt ziņu.",
+	"action_retry_send": "Mēģināt vēlreiz"
 }

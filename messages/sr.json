@@ -85,5 +85,7 @@
 	"call_hearing": "Čujem vas",
 	"call_thinking": "Razmišljam",
 	"call_playing": "Asistent odgovara",
-	"call_listening": "Slušam — možete da govorite"
+	"call_listening": "Slušam — možete da govorite",
+	"error_send_failed": "Poruka nije poslata.",
+	"action_retry_send": "Pokušaj ponovo"
 }

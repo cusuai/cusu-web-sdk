@@ -85,5 +85,7 @@
 	"call_hearing": "Ве слушам",
 	"call_thinking": "Размислувам",
 	"call_playing": "Асистентот одговара",
-	"call_listening": "Слушам — можете да зборувате"
+	"call_listening": "Слушам — можете да зборувате",
+	"error_send_failed": "Пораката не беше испратена.",
+	"action_retry_send": "Обиди се повторно"
 }

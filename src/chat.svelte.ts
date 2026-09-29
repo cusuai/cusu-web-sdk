@@ -59,6 +59,8 @@ const RECORDING_MIME_TYPES = [
 	'audio/ogg;codecs=opus'
 ];
 
+const OUTBOUND_TIMEOUT_MS = 20_000;
+
 function pickRecorderMime(): string {
 	if (typeof MediaRecorder === 'undefined') {
 		return '';
@@ -188,6 +190,8 @@ export class GroupChat {
 	#voiceGrantSent = false;
 	#realtimeListenTimer: ReturnType<typeof setTimeout> | null = null;
 	#hangupQuietTimer: ReturnType<typeof setTimeout> | null = null;
+	#wiredOutbound = new Set<string>();
+	#outboundTimers = new Map<string, ReturnType<typeof setTimeout>>();
 	#toolWaiters = new Map<
 		string,
 		{
@@ -363,6 +367,8 @@ export class GroupChat {
 			this.#reconnect = null;
 		}
 		this.#clearTurnTimer();
+		this.#clearOutboundTimers();
+		this.#wiredOutbound.clear();
 		this.hangup();
 		this.#dictationSeq += 1;
 		this.transcribing = false;
@@ -451,6 +457,21 @@ export class GroupChat {
 		this.#sendText(this.draft.trim());
 	}
 
+	retrySend(id: string): void {
+		if (this.closed || this.voiceMode || this.transcribing) {
+			return;
+		}
+		const message = this.messages.find((item) => item.id === id);
+		if (!message || message.role !== 'customer' || message.sendStatus !== 'failed') {
+			return;
+		}
+		this.error = '';
+		this.#wiredOutbound.delete(id);
+		this.#patchMessage(id, { sendStatus: 'sending' });
+		this.#armOutboundTimeout(id);
+		this.#wireOutbound(message);
+	}
+
 	rate(value: number): void {
 		if (
 			this.ratingScale === 'off' ||
@@ -533,16 +554,11 @@ export class GroupChat {
 		this.pending = [];
 	}
 
-	#sendText(text: string, options: { alreadyShown?: boolean } = {}): void {
+	#sendText(text: string, options: { alreadyShown?: boolean; messageId?: string } = {}): void {
 		const attachmentIds = this.pending
 			.map((item) => item.id)
 			.filter((id): id is string => Boolean(id));
-		if (
-			this.closed ||
-			(!text && attachmentIds.length === 0) ||
-			!this.#ws ||
-			this.#ws.readyState !== WebSocket.OPEN
-		) {
+		if (this.closed || (!text && attachmentIds.length === 0)) {
 			return;
 		}
 		if (this.pending.some((item) => item.uploading)) {
@@ -559,20 +575,45 @@ export class GroupChat {
 				source: 'upload',
 				...(item.previewUrl ? { previewUrl: item.previewUrl } : {})
 			}));
-		if (!options.alreadyShown) {
+		let messageId = options.messageId;
+		if (options.alreadyShown && messageId) {
+			this.#patchMessage(messageId, {
+				text,
+				streaming: false,
+				transcribing: false,
+				sendStatus: 'sending',
+				...(attachments.length > 0 ? { attachments } : {})
+			});
+		} else if (!options.alreadyShown) {
+			messageId = crypto.randomUUID();
 			this.draft = '';
 			this.messages.push({
-				id: crypto.randomUUID(),
+				id: messageId,
 				at: nowIso(),
 				role: 'customer',
 				text,
 				streaming: false,
+				sendStatus: 'sending',
+				...(attachments.length > 0 ? { attachments } : {})
+			});
+		} else {
+			const existing = [...this.messages]
+				.reverse()
+				.find((message) => message.role === 'customer' && message.sendStatus !== 'failed');
+			messageId = existing?.id;
+			if (!messageId) {
+				return;
+			}
+			this.#patchMessage(messageId, {
+				text,
+				streaming: false,
+				transcribing: false,
+				sendStatus: 'sending',
 				...(attachments.length > 0 ? { attachments } : {})
 			});
 		}
 		this.#clearPending({ revoke: false });
 		this.error = '';
-		this.#beginAgentWait();
 		if (this.currentId) {
 			this.#upsertHistory({
 				id: this.currentId,
@@ -581,14 +622,103 @@ export class GroupChat {
 				status: this.transferred ? 'waiting_us' : 'ai_replying'
 			});
 		}
+		const message = this.messages.find((item) => item.id === messageId);
+		if (!message) {
+			return;
+		}
+		this.#armOutboundTimeout(message.id);
+		this.#wireOutbound(message);
+	}
+
+	#wireOutbound(message: WidgetMessage): void {
+		if (this.#wiredOutbound.has(message.id)) {
+			return;
+		}
+		if (!this.#ws || this.#ws.readyState !== WebSocket.OPEN) {
+			this.connect();
+			return;
+		}
+		const attachmentIds = (message.attachments ?? []).map((item) => item.id);
+		this.#wiredOutbound.add(message.id);
+		this.#beginAgentWait();
 		this.#ws.send(
 			JSON.stringify({
 				type: 'chat.send',
-				text,
+				text: message.text,
 				voice: this.voiceMode,
 				attachmentIds
 			})
 		);
+	}
+
+	#flushOutboundQueue(): void {
+		for (const message of this.messages) {
+			if (message.role === 'customer' && message.sendStatus === 'sending') {
+				this.#wireOutbound(message);
+			}
+		}
+	}
+
+	#settleOutbound(): void {
+		for (const message of this.messages) {
+			if (message.role === 'customer' && message.sendStatus === 'sending') {
+				message.sendStatus = undefined;
+				this.#clearOutboundTimeout(message.id);
+			}
+		}
+	}
+
+	#failOutbound(id?: string): void {
+		const targets = id
+			? this.messages.filter((message) => message.id === id)
+			: this.messages.filter(
+					(message) => message.role === 'customer' && message.sendStatus === 'sending'
+				);
+		let failed = false;
+		for (const message of targets) {
+			if (message.role !== 'customer') {
+				continue;
+			}
+			message.sendStatus = 'failed';
+			this.#wiredOutbound.delete(message.id);
+			this.#clearOutboundTimeout(message.id);
+			failed = true;
+		}
+		if (failed) {
+			this.#dropEmptyStream();
+			this.agentActivity = null;
+			this.busy = false;
+			this.#clearTurnTimer();
+		}
+	}
+
+	#armOutboundTimeout(id: string): void {
+		this.#clearOutboundTimeout(id);
+		this.#outboundTimers.set(
+			id,
+			setTimeout(() => {
+				this.#outboundTimers.delete(id);
+				const message = this.messages.find((item) => item.id === id);
+				if (message?.sendStatus === 'sending') {
+					this.#failOutbound(id);
+				}
+			}, OUTBOUND_TIMEOUT_MS)
+		);
+	}
+
+	#clearOutboundTimeout(id: string): void {
+		const timer = this.#outboundTimers.get(id);
+		if (timer) {
+			clearTimeout(timer);
+			this.#outboundTimers.delete(id);
+		}
+	}
+
+	#clearOutboundTimers(): void {
+		for (const timer of this.#outboundTimers.values()) {
+			clearTimeout(timer);
+		}
+		this.#outboundTimers.clear();
 	}
 
 	async #uploadPending(localId: string, file: File): Promise<void> {
@@ -718,10 +848,18 @@ export class GroupChat {
 				return false;
 			}
 			if (!this.#ws || this.#ws.readyState !== WebSocket.OPEN) {
+				this.#patchMessage(bubble.id, {
+					text,
+					streaming: false,
+					transcribing: false,
+					transcribed: true,
+					sendStatus: 'failed'
+				});
+				this.transcribing = false;
 				this.error = m.error_connection_lost();
 				return false;
 			}
-			this.#sendText(text, { alreadyShown: true });
+			this.#sendText(text, { alreadyShown: true, messageId: bubble.id });
 			return true;
 		} catch (error) {
 			if (seq !== this.#dictationSeq) {
@@ -1352,6 +1490,7 @@ export class GroupChat {
 			if (this.#ws === ws) {
 				this.connected = true;
 				this.#sendVoiceReady();
+				this.#flushOutboundQueue();
 			}
 		});
 		ws.addEventListener('close', () => {
@@ -1381,14 +1520,19 @@ export class GroupChat {
 			return;
 		}
 		if (event.type === 'chat.status') {
+			this.#settleOutbound();
 			this.agentActivity = event.activity;
 			return;
 		}
-		if (event.type === 'chat.delta' && event.kind === 'answer') {
-			this.#appendDelta(event.text);
+		if (event.type === 'chat.delta') {
+			this.#settleOutbound();
+			if (event.kind === 'answer') {
+				this.#appendDelta(event.text);
+			}
 			return;
 		}
 		if (event.type === 'chat.ask') {
+			this.#settleOutbound();
 			this.agentActivity = null;
 			this.#finishStream(event.question, event.message?.id);
 			if (this.voiceMode) {
@@ -1401,6 +1545,7 @@ export class GroupChat {
 			return;
 		}
 		if (event.type === 'chat.done') {
+			this.#settleOutbound();
 			this.#clearTurnTimer();
 			this.agentActivity = null;
 			this.#finishStream(event.text);
@@ -1430,6 +1575,7 @@ export class GroupChat {
 			return;
 		}
 		if (event.type === 'chat.queued') {
+			this.#settleOutbound();
 			this.#clearTurnTimer();
 			this.agentActivity = null;
 			this.#dropEmptyStream();
@@ -1447,6 +1593,11 @@ export class GroupChat {
 			if (this.ratingBusy) {
 				this.ratingBusy = false;
 				this.error = message;
+			} else if (this.messages.some((item) => item.sendStatus === 'sending')) {
+				this.#failOutbound();
+				if (message) {
+					this.error = message;
+				}
 			} else if (!this.closed) {
 				this.error = message;
 			}
@@ -1516,6 +1667,7 @@ export class GroupChat {
 			return;
 		}
 		if (event.type === 'thread.message' && event.message.role === 'operator') {
+			this.#settleOutbound();
 			this.#upsertMessage(event.message);
 			return;
 		}
@@ -1570,13 +1722,39 @@ export class GroupChat {
 			thread.messages.length > 0;
 		if (keepLocalComposer) {
 			this.#rememberThread(thread);
+			this.#settleOutbound();
 			return;
 		}
 		if (thread.messages.length > 0) {
 			const previews = previewUrlsByAttachment(this.messages);
-			this.messages = threadToMessages(thread.messages).map((message) =>
+			const fromServer = threadToMessages(thread.messages).map((message) =>
 				keepAttachmentPreviews(message, previews)
 			);
+			const pendingLocal = this.messages.filter(
+				(message) =>
+					message.role === 'customer' &&
+					(message.sendStatus === 'sending' || message.sendStatus === 'failed')
+			);
+			const claimed = new Set<string>();
+			const stillPending: WidgetMessage[] = [];
+			for (const local of pendingLocal) {
+				const match = [...fromServer]
+					.reverse()
+					.find(
+						(server) =>
+							server.role === 'customer' &&
+							server.text === local.text &&
+							!claimed.has(server.id)
+					);
+				if (match) {
+					claimed.add(match.id);
+					this.#wiredOutbound.delete(local.id);
+					this.#clearOutboundTimeout(local.id);
+					continue;
+				}
+				stillPending.push(local);
+			}
+			this.messages = [...fromServer, ...stillPending];
 		}
 		this.#rememberThread(thread);
 		if ((this.transferred || this.closed) && this.voiceMode) {

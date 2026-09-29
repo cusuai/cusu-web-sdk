@@ -21,6 +21,8 @@ export type WidgetMessage = {
 	streaming: boolean;
 	transcribing?: boolean;
 	transcribed?: boolean;
+	/** Outbound delivery; omitted once the server has accepted the message. */
+	sendStatus?: 'sending' | 'failed';
 	attachments?: ThreadAttachment[];
 };
 
